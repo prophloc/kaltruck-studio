@@ -152,3 +152,19 @@ test('process cards use readable titles and meaningful steps', () => {
   assert.match(css, /letter-spacing:-\.025em/);
   assert.match(css, /line-height:1\.30/);
 });
+
+test('scrolled header stays dark and accessible across subpages', () => {
+ const css = read('src/styles/header-unified.css');
+ assert.match(css, /\.site-header\.home-header\.scrolled\{/);
+ assert.match(css, /background:rgba\(10,25,27,\.98\)/);
+ assert.match(css, /\.site-header\.home-header\.scrolled \.desktop-nav a\{color:#fff;/);
+ assert.match(css, /\.site-header\.home-header\.scrolled \.studio-brand-logo\{filter:invert\(1\)/);
+});
+test('map has no unbounded SVG ornament and uses contrasting panel labels', () => {
+ const map = read('src/components/studio/DistanceEstimator.astro');
+ assert.doesNotMatch(map, /<GoogleMapsPin/);
+ assert.match(map, /google-route-heading-caption/);
+ const css = read('src/styles/footer-refresh.css');
+ assert.match(css, /\.studio-footer-route \.google-route-heading h2\{color:#1b3224/);
+ assert.match(css, /\.studio-footer-route \.google-route-form input\{background:#fff;color:#183020/);
+});
