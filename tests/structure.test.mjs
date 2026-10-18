@@ -400,7 +400,7 @@ test('Facebook and Instagram icon links appear in footer and JSON-LD',()=>{
  assert.match(layout,/class="studio-footer__social"/);
  assert.match(layout,/src="\/brand\/facebook-icon\.svg"/);
  assert.match(layout,/src="\/brand\/instagram-icon\.svg"/);
- assert.match(layout,/sameAs: socialUrls/);
+ assert.match(read('src/lib/seo.ts'),/sameAs: \[facebook, instagram\]/);
  assert.match(footer,/\.studio-footer__social a:focus-visible/);
 });
 test('browser favicon uses cropped genuine KALTRUCK vector emblem',()=>{
@@ -416,7 +416,7 @@ test('browser favicon uses cropped genuine KALTRUCK vector emblem',()=>{
 });
 test('Open Graph uses full-quality original truck photograph from hdsplock material',()=>{
  const layout=read('src/layouts/BaseLayout.astro');
- assert.match(layout,/const defaultOgImage = 'https:\/\/raw\.githubusercontent\.com\/prophloc\/kaltruck-premium\/main\/public\/images\/home\/hero-hds-original\.png'/);
+ assert.match(read('src/lib/seo.ts'),/export const defaultOgImage = 'https:\/\/raw\.githubusercontent\.com\/prophloc\/kaltruck-premium\/main\/public\/images\/home\/hero-hds-original\.png'/);
  assert.match(layout,/name="twitter:card" content="summary_large_image"/);
  assert.match(layout,/property="og:image:width" content="1672"/);
  assert.match(layout,/property="og:image:height" content="941"/);
@@ -483,8 +483,9 @@ test('advanced reusable SEO module emits verifiable business, page, service and 
 });
 test('each of six individual services has distinct SEO title and description',()=>{
  const seo=read('src/lib/seo.ts');
- const title=[...seo.matchAll(/title: '([^']+)'.*$/gm)].map(x=>x[1]);
- const descriptions=[...seo.matchAll(/description: '([^']+)'/g)].map(x=>x[1]);
+ const serviceMeta=seo.slice(seo.indexOf('export const serviceSeo:'),seo.indexOf('export function breadcrumbsFor'));
+ const title=[...serviceMeta.matchAll(/title: '([^']+)'.*$/gm)].map(x=>x[1]);
+ const descriptions=[...serviceMeta.matchAll(/description: '([^']+)'/g)].map(x=>x[1]);
  assert.equal(title.length,6);
  assert.equal(new Set(title).size,6);
  assert.equal(descriptions.length,6);
