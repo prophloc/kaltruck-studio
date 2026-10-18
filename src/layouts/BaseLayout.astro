@@ -1,5 +1,6 @@
 ---
 import { site, services } from '../data/site';
+import { buildPageSchemas, defaultOgImage } from '../lib/seo';
 import DistanceEstimator from '../components/studio/DistanceEstimator.astro';
 import '../styles/global.css';
 import '../styles/hero.css';
@@ -7,8 +8,8 @@ import '../styles/header-unified.css';
 import '../styles/google-panels.css';
 import '../styles/footer-refresh.css';
 
-interface Props { title: string; description: string; image?: string; }
-const { title, description, image = 'https://raw.githubusercontent.com/prophloc/kaltruck-premium/main/public/images/home/hero-hds-original.png' } = Astro.props;
+interface Props { title: string; description: string; image?: string; imageAlt?: string; jsonLd?: unknown | unknown[]; }
+const { title, description, image = defaultOgImage, imageAlt, jsonLd = [] } = Astro.props;
 const path = Astro.url.pathname;
 const isHome = path === '/';
 const headerServices = [
@@ -44,24 +45,15 @@ const headerServices = [
   "Reklamy, billboardy i paczkomaty",
   "Eventy i imprezy masowe"
 ];
-const canonical = site.url ? site.url + path : null;
+const canonical = site.url ? new URL(path, site.url).toString() : null;
 const facebookUrl = 'https://www.facebook.com/profile.php?id=61561070733012';
 const instagramUrl = 'https://www.instagram.com/transporthdsplock/';
-const socialUrls = [facebookUrl, instagramUrl];
-const defaultOgImage = 'https://raw.githubusercontent.com/prophloc/kaltruck-premium/main/public/images/home/hero-hds-original.png';
 const ogImage = image || defaultOgImage;
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
-  name: site.legalName,
-  address: { '@type': 'PostalAddress', addressLocality: site.city, addressCountry: 'PL' },
-  telephone: [site.phone, site.secondPhone],
-  email: site.email,
-  sameAs: socialUrls,
-  image: defaultOgImage,
-  areaServed: [{ '@type': 'City', name: 'Płock' }, { '@type': 'Country', name: 'Polska' }],
-  ...(site.url ? { url: site.url } : {}),
-};
+const defaultImage = ogImage === defaultOgImage;
+const ogImageType = /\.png(?:[?#]|$)/i.test(ogImage) ? 'image/png' : /\.webp(?:[?#]|$)/i.test(ogImage) ? 'image/webp' : /\.jpe?g(?:[?#]|$)/i.test(ogImage) ? 'image/jpeg' : null;
+const ogAlt = imageAlt || (defaultImage ? 'Czerwony samochód KALTRUCK HDS transportujący kontener — zdjęcie realizacji' : title + ' — zdjęcie realizacji KALTRUCK');
+const extras = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
+const schemas = buildPageSchemas(path, title, description, ogImage, extras.filter(Boolean));
 ---
 <!doctype html>
 <html lang="pl">
@@ -82,16 +74,16 @@ const jsonLd = {
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:secure_url" content={ogImage} />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1672" />
-    <meta property="og:image:height" content="941" />
-    <meta property="og:image:alt" content="Czerwony samochód KALTRUCK HDS transportujący kontener — oryginalne zdjęcie z hdsplock.pl" />
+    {ogImageType && <meta property="og:image:type" content={ogImageType} />}
+    {defaultImage && <meta property="og:image:width" content="1672" />}
+    {defaultImage && <meta property="og:image:height" content="941" />}
+    <meta property="og:image:alt" content={ogAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
     {canonical && <><link rel="canonical" href={canonical} /><meta property="og:url" content={canonical} /></>}
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {schemas.map((schema) => <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\\u003c')} />)}
     <title>{title}</title>
   </head>
   <body>

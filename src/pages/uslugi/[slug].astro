@@ -1,12 +1,15 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { services, site } from '../../data/site';
+import { services } from '../../data/site';
+import { serviceSeo, serviceSchema } from '../../lib/seo';
 export function getStaticPaths() {
   return services.map((service) => ({ params: { slug: service.slug }, props: { service } }));
 }
 const { service } = Astro.props;
+const seo = serviceSeo[service.slug];
+const serviceJsonLd = import.meta.env.PUBLIC_SITE_URL ? serviceSchema(service.slug, service.title, seo.description) : null;
 ---
-<BaseLayout title={service.title + ' Płock i Polska | KALTRUCK'} description={service.description} image={service.image}>
+<BaseLayout title={seo.title} description={seo.description} image={service.image} imageAlt={service.title + ' — przykładowa realizacja KALTRUCK HDS'} jsonLd={serviceJsonLd}>
   <section class="subhero">
     <div class="container subhero-grid">
       <div><p class="eyebrow">{service.number} / USŁUGA KALTRUCK</p><h1>{service.title}</h1><p class="section-lead">{service.tagline}</p><a class="button button-green" href="/kontakt/">Zapytaj o wycenę ↗</a></div>
@@ -14,5 +17,5 @@ const { service } = Astro.props;
     </div>
   </section>
   <section class="section"><div class="container split-content"><div><p class="eyebrow">ZAKRES PRAC</p><h2>Przemyślana<br /><em>realizacja.</em></h2></div><div><p class="section-lead">{service.description}</p><ul class="feature-list">{service.details.map((detail) => <li>{detail}</li>)}</ul><p>Obsługujemy Płock i okolice oraz zlecenia na terenie całej Polski. Zakres prac ustalamy indywidualnie na podstawie informacji o ładunku i miejscu realizacji.</p><a class="text-link" href="/kontakt/">Porozmawiajmy o realizacji ↗</a></div></div></section>
-  <section class="section services-section"><div class="container"><p class="eyebrow">POZOSTAŁE USŁUGI</p><h2>Sprawdź też.</h2><div class="related-list">{services.filter((s) => s.slug !== service.slug).slice(0,3).map((s) => <a href={'/uslugi/' + s.slug + '/'}>{s.title} <span>↗</span></a>)}</div></div></section>
+  <section class="section services-section"><div class="container"><p class="eyebrow">POZOSTAŁE USŁUGI</p><h2>Sprawdź też.</h2><div class="related-list">{services.filter((s) => s.slug !== service.slug).map((s) => <a href={'/uslugi/' + s.slug + '/'}>{s.title} <span>↗</span></a>)}</div></div></section>
 </BaseLayout>

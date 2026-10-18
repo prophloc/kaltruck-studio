@@ -460,3 +460,40 @@ test('footer STRONA and TRANSPORT HDS begin at the same vertical grid line',()=>
  assert.match(css,/\.studio-footer__scope\{align-self:start;\}/);
  assert.match(css,/\.studio-footer__nav>span,\.studio-footer__scope>span\{display:block;margin-bottom:10px;\}/);
 });
+
+test('advanced reusable SEO module emits verifiable business, page, service and breadcrumbs',()=>{
+ const seo=read('src/lib/seo.ts');
+ const layout=read('src/layouts/BaseLayout.astro');
+ const service=read('src/pages/uslugi/[slug].astro');
+ assert.match(seo,/export function localBusinessSchema\(\)/);
+ assert.match(seo,/streetAddress: 'Tokarska 40'/);
+ assert.match(seo,/postalCode: '09-401'/);
+ assert.match(seo,/hasMap: mapsLocation/);
+ assert.match(seo,/hasOfferCatalog:/);
+ assert.match(seo,/export function websiteSchema\(\)/);
+ assert.match(seo,/export function webpageSchema\(/);
+ assert.match(seo,/export function breadcrumbSchema\(/);
+ assert.match(seo,/export function serviceSchema\(/);
+ assert.match(layout,/buildPageSchemas\(path, title, description, ogImage/);
+ assert.match(layout,/schemas\.map\(\(schema\) => <script type="application\/ld\+json"/);
+ assert.match(service,/jsonLd=\{serviceJsonLd\}/);
+ assert.match(service,/seo\.title/);
+ assert.match(service,/seo\.description/);
+ assert.match(seo,/if \(!site\.url\) return \[\]/);
+});
+test('each of six individual services has distinct SEO title and description',()=>{
+ const seo=read('src/lib/seo.ts');
+ const title=[...seo.matchAll(/title: '([^']+)'.*$/gm)].map(x=>x[1]);
+ const descriptions=[...seo.matchAll(/description: '([^']+)'/g)].map(x=>x[1]);
+ assert.equal(title.length,6);
+ assert.equal(new Set(title).size,6);
+ assert.equal(descriptions.length,6);
+ assert.equal(new Set(descriptions).size,6);
+});
+test('service photographs declare correct Open Graph MIME type',()=>{
+ const layout=read('src/layouts/BaseLayout.astro');
+ assert.match(layout,/image\/webp/);
+ assert.match(layout,/image\/jpeg/);
+ assert.match(layout,/image\/png/);
+ assert.match(layout,/defaultImage && <meta property="og:image:width" content="1672"/);
+});
