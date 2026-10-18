@@ -58,6 +58,17 @@ if image_urls:
             original, local = future.result()
             if local:
                 fetched[original] = local
+# When source hosting throttles bursts, retry outstanding originals gently.
+remaining = [url for url in image_urls if url not in fetched]
+if remaining:
+    print(f"Retrying {len(remaining)} photos at lower concurrency", flush=True)
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        futures = [pool.submit(fetch_one, url) for url in remaining]
+        for future in as_completed(futures):
+            original, local = future.result()
+            if local:
+                fetched[original] = local
+
 print(f"Referenced HDS photos: {len(image_urls)}, bundled: {len(fetched)}, external fallback: {len(image_urls)-len(fetched)}")
 
 # Optionally copy the hero OG image, keeping link correct even if unavailable.
