@@ -8,6 +8,7 @@ test('website contains all main routes', () => {
   for (const p of [
     'src/pages/index.astro',
     'src/pages/o-nas.astro',
+    'src/pages/sprzet.astro',
     'src/pages/kontakt.astro',
     'src/pages/realizacje.astro',
     'src/pages/uslugi/[slug].astro'
@@ -354,4 +355,30 @@ test('green individual service words use distinct DM Sans, no outline or shadow'
   assert.match(block,/-webkit-text-stroke:0/);
   assert.match(block,/text-shadow:none/);
   assert.doesNotMatch(block,/font:inherit/);
+});
+
+test('O nas hero uses two deliberate lines and lime second line', () => {
+ const page=read('src/pages/o-nas.astro');
+ assert.match(page, /<h1 class="about-hero-title"><span>Transport<\/span><span class="about-hero-title__accent">z charakterem\.<\/span><\/h1>/);
+ assert.match(page, /\.about-hero-title__accent\{color:var\(--green\)/);
+ assert.match(page, /\.about-hero-title>span\{display:block;max-width:100%;white-space:nowrap/);
+});
+test('Sprzęt route exists in desktop, mobile, footer and sitemap', () => {
+ const layout=read('src/layouts/BaseLayout.astro');
+ const sitemap=read('src/pages/sitemap.xml.ts');
+ const page=read('src/pages/sprzet.astro');
+ assert.match(layout, /href="\/sprzet\/" aria-current=\{path === '\/sprzet\/'/);
+ assert.equal((layout.match(/href="\/sprzet\/"/g)||[]).length,3);
+ assert.match(sitemap, /'\/sprzet\/'/);
+ assert.match(page, /do 12 ton|12 t/);
+ assert.match(page, /14 m/);
+ assert.match(page, /masa, zasięgu i warunków pracy/);
+});
+test('footer vertical alignment raises logo and centers other columns', () => {
+ const css=read('src/styles/footer-refresh.css');
+ assert.match(css, /\.studio-footer__lower\{[^\n]*align-items:center;/);
+ assert.match(css, /\.studio-footer__identity\{[\s\S]*?align-self:center;[\s\S]*?top:-19px;/);
+ assert.match(css, /\.studio-footer__nav\{[^\n]*justify-content:center;align-self:center;/);
+ assert.match(css, /\.studio-footer__scope\{align-self:center;\}/);
+ assert.match(css, /\.studio-footer__identity\{grid-column:1\/-1;top:0;/);
 });

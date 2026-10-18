@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { projects } from '../data/site';
+
+const specifications = [
+  { value: '12 t', label: 'Maksymalny udźwig HDS', detail: 'Zdolność podnoszenia zależy także od wysięgu i warunków pracy.' },
+  { value: '14 m', label: 'Maksymalny zasięg ramienia', detail: 'Dobór ustawienia samochodu i promienia roboczego do miejsca rozładunku.' }
+];
+
+const verification = [
+  { number: '01', title: 'Masa i gabaryty', text: 'Ustalamy ciężar oraz wymiary ładunku i sposób jego podwieszenia.' },
+  { number: '02', title: 'Miejsce pracy', text: 'Sprawdzamy dojazd, podłoże, przestrzeń i wymagany zasięg ramienia.' },
+  { number: '03', title: 'Dobór sprzętu', text: 'Wybieramy sposób realizacji, zakres usługi i potrzebne zabezpieczenia.' }
+];
+---
+<BaseLayout title="Sprzęt HDS i możliwości | KALTRUCK Płock" description="Sprzęt KALTRUCK do transportu, rozładunku i montażu HDS. Maksymalny udźwig do 12 ton i zasięg ramienia do 14 metrów. Dobór sprzętu do ładunku i warunków.">
+  <section class="subhero equipment-hero" aria-labelledby="equipment-title">
+    <div class="container narrow">
+      <p class="eyebrow">KALTRUCK / SPRZĘT HDS</p>
+      <h1 id="equipment-title">Sprzęt dobrany<br /><span>do zadania.</span></h1>
+      <p class="section-lead">Właściwy transport zaczyna się od parametrów ładunku. Sprawdzamy masę, wysięg, dojazd i warunki pracy, zanim dobierzemy rozwiązanie.</p>
+    </div>
+  </section>
+
+  <section class="section equipment-specs" aria-labelledby="equipment-specs-title">
+    <div class="container">
+      <div class="equipment-intro">
+        <div>
+          <p class="eyebrow">PARAMETRY SPRZĘTU</p>
+          <h2 id="equipment-specs-title">Możliwości<br /><span>w liczbach.</span></h2>
+        </div>
+        <p>Dysponujemy sprzętem HDS do transportu i ustawiania wymagających ładunków. Podane wartości są parametrami maksymalnymi — rzeczywista możliwość podniesienia ładunku zależy między innymi od jego masy, zasięgu i warunków pracy.</p>
+      </div>
+      <div class="equipment-stats">
+        {specifications.map((item) => (
+          <article class="equipment-stat">
+            <strong>{item.value}</strong>
+            <h3>{item.label}</h3>
+            <p>{item.detail}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section equipment-story" aria-labelledby="equipment-story-title">
+    <div class="container equipment-story__grid">
+      <div class="equipment-story__photo">
+        <img src={projects[2].image} alt={projects[2].alt} loading="lazy" width="1200" height="900" decoding="async" />
+        <span>KALTRUCK / REALIZACJE</span>
+      </div>
+      <div class="equipment-story__copy">
+        <p class="eyebrow">SPRZĘT I DOŚWIADCZENIE</p>
+        <h2 id="equipment-story-title">Różne ładunki.<br /><span>Jeden plan.</span></h2>
+        <p>Pracujemy przy transporcie kontenerów, maszyn, prefabrykatów i urządzeń technicznych. W każdym przypadku dobieramy sposób załadunku, przejazdu i rozładunku do konkretnego zlecenia.</p>
+        <a href="/realizacje/" class="equipment-link">Zobacz nasze realizacje ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section equipment-check" aria-labelledby="equipment-check-title">
+    <div class="container">
+      <div class="equipment-check__head">
+        <p class="eyebrow">BEZPIECZNE PLANOWANIE</p>
+        <h2 id="equipment-check-title">Przed wyceną<br /><span>sprawdzamy szczegóły.</span></h2>
+      </div>
+      <div class="equipment-check__grid">
+        {verification.map((step) => (
+          <article class="equipment-check__card">
+            <span class="equipment-check__number">{step.number}</span>
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+          </article>
+        ))}
+      </div>
+      <a href="/kontakt/" class="button button-green equipment-check__cta">Zapytaj o możliwości HDS ↗</a>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .equipment-hero h1 span{color:var(--green);font-family:'Manrope',Arial,sans-serif;letter-spacing:-.064em;}
+  .equipment-hero h1{font-size:clamp(3.1rem,6.25vw,6.45rem);line-height:1.03;}
+  .equipment-specs{background:var(--paper);}
+  .equipment-specs .eyebrow,.equipment-story .eyebrow,.equipment-check .eyebrow{color:#53783b;}
+  .equipment-intro{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,100px);align-items:end;margin-bottom:45px;}
+  .equipment-intro h2,.equipment-story h2,.equipment-check h2{font-size:clamp(2.5rem,4.7vw,5rem);line-height:1.07;margin:22px 0 0;}
+  .equipment-intro h2 span,.equipment-story h2 span,.equipment-check h2 span{color:#58873e;}
+  .equipment-intro>p,.equipment-story__copy>p:not(.eyebrow){font-size:17px;line-height:1.85;color:#617169;max-width:57ch;margin:0;}
+  .equipment-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;}
+  .equipment-stat{min-width:0;border:1px solid #d7dfd2;background:#f0f2e9;border-radius:16px;padding:clamp(26px,3vw,45px);}
+  .equipment-stat>strong{display:block;font:800 clamp(3.3rem,6vw,6rem)/1.05 'Manrope',Arial,sans-serif;letter-spacing:-.07em;color:#507c36;}
+  .equipment-stat h3{margin:14px 0 8px;font-size:clamp(1.25rem,2vw,1.7rem);letter-spacing:-.04em;}
+  .equipment-stat p{font-size:14px;line-height:1.75;color:#607066;margin:0;max-width:47ch;}
+  .equipment-story{background:var(--cream);}
+  .equipment-story__grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(30px,5vw,80px);align-items:center;}
+  .equipment-story__photo{position:relative;overflow:hidden;border-radius:12px;min-height:430px;}
+  .equipment-story__photo img{width:100%;height:460px;object-fit:cover;}
+  .equipment-story__photo span{position:absolute;bottom:15px;left:15px;background:var(--forest);padding:12px 15px;font-size:10px;font-weight:800;letter-spacing:.08em;color:#fff;}
+  .equipment-story__copy h2{margin-bottom:24px;}
+  .equipment-link{display:inline-flex;margin-top:26px;padding-bottom:8px;border-bottom:1px solid #9db18b;color:#527a37;font-size:14px;font-weight:800;}
+  .equipment-check{background:var(--paper);}
+  .equipment-check__head{margin-bottom:40px;}
+  .equipment-check__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;}
+  .equipment-check__card{background:#f0f2eb;border:1px solid #d8e2d2;border-radius:13px;padding:28px;min-width:0;}
+  .equipment-check__number{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;width:40px;height:40px;background:var(--green);color:var(--forest);font-size:12px;font-weight:900;}
+  .equipment-check__card h3{font-size:clamp(1.15rem,1.7vw,1.45rem);letter-spacing:-.035em;margin:30px 0 11px;}
+  .equipment-check__card p{color:#596c61;font-size:14px;line-height:1.75;margin:0;}
+  .equipment-check__cta{margin-top:36px;}
+  @media(max-width:900px){.equipment-intro,.equipment-story__grid{grid-template-columns:1fr}.equipment-intro{align-items:start}.equipment-story__photo{min-height:0}.equipment-story__photo img{height:390px}.equipment-check__grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:640px){.equipment-intro,.equipment-stats,.equipment-check__grid{grid-template-columns:1fr}.equipment-hero h1{font-size:clamp(2.55rem,10vw,4rem)}.equipment-story__photo img{height:290px}.equipment-story__copy>p:not(.eyebrow){font-size:15px}.equipment-check__card h3{margin:20px 0 10px}.equipment-check__card{padding:23px}.equipment-specs,.equipment-story,.equipment-check{padding-block:74px}}
+</style>

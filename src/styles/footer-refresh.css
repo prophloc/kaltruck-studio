@@ -48,7 +48,7 @@
 .studio-footer__secondary-number{font:700 clamp(1.3rem,1.7vw,1.85rem)/1.2 'Manrope',Arial,sans-serif;letter-spacing:-.03em;}
 .studio-footer__email{font-size:15px;color:#c9dbcd;margin:5px 0 8px;}
 .studio-footer__button{width:100%;justify-content:center;min-height:53px;margin-top:4px;}
-.studio-footer__lower{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(160px,.7fr) minmax(200px,.8fr);gap:clamp(35px,7vw,120px);padding:64px 0 59px;}
+.studio-footer__lower{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(160px,.7fr) minmax(200px,.8fr);gap:clamp(35px,7vw,120px);align-items:center;padding:48px 0 47px;}
 /* Centered oversized brand composition taken from KALTRUCK Premium.
    Slogan is one line, not the previous two-line paragraph. */
 .studio-footer__identity{
@@ -57,7 +57,10 @@
   flex-direction:column;
   justify-content:center;
   align-items:center;
+  align-self:center;
   text-align:center;
+  position:relative;
+  top:-19px;
 }
 .studio-footer__identity>a{
   display:flex;
@@ -85,10 +88,11 @@
   white-space:nowrap;
 }
 .studio-footer__scope p{font-size:14px;color:#b6cdbb;line-height:1.8;margin:0;}
-.studio-footer__nav{display:flex;flex-direction:column;gap:14px;align-items:flex-start;}
+.studio-footer__nav{display:flex;flex-direction:column;gap:14px;align-items:flex-start;justify-content:center;align-self:center;}
 .studio-footer__nav>span,.studio-footer__scope>span{display:block;margin-bottom:10px;}
 .studio-footer__nav a{font-size:14px;font-weight:700;color:#e1eee1;}
 .studio-footer__nav a:hover,.studio-footer__legal a:hover,.studio-footer__address a:hover{color:var(--green);}
+.studio-footer__scope{align-self:center;}
 .studio-footer__scope p{margin:0;}
 .studio-footer__legal{display:flex;align-items:center;justify-content:space-between;gap:25px;border-top:1px solid rgba(255,255,255,.17);padding:22px 0 30px;color:#a5c0ab;font-size:12px;}
 .studio-footer__legal a{font-weight:700;}
@@ -108,7 +112,7 @@
  .studio-footer__contact{grid-template-columns:1fr;padding:78px 0;gap:35px;}
  .studio-footer__contact-actions{max-width:460px;}
  .studio-footer__lower{grid-template-columns:1fr 1fr;gap:38px;padding:48px 0;}
- .studio-footer__identity{grid-column:1/-1;}
+ .studio-footer__identity{grid-column:1/-1;top:0;}
  .studio-footer__identity img{width:clamp(260px,51vw,310px);}
  .studio-footer__identity p{font-size:clamp(.63rem,1.65vw,.77rem);letter-spacing:.07em;}
  .studio-footer__legal{flex-wrap:wrap;gap:12px;}
@@ -122,7 +126,7 @@
  .studio-footer-route .google-route-heading-caption{font-size:8px;}
  .studio-footer__contact-copy h2{font-size:clamp(2.55rem,10vw,3.6rem);}
  .studio-footer__lower{grid-template-columns:1fr;gap:32px;}
- .studio-footer__identity{grid-column:auto;}
+ .studio-footer__identity{grid-column:auto;top:0;}
  .studio-footer__identity img{width:clamp(230px,62vw,290px);}
  .studio-footer__identity p{font-size:clamp(.55rem,2.3vw,.7rem);letter-spacing:.04em;white-space:nowrap;}
 }

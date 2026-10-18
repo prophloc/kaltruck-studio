@@ -90,6 +90,7 @@ const jsonLd = {
             <div class="dropdown-list">{services.map((s) => <a href={'/uslugi/' + s.slug + '/'}>{s.title}</a>)}</div>
           </div>
           <a href="/realizacje/" aria-current={path === '/realizacje/' ? 'page' : undefined}>Realizacje</a>
+          <a href="/sprzet/" aria-current={path === '/sprzet/' ? 'page' : undefined}>Sprzęt</a>
           <a href="/o-nas/" aria-current={path === '/o-nas/' ? 'page' : undefined}>O nas</a>
           <a href="/kontakt/" aria-current={path === '/kontakt/' ? 'page' : undefined}>Kontakt</a>
         </nav>
@@ -101,7 +102,7 @@ const jsonLd = {
         <button class="menu-toggle" type="button" aria-controls="mobile-nav" aria-expanded="false" aria-label="Otwórz menu"><span></span><span></span></button>
       </div>
       <nav class="mobile-nav" id="mobile-nav" aria-label="Menu mobilne" hidden>
-        <a href="/">Start</a><a href="/#uslugi">Usługi</a><a href="/realizacje/">Realizacje</a><a href="/o-nas/">O nas</a><a href="/kontakt/">Kontakt</a>
+        <a href="/">Start</a><a href="/#uslugi">Usługi</a><a href="/realizacje/">Realizacje</a><a href="/sprzet/">Sprzęt</a><a href="/o-nas/">O nas</a><a href="/kontakt/">Kontakt</a>
         <div class="mobile-nav__contacts"><a href={`tel:${site.phoneHref}`}>{site.phone}</a><a href={`tel:${site.secondPhoneHref}`}>{site.secondPhone}</a><a href={`mailto:${site.email}`}>{site.email}</a></div>
       </nav>
     </header>
@@ -145,6 +146,7 @@ const jsonLd = {
             <span>STRONA</span>
             <a href="/#uslugi">Usługi</a>
             <a href="/realizacje/">Realizacje</a>
+            <a href="/sprzet/">Sprzęt</a>
             <a href="/o-nas/">O nas</a>
             <a href="/kontakt/">Kontakt</a>
           </nav>
