@@ -512,11 +512,11 @@ test('Premium footer has valid real contacts, navigation and social profiles acr
   assert.ok(premium.includes('grid-template-columns:1fr 1fr'));
 });
 
-test('footer follows uploaded cPanel Premium grid and centered columns without altering phone typography',()=>{
+test('footer headings share top alignment and retain supplied Premium grid and phone typography',()=>{
  const footer=read('src/components/studio/PremiumFooter.astro');
  assert.ok(footer.includes('.footer-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--grid-gap);align-items:stretch;min-height:220px;padding:18px 0;}'));
- assert.ok(footer.includes('.footer-links-wrap{grid-column:6/span 2;align-self:center;}'));
- assert.ok(footer.includes('.footer-contact{grid-column:9/-1;align-self:center;}'));
+ assert.ok(footer.includes('.footer-links-wrap{grid-column:6/span 2;align-self:start;}'));
+ assert.ok(footer.includes('.footer-contact{grid-column:9/-1;align-self:start;}'));
  assert.ok(footer.includes('.footer-phone{color:#e7e4de!important;font-size:.94rem;font-weight:700;letter-spacing:normal;}'));
  assert.ok(footer.includes('NIP: {site.nip}'));
 });
