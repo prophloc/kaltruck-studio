@@ -130,3 +130,25 @@ test('hero Google tools show real lazy panels and a fallback without API credent
   assert.match(reviews, /Zobacz opinie w Google Maps/);
   assert.match(layout, /studio-footer-route/);
 });
+
+test('footer has readable map and real contact details', () => {
+  const layout = read('src/layouts/BaseLayout.astro');
+  const css = read('src/styles/footer-refresh.css');
+  assert.match(layout, /studio-footer__contact/);
+  assert.match(layout, /studio-footer__map-heading/);
+  assert.match(layout, /studio-footer__legal/);
+  assert.match(layout, /site\.secondPhoneHref/);
+  assert.match(layout, /studio-footer__identity/);
+  assert.match(css, /\.studio-footer-route \.google-route-heading h2\{color:#1b3224/);
+  assert.match(css, /\.studio-footer-route \.google-route-map-shell iframe/);
+});
+test('process cards use readable titles and meaningful steps', () => {
+  const steps = read('src/components/studio/ProcessSteps.astro');
+  const css = read('src/styles/premium-layout.css');
+  assert.match(steps, /Wyślij szczegóły/);
+  assert.match(steps, /Sprawdzimy warunki/);
+  assert.match(steps, /Ustalimy plan/);
+  assert.match(steps, /Zrealizujemy zlecenie/);
+  assert.match(css, /letter-spacing:-\.025em/);
+  assert.match(css, /line-height:1\.30/);
+});

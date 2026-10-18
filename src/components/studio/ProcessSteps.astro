@@ -1,17 +1,17 @@
 ---
 const steps = [
-  ['01','Kontakt i zapytanie','Opisz, co chcesz przetransportować i gdzie.'],
-  ['02','Ocena ładunku i warunków','Dobierzemy sposób pracy do miejsca i gabarytów.'],
-  ['03','Wycena i termin','Uzgodnimy zakres oraz możliwy termin realizacji.'],
-  ['04','Transport i ustawienie','Przewieziemy oraz ustawimy ładunek zgodnie z ustaleniami.'],
+  ['01','Wyślij szczegóły','Napisz, co przewozimy, skąd i dokąd. Warto podać masę oraz wymiary.'],
+  ['02','Sprawdzimy warunki','Zweryfikujemy dojazd, miejsce rozładunku i wymagany zasięg HDS.'],
+  ['03','Ustalimy plan','Dobierzemy zakres prac, przedstawimy wycenę i uzgodnimy termin.'],
+  ['04','Zrealizujemy zlecenie','Zorganizujemy transport oraz ustawienie ładunku zgodnie z ustaleniami.'],
 ];
 ---
 <section class="ps-process" aria-labelledby="ps-process-title">
   <div class="container ps-process__grid">
     <div class="ps-process__heading">
       <p class="eyebrow">PROSTY PROCES</p>
-      <h2 id="ps-process-title">Od telefonu<br /><em>do ustawienia.</em></h2>
-      <p>Przejrzysta współpraca od zapytania aż do zakończenia zlecenia.</p>
+      <h2 id="ps-process-title">Prosto.<br /><em>Od zapytania do realizacji.</em></h2>
+      <p>Cztery czytelne etapy: od pierwszych informacji do dostarczenia ładunku.</p>
     </div>
     <div class="ps-process__steps">
       {steps.map(([number, name, description]) => <article class="ps-process__step">

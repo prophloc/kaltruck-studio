@@ -5,6 +5,7 @@ import '../styles/global.css';
 import '../styles/hero.css';
 import '../styles/header-unified.css';
 import '../styles/google-panels.css';
+import '../styles/footer-refresh.css';
 
 interface Props { title: string; description: string; image?: string; }
 const { title, description, image = 'https://raw.githubusercontent.com/prophloc/kaltruck-premium/main/public/images/home/hero-hds-kaltruck.webp' } = Astro.props;
@@ -105,13 +106,59 @@ const jsonLd = {
       </nav>
     </header>
     <main id="main"><slot /></main>
-    <footer class="footer">
-      <div class="container studio-footer-route"><DistanceEstimator instanceId="studio-footer-route" /></div>
-      <div class="container footer-head">
-        <div><div class="eyebrow">KONTAKT / WYCENA</div><h2>Masz trudne<br /><em>zlecenie?</em></h2></div>
-        <div><p>Opowiedz nam, co trzeba przewieźć lub ustawić. Dobierzemy rozwiązanie do warunków.</p><a class="footer-phone" href={'tel:' + site.phoneHref}>{site.phone} ↗</a><a href={'mailto:' + site.email}>{site.email}</a></div>
+    <footer class="footer studio-footer" aria-labelledby="studio-footer-title">
+      <div class="container studio-footer__shell">
+        <div class="studio-footer__map-heading">
+          <div>
+            <p class="eyebrow">KALTRUCK / LOKALIZACJA</p>
+            <h2 id="studio-footer-title">Zobacz trasę.<br /><em>Zaplanuj transport.</em></h2>
+          </div>
+          <div class="studio-footer__address">
+            <span>BAZA FIRMY</span>
+            <strong>Tokarska 40, 09-401 Płock</strong>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=Tokarska%2040%2C%2009-401%20P%C5%82ock" target="_blank" rel="noopener noreferrer">Otwórz lokalizację w Google Maps ↗</a>
+          </div>
+        </div>
+        <div class="studio-footer-route"><DistanceEstimator instanceId="studio-footer-route" /></div>
+        <div class="studio-footer__contact">
+          <div class="studio-footer__contact-copy">
+            <p class="eyebrow">KONTAKT / WYCENA HDS</p>
+            <h2>Masz ładunek?<br /><em>Zajmiemy się resztą.</em></h2>
+            <p>Podaj rodzaj ładunku, miejsce odbioru i rozładunku. Pomożemy dobrać transport i sposób ustawienia.</p>
+          </div>
+          <div class="studio-footer__contact-actions">
+            <span class="studio-footer__contact-kicker">ZADZWOŃ LUB NAPISZ</span>
+            <a class="studio-footer__primary-number" href={`tel:${site.phoneHref}`}>{site.phone} <span>↗</span></a>
+            <a class="studio-footer__secondary-number" href={`tel:${site.secondPhoneHref}`}>{site.secondPhone} <span>↗</span></a>
+            <a class="studio-footer__email" href={`mailto:${site.email}`}>{site.email}</a>
+            <a class="button button-green studio-footer__button" href="/kontakt/">Poproś o wycenę ↗</a>
+          </div>
+        </div>
+        <div class="studio-footer__lower">
+          <div class="studio-footer__identity">
+            <a href="/" aria-label="KALTRUCK — wróć na stronę główną">
+              <img src="/brand/kaltruck-logo.svg" width="2548" height="1305" alt="KALTRUCK Transport HDS" loading="lazy" />
+            </a>
+            <p>Transport HDS, załadunek i rozładunek.<br />Płock i cała Polska.</p>
+          </div>
+          <nav class="studio-footer__nav" aria-label="Nawigacja w stopce">
+            <span>STRONA</span>
+            <a href="/#uslugi">Usługi</a>
+            <a href="/realizacje/">Realizacje</a>
+            <a href="/o-nas/">O nas</a>
+            <a href="/kontakt/">Kontakt</a>
+          </nav>
+          <div class="studio-footer__scope">
+            <span>TRANSPORT HDS</span>
+            <p>Przewóz kontenerów, maszyn i prefabrykatów oraz prace żurawiem.</p>
+          </div>
+        </div>
+        <div class="studio-footer__legal">
+          <span>© {new Date().getFullYear()} Transport HDS Kalwasińscy</span>
+          <span>Płock · Polska</span>
+          <a href="#main">Do góry ↑</a>
+        </div>
       </div>
-      <div class="container footer-bottom"><a class="brand" href="/">KAL<span>TRUCK</span></a><span>Transport HDS Kalwasińscy · Płock · Polska</span><a href="#main">Do góry ↑</a></div>
     </footer>
     <script>
       const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
