@@ -1,10 +1,12 @@
 ---
 import { site, services } from '../data/site';
 import '../styles/global.css';
+import '../styles/hero.css';
 
 interface Props { title: string; description: string; image?: string; }
 const { title, description, image = 'https://raw.githubusercontent.com/prophloc/kaltruck-premium/main/public/images/home/hero-hds-kaltruck.webp' } = Astro.props;
 const path = Astro.url.pathname;
+const isHome = path === '/';
 const canonical = site.url ? site.url + path : null;
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -37,7 +39,7 @@ const jsonLd = {
   </head>
   <body>
     <a class="skip-link" href="#main">Przejdź do treści</a>
-    <header class="site-header">
+    <header class:list={['site-header', { 'home-header': isHome }]}>
       <div class="container header-inner">
         <a class="brand" href="/" aria-label="KALTRUCK — strona główna">KAL<span>TRUCK</span><small>TRANSPORT HDS</small></a>
         <nav class="desktop-nav" aria-label="Menu główne">
@@ -66,6 +68,12 @@ const jsonLd = {
     <script>
       const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
       const mobileNav = document.querySelector<HTMLElement>('.mobile-nav');
+      const overlayHeader = document.querySelector<HTMLElement>('.home-header');
+      if (overlayHeader) {
+        const updateHeader = () => overlayHeader.classList.toggle('scrolled', window.scrollY > 48);
+        updateHeader();
+        window.addEventListener('scroll', updateHeader, { passive: true });
+      }
       toggle?.addEventListener('click', () => {
         const open = toggle.getAttribute('aria-expanded') === 'true';
         toggle.setAttribute('aria-expanded', String(!open));

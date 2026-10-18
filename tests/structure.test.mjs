@@ -54,3 +54,16 @@ test('editorial process, proof strip and FAQ exist', () => {
   assert.match(homepage, /id="faq-title"/);
   assert.match(homepage, /<details>/);
 });
+
+test('homepage uses original-quality full-width photograph and integrated navigation', () => {
+  const homepage = read('src/pages/index.astro');
+  const layout = read('src/layouts/BaseLayout.astro');
+  const styles = read('src/styles/hero.css');
+  assert.match(homepage, /home-hero__photo/);
+  assert.match(homepage, /hero-hds-original\.png/);
+  assert.doesNotMatch(homepage, /hero-hds-kaltruck\.webp/);
+  assert.match(layout, /home-header/);
+  assert.match(styles, /object-fit:\s*cover/);
+  assert.match(styles, /linear-gradient/);
+  assert.match(styles, /prefers-reduced-motion/);
+});

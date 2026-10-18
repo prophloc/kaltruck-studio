@@ -2,17 +2,34 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site, services, projects } from '../data/site';
 ---
-<BaseLayout title="Transport HDS Płock i cała Polska | KALTRUCK Kalwasińscy" description="Transport HDS w Płocku i całej Polsce. Przewóz kontenerów, maszyn, prefabrykatów oraz załadunek i rozładunek HDS.">
-  <section class="hero">
-    <div class="container hero-grid">
-      <div class="hero-copy">
-        <p class="eyebrow">TRANSPORT SPECJALISTYCZNY / PŁOCK I POLSKA</p>
-        <h1>CIĘŻKIE<br />ZADANIA.<br /><em>PEWNE</em><br />ROZWIĄZANIA.</h1>
-        <p class="hero-lead">Precyzyjny transport, załadunek, rozładunek i montaż ciężkich elementów. Od kontenera po wymagające projekty przemysłowe.</p>
-        <div class="actions"><a class="button button-green" href="/kontakt/">Wyceń realizację ↗</a><a class="button button-outline" href="/realizacje/">Zobacz realizacje ↗</a></div>
-        <div class="hero-tags"><span>Transport HDS</span><span>Obsługa w Polsce</span><span>Doświadczony zespół</span></div>
+<BaseLayout title="Transport HDS Płock i cała Polska | KALTRUCK Kalwasińscy" image="https://raw.githubusercontent.com/prophloc/kaltruck-premium/main/public/images/home/hero-hds-original.png" description="Transport HDS w Płocku i całej Polsce. Przewóz kontenerów, maszyn, prefabrykatów oraz załadunek i rozładunek HDS.">
+  <section class="home-hero" aria-labelledby="home-hero-title">
+    <div class="home-hero__media">
+      <img
+        class="home-hero__photo"
+        src="https://raw.githubusercontent.com/prophloc/kaltruck-premium/main/public/images/home/hero-hds-original.png"
+        alt="Samochód transportowy KALTRUCK z żurawiem HDS podczas realizacji zlecenia"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </div>
+    <div class="container home-hero__content">
+      <p class="home-hero__eyebrow"><span class="home-hero__line"></span> KALTRUCK / TRANSPORT HDS / PŁOCK I POLSKA</p>
+      <h1 id="home-hero-title" class="home-hero__title">
+        <span>CIĘŻKIE ZADANIA.</span>
+        <span>PEWNE ROZWIĄZANIA.</span>
+      </h1>
+      <p class="home-hero__description">Specjalistyczny transport, precyzyjny załadunek i rozładunek HDS. Od kontenerów i maszyn po wymagające projekty przemysłowe.</p>
+      <div class="home-hero__actions">
+        <a class="button button-green" href="/#uslugi">Nasze usługi ↗</a>
+        <a class="button home-hero__secondary" href="/kontakt/">Porozmawiajmy o transporcie ↗</a>
       </div>
-      <div class="hero-visual"><img src="https://raw.githubusercontent.com/prophloc/kaltruck-premium/main/public/images/home/hero-hds-kaltruck.webp" alt="Pojazd ciężarowy KALTRUCK z żurawiem HDS" fetchpriority="high" /><div class="visual-label">KALTRUCK <span>↗</span><small>TRANSPORT / HDS</small></div></div>
+      <div class="home-hero__tags"><span>TRANSPORT HDS</span><span>KONTENERY I MASZYNY</span><span>MONTAŻ I ROZŁADUNEK</span></div>
+    </div>
+    <div class="container home-hero__bottom">
+      <div class="home-hero__progress" aria-label="Sekcja 1 z 1"><span class="home-hero__progress-active"></span><span></span><span></span></div>
+      <a href="/#o-nas" class="home-hero__scroll">ODKRYJ KALTRUCK <span aria-hidden="true">↓</span></a>
+      <span class="home-hero__chapter">01 / KALTRUCK STUDIO</span>
     </div>
   </section>
   <div class="ticker"><div class="container">TRANSPORT HDS <b>✳</b> KONTENERY <b>✳</b> MASZYNY <b>✳</b> PREFABRYKATY <b>✳</b> MONTAŻ</div></div>
