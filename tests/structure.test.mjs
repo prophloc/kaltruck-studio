@@ -372,7 +372,7 @@ test('Sprzęt route exists in desktop, mobile, footer and sitemap', () => {
  assert.match(sitemap, /'\/sprzet\/'/);
  assert.match(page, /do 12 ton|12 t/);
  assert.match(page, /14 m/);
- assert.match(page, /masa, zasięgu i warunków pracy/);
+ assert.match(page, /masy, zasięgu i warunków pracy/);
 });
 test('footer vertical alignment raises logo and centers other columns', () => {
  const css=read('src/styles/footer-refresh.css');
