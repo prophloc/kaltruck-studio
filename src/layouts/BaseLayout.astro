@@ -2,6 +2,7 @@
 import { site, services } from '../data/site';
 import { buildPageSchemas, defaultOgImage } from '../lib/seo';
 import DistanceEstimator from '../components/studio/DistanceEstimator.astro';
+import PremiumFooter from '../components/studio/PremiumFooter.astro';
 import '../styles/global.css';
 import '../styles/hero.css';
 import '../styles/header-unified.css';
@@ -46,8 +47,6 @@ const headerServices = [
   "Eventy i imprezy masowe"
 ];
 const canonical = site.url ? new URL(path, site.url).toString() : null;
-const facebookUrl = 'https://www.facebook.com/profile.php?id=61561070733012';
-const instagramUrl = 'https://www.instagram.com/transporthdsplock/';
 const ogImage = image || defaultOgImage;
 const defaultImage = ogImage === defaultOgImage;
 const ogImageType = /\.png(?:[?#]|$)/i.test(ogImage) ? 'image/png' : /\.webp(?:[?#]|$)/i.test(ogImage) ? 'image/webp' : /\.jpe?g(?:[?#]|$)/i.test(ogImage) ? 'image/jpeg' : null;
@@ -119,7 +118,7 @@ const schemas = buildPageSchemas(path, title, description, ogImage, extras.filte
       </nav>
     </header>
     <main id="main"><slot /></main>
-    <footer class="footer studio-footer" aria-labelledby="studio-footer-title">
+    <section class="footer studio-footer" aria-labelledby="studio-footer-title">
       <div class="container studio-footer__shell">
         <div class="studio-footer__map-heading">
           <div>
@@ -147,37 +146,9 @@ const schemas = buildPageSchemas(path, title, description, ogImage, extras.filte
             <a class="button button-green studio-footer__button" href="/kontakt/">Poproś o wycenę ↗</a>
           </div>
         </div>
-        <div class="studio-footer__lower">
-          <div class="studio-footer__identity">
-            <a href="/" aria-label="KALTRUCK — wróć na stronę główną">
-              <img src="/brand/kaltruck-logo.svg" width="2548" height="1305" alt="KALTRUCK Transport HDS" loading="lazy" decoding="async" />
-            </a>
-            <p>CIĘŻKI ŁADUNEK... PRECYZYJNA ROBOTA.</p>
-          </div>
-          <nav class="studio-footer__nav" aria-label="Nawigacja w stopce">
-            <span>STRONA</span>
-            <a href="/#uslugi">Usługi</a>
-            <a href="/realizacje/">Realizacje</a>
-            <a href="/sprzet/">Sprzęt</a>
-            <a href="/o-nas/">O nas</a>
-            <a href="/kontakt/">Kontakt</a>
-          </nav>
-          <div class="studio-footer__scope">
-            <span>TRANSPORT HDS</span>
-            <p>Przewóz kontenerów, maszyn i prefabrykatów oraz prace żurawiem.</p>
-            <div class="studio-footer__social" aria-label="KALTRUCK w mediach społecznościowych">
-              <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="KALTRUCK na Facebooku (nowa karta)"><img src="/brand/facebook-icon.svg" alt="" aria-hidden="true" width="29" height="29" loading="lazy" /><span>Facebook</span></a>
-              <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="KALTRUCK na Instagramie (nowa karta)"><img src="/brand/instagram-icon.svg" alt="" aria-hidden="true" width="29" height="29" loading="lazy" /><span>Instagram</span></a>
-            </div>
-          </div>
-        </div>
-        <div class="studio-footer__legal">
-          <span>© {new Date().getFullYear()} Transport HDS Kalwasińscy</span>
-          <span>Płock · Polska</span>
-          <a href="#main">Do góry ↑</a>
-        </div>
       </div>
-    </footer>
+    </section>
+    <PremiumFooter />
     <script>
       const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
       const mobileNav = document.querySelector<HTMLElement>('.mobile-nav');

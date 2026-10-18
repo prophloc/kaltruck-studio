@@ -132,17 +132,6 @@ test('hero Google tools show real lazy panels and a fallback without API credent
   assert.match(layout, /studio-footer-route/);
 });
 
-test('footer has readable map and real contact details', () => {
-  const layout = read('src/layouts/BaseLayout.astro');
-  const css = read('src/styles/footer-refresh.css');
-  assert.match(layout, /studio-footer__contact/);
-  assert.match(layout, /studio-footer__map-heading/);
-  assert.match(layout, /studio-footer__legal/);
-  assert.match(layout, /site\.secondPhoneHref/);
-  assert.match(layout, /studio-footer__identity/);
-  assert.match(css, /\.studio-footer-route \.google-route-heading h2\{color:#1b3224/);
-  assert.match(css, /\.studio-footer-route \.google-route-map-shell iframe/);
-});
 test('process cards use readable titles and meaningful steps', () => {
   const steps = read('src/components/studio/ProcessSteps.astro');
   const css = read('src/styles/premium-layout.css');
@@ -334,16 +323,6 @@ test('review logo has real transparent letter counters, not solid fills', () => 
   assert.equal((asset.match(/M\d+,\d+/g)||[]).length,15);
 });
 
-test('Premium-style centered footer brand uses larger logo and one-line slogan', () => {
-  const layout=read('src/layouts/BaseLayout.astro');
-  const footer=read('src/styles/footer-refresh.css');
-  assert.match(layout, /<p>CIĘŻKI ŁADUNEK\.\.\. PRECYZYJNA ROBOTA\.<\/p>/);
-  assert.doesNotMatch(layout, /Transport HDS, załadunek i rozładunek\.<br \/>Płock i cała Polska\./);
-  assert.match(footer, /\.studio-footer__identity\{[\s\S]*?align-items:center;[\s\S]*?text-align:center;/);
-  assert.match(footer, /width:clamp\(280px,21vw,340px\)/);
-  assert.match(footer, /\.studio-footer__identity p\{[\s\S]*?white-space:nowrap;/);
-  assert.match(footer, /\.studio-footer__identity img\{width:clamp\(230px,62vw,290px\)/);
-});
 test('green individual service words use distinct DM Sans, no outline or shadow', () => {
   const css=read('src/styles/premium-layout.css');
   const start=css.indexOf('.ps-story__copy h2 .ps-story__highlight {');
@@ -368,41 +347,15 @@ test('Sprzęt route exists in desktop, mobile, footer and sitemap', () => {
  const sitemap=read('src/pages/sitemap.xml.ts');
  const page=read('src/pages/sprzet.astro');
  assert.match(layout, /href="\/sprzet\/" aria-current=\{path === '\/sprzet\/'/);
- assert.equal((layout.match(/href="\/sprzet\/"/g)||[]).length,3);
+ assert.equal((layout.match(/href="\\/sprzet\\/"/g)||[]).length,2);
+  assert.match(read('src/components/studio/PremiumFooter.astro'),/href="\\/sprzet\\/"/);
  assert.match(sitemap, /'\/sprzet\/'/);
  assert.match(page, /do 12 ton|12 t/);
  assert.match(page, /14 m/);
  assert.match(page, /masy, zasięgu i warunków pracy/);
 });
-test('footer vertical alignment raises logo and centers other columns', () => {
- const css=read('src/styles/footer-refresh.css');
- assert.match(css, /\.studio-footer__lower\{[^\n]*align-items:center;/);
- assert.match(css, /\.studio-footer__identity\{[\s\S]*?align-self:center;[\s\S]*?top:-19px;/);
- assert.match(css, /\.studio-footer__nav\{[^\n]*justify-content:flex-start;align-self:start;/);
- assert.match(css, /\.studio-footer__scope\{align-self:start;\}/);
- assert.match(css, /\.studio-footer__identity\{grid-column:1\/-1;top:0;/);
-});
 
-test('Facebook and Instagram drawer tabs are gone while their footer links remain',()=>{
- const hero=read('src/components/studio/HeroTools.astro');
- const layout=read('src/layouts/BaseLayout.astro');
- assert.doesNotMatch(hero,/SocialTabs/);
- assert.match(hero,/studio-hero-tool--route/);
- assert.match(hero,/studio-hero-tool--reviews/);
- assert.match(layout,/class="studio-footer__social"/);
- assert.match(layout,/src="\/brand\/facebook-icon\.svg"/);
- assert.match(layout,/src="\/brand\/instagram-icon\.svg"/);
-});
 
-test('Facebook and Instagram icon links appear in footer and JSON-LD',()=>{
- const layout=read('src/layouts/BaseLayout.astro');
- const footer=read('src/styles/footer-refresh.css');
- assert.match(layout,/class="studio-footer__social"/);
- assert.match(layout,/src="\/brand\/facebook-icon\.svg"/);
- assert.match(layout,/src="\/brand\/instagram-icon\.svg"/);
- assert.match(read('src/lib/seo.ts'),/sameAs: \[facebook, instagram\]/);
- assert.match(footer,/\.studio-footer__social a:focus-visible/);
-});
 test('browser favicon uses cropped genuine KALTRUCK vector emblem',()=>{
  const layout=read('src/layouts/BaseLayout.astro');
  const favicon=read('public/favicon.svg');
@@ -454,12 +407,6 @@ test('route wordmark shifts two pixels and service accents use softer Studio gre
  assert.doesNotMatch(block,/color:var\(--green\)/);
 });
 
-test('footer STRONA and TRANSPORT HDS begin at the same vertical grid line',()=>{
- const css=read('src/styles/footer-refresh.css');
- assert.match(css,/\.studio-footer__nav\{[^\n]*align-self:start;/);
- assert.match(css,/\.studio-footer__scope\{align-self:start;\}/);
- assert.match(css,/\.studio-footer__nav>span,\.studio-footer__scope>span\{display:block;margin-bottom:10px;\}/);
-});
 
 test('advanced reusable SEO module emits verifiable business, page, service and breadcrumbs',()=>{
  const seo=read('src/lib/seo.ts');
@@ -524,4 +471,41 @@ test('CI verifies actual generated SEO pages, schema and indexable canonical URL
  assert.match(script,/sitemap\.xml/);
  assert.match(script,/robots\.txt/);
  assert.match(script,/Duplicated title/);
+});
+
+test('Premium footer component replaces Studio-specific bottom grid while retaining map and CTA above it',()=>{
+ const layout=read('src/layouts/BaseLayout.astro');
+ const footer=read('src/components/studio/PremiumFooter.astro');
+ const oldCss=read('src/styles/footer-refresh.css');
+ assert.match(layout,/import PremiumFooter from '..\\/components\\/studio\\/PremiumFooter\\.astro'/);
+ assert.match(layout,/<section class="footer studio-footer" aria-labelledby="studio-footer-title">/);
+ assert.match(layout,/class="studio-footer-route"/);
+ assert.match(layout,/class="studio-footer__contact"/);
+ assert.match(layout,/<PremiumFooter \\/>/);
+ assert.doesNotMatch(layout,/studio-footer__lower/);
+ assert.doesNotMatch(oldCss,/\\.studio-footer__lower\\{/);
+ assert.match(footer,/<footer class="site-footer"/);
+ assert.match(footer,/background:#060708/);
+ assert.match(footer,/grid-template-columns:repeat\\(12,minmax\\(0,1fr\\)\\)/);
+ assert.match(footer,/\\.footer-brand\\{grid-column:1\\/span 5;/);
+ assert.match(footer,/\\.footer-links-wrap\\{grid-column:6\\/span 2;/);
+ assert.match(footer,/\\.footer-contact\\{grid-column:9\\/-1;/);
+ assert.match(footer,/\\.footer-brand img\\{display:block;width:clamp\\(280px,19vw,320px\\)/);
+ assert.match(footer,/CIĘŻKI ŁADUNEK\\.\\.\\. PRECYZYJNA ROBOTA\\./);
+ assert.match(footer,/class="footer-bottom"/);
+});
+test('Premium footer retains contacts, original addresses, social links, mobile layout',()=>{
+ const footer=read('src/components/studio/PremiumFooter.astro');
+ assert.match(footer,/href=\\{`tel:\\$\\{site.phoneHref\\}`\\}/);
+ assert.match(footer,/href=\\{`tel:\\$\\{site.secondPhoneHref\\}`\\}/);
+ assert.match(footer,/site.email/);
+ assert.match(footer,/Tokarska 40, 09-401 Płock/);
+ assert.match(footer,/class="footer-links"/);
+ assert.match(footer,/href="\\/sprzet\\/"/);
+ assert.match(footer,/facebook.com\\/profile.php\\?id=61561070733012/);
+ assert.match(footer,/instagram.com\\/transporthdsplock\\//);
+ assert.match(footer,/src="\\/brand\\/facebook-icon.svg"/);
+ assert.match(footer,/src="\\/brand\\/instagram-icon.svg"/);
+ assert.match(footer,/@media\\(max-width:760px\\)/);
+ assert.match(footer,/grid-template-columns:1fr 1fr/);
 });
