@@ -69,7 +69,7 @@ test('Studio homepage follows Premium section order without changing menu or her
   assert.equal((homepage.match(/\n        reverse\n/g) || []).length, 2);
   assert.match(homepage, /src="https:\/\/raw\.githubusercontent\.com\/prophloc\/kaltruck-premium\/main\/public\/images\/home\/hero-hds-original\.png"/);
   assert.match(homepage, /CIĘŻKIE ZADANIA\./);
-  assert.match(homepage, /PEWNE ROZWIĄZANIA\./);
+  assert.match(homepage, /PEWNE <strong class="home-hero__accent">ROZWIĄZANIA\.<\/strong>/);
   assert.match(homepage, /home-hero__photo/);
   assert.match(homepage, /home-hero__actions/);
   assert.match(header, /class="site-header home-header"/);
