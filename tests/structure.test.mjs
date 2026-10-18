@@ -498,3 +498,15 @@ test('service photographs declare correct Open Graph MIME type',()=>{
  assert.match(layout,/image\/png/);
  assert.match(layout,/defaultImage && <meta property="og:image:width" content="1672"/);
 });
+
+test('every service has its own useful guide with preparation and visible FAQs',()=>{
+ const guides=read('src/data/service-guides.ts');
+ const page=read('src/pages/uslugi/[slug].astro');
+ const slugs=[...read('src/data/site.ts').matchAll(/slug: '([^']+)'/g)].map(x=>x[1]);
+ for (const slug of slugs) assert.match(guides, new RegExp("'"+slug+"': \\{"));
+ assert.match(page,/guide\.preparation\.map/);
+ assert.match(page,/guide\.faq\.map/);
+ assert.match(page,/<details>/);
+ assert.match(page,/faqSchema\(guide\.faq\)/);
+ assert.match(page,/href="\/realizacje\/"/);
+});
