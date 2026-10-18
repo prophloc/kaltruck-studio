@@ -263,3 +263,20 @@ test('photo-story words have no dark backing, both closing taglines use Manrope'
  assert.match(story, /\.ps-cta__copy h2 \.ps-cta__closing-line\s*\{[\s\S]*?font-family:'Manrope'/);
  assert.match(footer, /\.studio-footer__contact-copy h2 em\s*\{[\s\S]*?font-family:'Manrope'/);
 });
+
+test('review drawer has authentic brand logo and keeps live Google Places API fetch', () => {
+ const reviews=read('src/components/studio/GoogleReviews.astro');
+ assert.match(reviews, /class="google-reviews-brand" src="\/brand\/kaltruck-logo\.svg"/);
+ assert.doesNotMatch(reviews, /Co mówią o KALTRUCK/);
+ assert.match(reviews, /place\.fetchFields\(\{ fields: \['displayName', 'rating', 'userRatingCount', 'reviews', 'googleMapsURI'\]/);
+ assert.match(reviews, /PUBLIC_GOOGLE_MAPS_API_KEY/);
+ assert.match(reviews, /kaltruck:reviews-activate/);
+});
+test('route handle uses same Google Maps pin as Premium, scaled down', () => {
+ const hero=read('src/components/studio/HeroTools.astro');
+ const pin=read('src/components/studio/GoogleMapsPin.astro');
+ assert.match(hero, /<GoogleMapsPin class="studio-hero-tool__pin" \/>/);
+ assert.match(hero, /\.studio-hero-tool__pin\{display:block;width:24px;height:28px/);
+ assert.match(pin, /data-google-maps-pin/);
+ assert.match(pin, /data:image\/png;base64/);
+});
