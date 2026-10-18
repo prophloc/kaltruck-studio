@@ -1,0 +1,60 @@
+name: Production cPanel ZIP (transportplockhds.pl)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'astro.config.mjs'
+      - 'package.json'
+      - 'scripts/prepare-cpanel.py'
+      - '.github/workflows/cpanel-export.yml'
+
+jobs:
+  publish-zip:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install project dependencies
+        run: npm install --no-audit --no-fund
+      - name: Test source
+        run: npm test
+      - name: Build for transportplockhds.pl
+        env:
+          PUBLIC_SITE_URL: https://transportplockhds.pl
+        run: npm run build
+      - name: Check production SEO
+        env:
+          PUBLIC_SITE_URL: https://transportplockhds.pl
+        run: npm run test:seo:build
+      - name: Bundle accessible original HDS images and cPanel settings
+        run: python3 scripts/prepare-cpanel.py dist
+      - name: Verify no test origin and correct real domain
+        run: |
+          grep -q 'https://transportplockhds.pl/' dist/sitemap.xml
+          grep -q 'https://transportplockhds.pl/' dist/index.html
+          ! grep -r -q 'studio-seo-ci.example.invalid' dist/
+          ! grep -q 'Disallow: /' dist/robots.txt
+          test -f dist/.htaccess
+      - name: Package files for direct public_html extraction
+        run: |
+          cd dist
+          zip -q -r ../KALTRUCK_STUDIO_transportplockhds.pl_CPANEL.zip .
+          cd ..
+          unzip -t KALTRUCK_STUDIO_transportplockhds.pl_CPANEL.zip | tail -2
+          ls -lh KALTRUCK_STUDIO_transportplockhds.pl_CPANEL.zip
+      - name: Upload cPanel ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: KALTRUCK_STUDIO_transportplockhds.pl_CPANEL
+          path: KALTRUCK_STUDIO_transportplockhds.pl_CPANEL.zip
+          compression-level: 0
+          retention-days: 30
+          if-no-files-found: error
