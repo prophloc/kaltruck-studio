@@ -378,8 +378,8 @@ test('footer vertical alignment raises logo and centers other columns', () => {
  const css=read('src/styles/footer-refresh.css');
  assert.match(css, /\.studio-footer__lower\{[^\n]*align-items:center;/);
  assert.match(css, /\.studio-footer__identity\{[\s\S]*?align-self:center;[\s\S]*?top:-19px;/);
- assert.match(css, /\.studio-footer__nav\{[^\n]*justify-content:center;align-self:center;/);
- assert.match(css, /\.studio-footer__scope\{align-self:center;\}/);
+ assert.match(css, /\.studio-footer__nav\{[^\n]*justify-content:flex-start;align-self:start;/);
+ assert.match(css, /\.studio-footer__scope\{align-self:start;\}/);
  assert.match(css, /\.studio-footer__identity\{grid-column:1\/-1;top:0;/);
 });
 
@@ -452,4 +452,11 @@ test('route wordmark shifts two pixels and service accents use softer Studio gre
  assert.match(block,/color:#86ab46;/);
  assert.match(block,/background:none;/);
  assert.doesNotMatch(block,/color:var\(--green\)/);
+});
+
+test('footer STRONA and TRANSPORT HDS begin at the same vertical grid line',()=>{
+ const css=read('src/styles/footer-refresh.css');
+ assert.match(css,/\.studio-footer__nav\{[^\n]*align-self:start;/);
+ assert.match(css,/\.studio-footer__scope\{align-self:start;\}/);
+ assert.match(css,/\.studio-footer__nav>span,\.studio-footer__scope>span\{display:block;margin-bottom:10px;\}/);
 });
