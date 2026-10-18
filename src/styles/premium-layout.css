@@ -199,3 +199,50 @@
  .ps-process__step h3{font-size:1.35rem;}
  .ps-process__step p{font-size:14px;}
 }
+
+/* Center both axes of every process card; keep its step number independently at the top. */
+.ps-process__step {
+  position:relative;
+  display:grid;
+  place-items:center;
+  padding:51px 24px 24px;
+  min-height:245px;
+  text-align:center;
+}
+.ps-process__step-top {
+  position:absolute;
+  top:21px;
+  left:22px;
+  right:22px;
+  display:flex;
+  align-items:center;
+  margin:0;
+}
+.ps-process__step > div {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  text-align:center;
+  padding:0;
+}
+.ps-process__step h3 {
+  max-width:100%;
+  margin:0 0 11px;
+  text-align:center;
+  line-height:1.30;
+  letter-spacing:-.025em;
+}
+.ps-process__step p {
+  max-width:38ch;
+  margin:0 auto;
+  text-align:center;
+  line-height:1.62;
+}
+@media(max-width:540px){
+  .ps-process__step {min-height:205px;padding:50px 20px 18px;}
+  .ps-process__step-top {left:18px;right:18px;top:15px;}
+}

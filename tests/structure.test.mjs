@@ -156,9 +156,11 @@ test('process cards use readable titles and meaningful steps', () => {
 test('scrolled header stays dark and accessible across subpages', () => {
  const css = read('src/styles/header-unified.css');
  assert.match(css, /\.site-header\.home-header\.scrolled\{/);
- assert.match(css, /background:rgba\(10,25,27,\.98\)/);
- assert.match(css, /\.site-header\.home-header\.scrolled \.desktop-nav a\{color:#fff;/);
- assert.match(css, /\.site-header\.home-header\.scrolled \.studio-brand-logo\{filter:invert\(1\)/);
+ assert.match(css, /background:rgba\(10,25,27,\.74\)/);
+ assert.match(css, /\.site-header\.home-header \.desktop-nav > a/);
+ assert.match(css, /color:#fff;/);
+ assert.match(css, /\.site-header\.home-header \.studio-brand-logo\s*\{/);
+ assert.match(css, /filter:invert\(1\)/);
 });
 test('map has no unbounded SVG ornament and uses contrasting panel labels', () => {
  const map = read('src/components/studio/DistanceEstimator.astro');
@@ -186,4 +188,23 @@ test('homepage header overlays hero and ROZWIĄZANIA uses brand lime', () => {
  assert.match(hero, /\.home-hero__title \.home-hero__accent \{ color:var\(--green\)/);
  assert.match(layout, /data-home=\{isHome \? "true" : "false"\}/);
  assert.match(header, /\.site-header\.home-header\[data-home="true"\]:not\(\.scrolled\)/);
+});
+
+test('process card text is visually centered in both axes', () => {
+ const css=read('src/styles/premium-layout.css');
+ assert.match(css, /\.ps-process__step\s*\{\s*position:relative;\s*display:grid;\s*place-items:center;/);
+ assert.match(css, /\.ps-process__step > div\s*\{[\s\S]*?align-items:center;[\s\S]*?justify-content:center;/);
+ assert.match(css, /\.ps-process__step h3\s*\{[\s\S]*?text-align:center;/);
+ assert.match(css, /\.ps-process__step p\s*\{[\s\S]*?text-align:center;/);
+});
+test('menu glass background and readable animated dropdown on all pages', () => {
+ const css=read('src/styles/header-unified.css');
+ assert.match(css, /background:linear-gradient\(180deg,rgba\(8,16,18,\.38\),rgba\(8,16,18,\.10\)\)/);
+ assert.match(css, /background:rgba\(10,25,27,\.74\)/);
+ assert.match(css, /\.desktop-nav \.dropdown:is\(:hover,:focus-within\) \.dropdown-list/);
+ assert.match(css, /\.dropdown-list > a,\s*\.site-header\.home-header\.scrolled \.desktop-nav \.dropdown-list > a/);
+ assert.match(css, /color:#edf5ef/);
+ assert.match(css, /pointer-events:none/);
+ assert.match(css, /visibility:hidden/);
+ assert.match(css, /opacity:0/);
 });
