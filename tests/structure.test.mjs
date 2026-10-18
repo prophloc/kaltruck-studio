@@ -493,7 +493,7 @@ test('Premium footer uses original twelve-column composition without removing St
   assert.ok(premium.includes('.footer-contact{grid-column:9/-1;'));
   assert.ok(premium.includes('width:clamp(280px,19vw,320px)'));
   assert.ok(premium.includes('CIĘŻKI ŁADUNEK... PRECYZYJNA ROBOTA.'));
-  assert.ok(premium.includes('class="footer-bottom"'));
+  assert.ok(premium.includes('class="container footer-bottom"'));
 });
 
 test('Premium footer has valid real contacts, navigation and social profiles across breakpoints', () => {
