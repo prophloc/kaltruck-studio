@@ -155,7 +155,7 @@ test('process cards use readable titles and meaningful steps', () => {
 
 test('scrolled header stays dark and accessible across subpages', () => {
  const css = read('src/styles/header-unified.css');
- assert.match(css, /\.site-header\.home-header\.scrolled\{/);
+ assert.match(css, /\.site-header\.home-header\.scrolled\s*\{/);
  assert.match(css, /background:rgba\(10,25,27,\.74\)/);
  assert.match(css, /\.site-header\.home-header \.desktop-nav > a/);
  assert.match(css, /color:#fff;/);
