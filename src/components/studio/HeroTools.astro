@@ -1,0 +1,69 @@
+---
+import DistanceEstimator from './DistanceEstimator.astro';
+import GoogleReviews from './GoogleReviews.astro';
+---
+<div class="studio-hero-tool studio-hero-tool--route" data-studio-tool="route">
+  <div class="studio-hero-tool__panel" id="studio-route-panel" data-studio-tool-panel aria-hidden="true" inert>
+    <DistanceEstimator instanceId="studio-hero-route" variant="drawer" deferMap={true} />
+  </div>
+  <button type="button" class="studio-hero-tool__toggle" data-studio-tool-toggle aria-expanded="false" aria-controls="studio-route-panel" aria-label="Otwórz planowanie trasy w Google Maps"><span aria-hidden="true">⌖</span><strong>TRASA</strong></button>
+</div>
+<div class="studio-hero-tool studio-hero-tool--reviews" data-studio-tool="reviews">
+  <button type="button" class="studio-hero-tool__toggle" data-studio-tool-toggle aria-expanded="false" aria-controls="studio-reviews-panel" aria-label="Pokaż opinie Google"><span aria-hidden="true">★</span><strong>OPINIE</strong></button>
+  <div class="studio-hero-tool__panel" id="studio-reviews-panel" data-studio-tool-panel aria-hidden="true" inert>
+    <GoogleReviews />
+  </div>
+</div>
+<script is:inline>
+  (() => {
+    const tools = Array.from(document.querySelectorAll('[data-studio-tool]')).filter(node => node instanceof HTMLElement);
+    const setOpen = (tool, open) => {
+      const toggle = tool.querySelector('[data-studio-tool-toggle]');
+      const panel = tool.querySelector('[data-studio-tool-panel]');
+      if (!(toggle instanceof HTMLButtonElement) || !(panel instanceof HTMLElement)) return;
+      tool.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      panel.setAttribute('aria-hidden', String(!open));
+      panel.toggleAttribute('inert', !open);
+      if (open) {
+        if (tool.dataset.studioTool === 'route') {
+          panel.querySelector('[data-google-route]')?.dispatchEvent(new CustomEvent('kaltruck:route-activate'));
+        } else {
+          panel.querySelector('[data-google-reviews]')?.dispatchEvent(new CustomEvent('kaltruck:reviews-activate'));
+        }
+      }
+    };
+    tools.forEach(tool => {
+      const toggle = tool.querySelector('[data-studio-tool-toggle]');
+      toggle?.addEventListener('click', () => {
+        const opening = !tool.classList.contains('is-open');
+        tools.forEach(other => setOpen(other, other === tool && opening));
+      });
+    });
+    document.addEventListener('pointerdown', event => {
+      if (!(event.target instanceof Node)) return;
+      tools.forEach(tool => { if (tool.classList.contains('is-open') && !tool.contains(event.target)) setOpen(tool, false); });
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') tools.forEach(tool => setOpen(tool, false));
+    });
+  })();
+</script>
+<style>
+  .studio-hero-tool { --handle:55px; position:absolute; top:50%; width:min(725px,calc(100vw - 28px)); z-index:15; display:grid; align-items:center; filter:drop-shadow(0 15px 35px rgba(0,0,0,.24)); transition:transform .35s cubic-bezier(.22,.78,.18,1); }
+  .studio-hero-tool--route { left:0; grid-template-columns:minmax(0,1fr) var(--handle); transform:translate(calc(-100% + var(--handle)),-50%); }
+  .studio-hero-tool--reviews { right:0; width:min(685px,calc(100vw - 28px)); grid-template-columns:var(--handle) minmax(0,1fr); transform:translate(calc(100% - var(--handle)),-50%); }
+  .studio-hero-tool.is-open {transform:translate(0,-50%);}
+  .studio-hero-tool__toggle { width:var(--handle); height:112px; border:1px solid rgba(200,239,114,.65); background:rgba(248,249,243,.97); color:#213b2a; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; padding:9px 6px; }
+  .studio-hero-tool--route .studio-hero-tool__toggle {border-radius:0 13px 13px 0;border-left:0;}
+  .studio-hero-tool--reviews .studio-hero-tool__toggle {border-radius:13px 0 0 13px;border-right:0;}
+  .studio-hero-tool__toggle span {font-size:24px;line-height:1;color:#4f7e34;}
+  .studio-hero-tool__toggle strong {writing-mode:vertical-rl;transform:rotate(180deg);font-size:10px;letter-spacing:.14em;}
+  .studio-hero-tool__toggle:hover,.studio-hero-tool__toggle[aria-expanded=true] {background:#e4f4c1;}
+  .studio-hero-tool__panel {background:#faf9f3;color:#16291d;max-height:min(78svh,690px);overflow:auto;pointer-events:none;visibility:hidden;opacity:0;transition:opacity .2s,visibility .2s;border:1px solid #b6c8ae;}
+  .studio-hero-tool--route .studio-hero-tool__panel {border-radius:0 14px 14px 0;border-left:0;}
+  .studio-hero-tool--reviews .studio-hero-tool__panel {border-radius:14px 0 0 14px;border-right:0;}
+  .studio-hero-tool.is-open .studio-hero-tool__panel {visibility:visible;pointer-events:auto;opacity:1;}
+  @media(max-width:700px){.studio-hero-tool {--handle:38px;top:55%;}.studio-hero-tool__toggle {height:88px;gap:5px}.studio-hero-tool__toggle span{font-size:17px}.studio-hero-tool__toggle strong{font-size:9px}}
+  @media(prefers-reduced-motion:reduce){.studio-hero-tool,.studio-hero-tool__panel{transition:none}}
+</style>
