@@ -114,6 +114,10 @@ const schemas = buildPageSchemas(path, title, description, ogImage, extras.filte
       </div>
       <nav class="mobile-nav" id="mobile-nav" aria-label="Menu mobilne" hidden>
         <a href="/">Start</a><a href="/#uslugi">Usługi</a><a href="/realizacje/">Realizacje</a><a href="/sprzet/">Sprzęt</a><a href="/o-nas/">O nas</a><a href="/kontakt/">Kontakt</a>
+        <div class="mobile-nav__tools" aria-label="Google Maps i opinie klientów">
+          <a href="/?panel=route" data-studio-mobile-panel="route"><span class="mobile-nav__tool-icon" aria-hidden="true">⌖</span><span>Sprawdź trasę</span><span aria-hidden="true">↗</span></a>
+          <a href="/?panel=reviews" data-studio-mobile-panel="reviews"><span class="mobile-nav__tool-icon" aria-hidden="true">★</span><span>Opinie Google</span><span aria-hidden="true">↗</span></a>
+        </div>
         <div class="mobile-nav__contacts"><a href={`tel:${site.phoneHref}`}>{site.phone}</a><a href={`tel:${site.secondPhoneHref}`}>{site.secondPhone}</a><a href={`mailto:${site.email}`}>{site.email}</a></div>
       </nav>
     </header>

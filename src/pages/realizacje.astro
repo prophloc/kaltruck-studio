@@ -4,7 +4,7 @@ import { projects } from '../data/site';
 const categories = ['Wszystkie', ...new Set(projects.map((p) => p.category))];
 ---
 <BaseLayout title="Realizacje transportu HDS | KALTRUCK Płock" description="Zobacz zdjęcia realizacji KALTRUCK: transport kontenerów, prefabrykatów, maszyn i prace montażowe żurawiem HDS.">
-  <section class="subhero"><div class="container narrow"><p class="eyebrow">KALTRUCK / NASZE REALIZACJE</p><h1>Nasza praca.<br /><em>Na zdjęciach.</em></h1><p class="section-lead">Wybrane realizacje transportowe i montażowe. Kliknij zdjęcie, aby wyświetlić je na pełnym ekranie.</p></div></section>
+  <section class="subhero"><div class="container narrow"><p class="eyebrow">KALTRUCK / NASZE REALIZACJE</p><h1 class="gallery-hero-title"><span class="gallery-hero-title__first">To nasza <strong>praca.</strong></span><span class="gallery-hero-title__second">Na zdjęciach.</span></h1><p class="section-lead">Wybrane realizacje transportowe i montażowe. Kliknij zdjęcie, aby wyświetlić je na pełnym ekranie.</p></div></section>
   <section class="section gallery-section"><div class="container">
     <div class="gallery-filters" role="group" aria-label="Filtruj realizacje">{categories.map((category, index) => <button class:list={['filter-button', { active: index === 0 }]} data-filter={category} type="button" aria-pressed={index === 0}>{category}</button>)}</div>
     <div class="gallery-grid">{projects.map((project, index) => <button class="gallery-item" data-category={project.category} data-index={index} type="button" aria-label={'Powiększ zdjęcie: ' + project.title}>
@@ -58,4 +58,15 @@ const categories = ['Wszystkie', ...new Set(projects.map((p) => p.category))];
       if (event.key === 'ArrowRight') show(current + 1);
     });
   </script>
+
+  <style>
+    .gallery-hero-title{max-width:none;display:flex;flex-direction:column;align-items:flex-start;gap:3px;font-size:clamp(3.1rem,6.4vw,6.5rem);line-height:1.08;}
+    .gallery-hero-title__first{display:block;white-space:nowrap;font:800 inherit;letter-spacing:-.067em;}
+    .gallery-hero-title__first strong{color:var(--green);font-weight:inherit;}
+    .gallery-hero-title__second{display:block;font-family:Georgia,serif;font-weight:400;font-style:italic;letter-spacing:-.077em;}
+    @media(max-width:700px){
+      .gallery-hero-title{font-size:clamp(2.1rem,8vw,3.6rem);line-height:1.12;}
+    }
+    @media(max-width:400px){.gallery-hero-title{font-size:clamp(1.8rem,8.1vw,2.4rem);}}
+  </style>
 </BaseLayout>

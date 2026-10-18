@@ -511,3 +511,33 @@ test('Premium footer has valid real contacts, navigation and social profiles acr
   assert.ok(premium.includes('@media(max-width:760px)'));
   assert.ok(premium.includes('grid-template-columns:1fr 1fr'));
 });
+
+test('Premium footer headings align on one horizontal line with normal phone typography',()=>{
+ const footer=read('src/components/studio/PremiumFooter.astro');
+ assert.ok(footer.includes('.footer-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--grid-gap);align-items:start;'));
+ assert.ok(footer.includes('.footer-links-wrap{grid-column:6/span 2;align-self:start;}'));
+ assert.ok(footer.includes('.footer-contact{grid-column:9/-1;align-self:start;}'));
+ assert.ok(footer.includes('.footer-phone{color:#e7e4de!important;font-size:.94rem;font-weight:700;letter-spacing:normal;}'));
+ assert.ok(footer.includes('.footer-second-phone{color:#e7e4de;font-size:.94rem;font-weight:700;}'));
+});
+test('mobile Maps and reviews move into compact navigation instead of side tabs',()=>{
+ const nav=read('src/layouts/BaseLayout.astro');
+ const header=read('src/styles/header-unified.css');
+ const panels=read('src/components/studio/HeroTools.astro');
+ assert.ok(nav.includes('data-studio-mobile-panel="route"'));
+ assert.ok(nav.includes('data-studio-mobile-panel="reviews"'));
+ assert.ok(header.includes('.mobile-nav__tools'));
+ assert.ok(panels.includes('document.querySelectorAll(\'[data-studio-mobile-panel]\')'));
+ assert.ok(panels.includes('new URLSearchParams(window.location.search)'));
+ assert.ok(panels.includes('if (panel && openTool(panel)) event.preventDefault()'));
+ assert.ok(panels.includes('.studio-hero-tool__toggle{display:none;}'));
+ assert.ok(panels.includes('data-studio-panel-close'));
+ assert.ok(panels.includes('position:fixed;left:0;right:0;top:auto;bottom:0;'));
+});
+test('gallery headline has one-line To nasza praca and bright-green praca',()=>{
+ const gallery=read('src/pages/realizacje.astro');
+ assert.ok(gallery.includes('class="gallery-hero-title__first">To nasza <strong>praca.</strong>'));
+ assert.ok(gallery.includes('class="gallery-hero-title__second">Na zdjęciach.</span>'));
+ assert.ok(gallery.includes('.gallery-hero-title__first{display:block;white-space:nowrap;'));
+ assert.ok(gallery.includes('.gallery-hero-title__first strong{color:var(--green)'));
+});

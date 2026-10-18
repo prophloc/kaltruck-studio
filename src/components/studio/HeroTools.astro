@@ -5,6 +5,7 @@ import GoogleMapsPin from './GoogleMapsPin.astro';
 ---
 <div class="studio-hero-tool studio-hero-tool--route" data-studio-tool="route">
   <div class="studio-hero-tool__panel" id="studio-route-panel" data-studio-tool-panel aria-hidden="true" inert>
+    <div class="studio-hero-tool__sheet-heading"><span>TRASA / GOOGLE MAPS</span><button type="button" class="studio-hero-tool__close" data-studio-panel-close aria-label="Zamknij planowanie trasy">✕</button></div>
     <DistanceEstimator instanceId="studio-hero-route" variant="drawer" deferMap={true} />
   </div>
   <button type="button" class="studio-hero-tool__toggle" data-studio-tool-toggle aria-expanded="false" aria-controls="studio-route-panel" aria-label="Otwórz planowanie trasy w Google Maps"><GoogleMapsPin class="studio-hero-tool__pin" /><strong>TRASA</strong></button>
@@ -12,6 +13,7 @@ import GoogleMapsPin from './GoogleMapsPin.astro';
 <div class="studio-hero-tool studio-hero-tool--reviews" data-studio-tool="reviews">
   <button type="button" class="studio-hero-tool__toggle" data-studio-tool-toggle aria-expanded="false" aria-controls="studio-reviews-panel" aria-label="Pokaż opinie Google"><span class="studio-hero-tool__star" aria-hidden="true">★</span><strong>OPINIE</strong></button>
   <div class="studio-hero-tool__panel" id="studio-reviews-panel" data-studio-tool-panel aria-hidden="true" inert>
+    <div class="studio-hero-tool__sheet-heading"><span>OPINIE KLIENTÓW</span><button type="button" class="studio-hero-tool__close" data-studio-panel-close aria-label="Zamknij opinie Google">✕</button></div>
     <GoogleReviews />
   </div>
 </div>
@@ -34,13 +36,32 @@ import GoogleMapsPin from './GoogleMapsPin.astro';
         }
       }
     };
+    const openTool = (name) => {
+      const selected = tools.find(tool => tool.dataset.studioTool === name);
+      if (!selected) return false;
+      tools.forEach(other => setOpen(other, other === selected));
+      return true;
+    };
     tools.forEach(tool => {
       const toggle = tool.querySelector('[data-studio-tool-toggle]');
       toggle?.addEventListener('click', () => {
         const opening = !tool.classList.contains('is-open');
         tools.forEach(other => setOpen(other, other === tool && opening));
       });
+      tool.querySelector('[data-studio-panel-close]')?.addEventListener('click', () => setOpen(tool, false));
     });
+    document.querySelectorAll('[data-studio-mobile-panel]').forEach(link => {
+      link.addEventListener('click', event => {
+        const panel = link.getAttribute('data-studio-mobile-panel');
+        if (panel && openTool(panel)) event.preventDefault();
+      });
+    });
+    const openFromQuery = () => {
+      const panel = new URLSearchParams(window.location.search).get('panel');
+      if (panel === 'route' || panel === 'reviews') openTool(panel);
+    };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', openFromQuery, { once: true });
+    else openFromQuery();
     document.addEventListener('pointerdown', event => {
       if (!(event.target instanceof Node)) return;
       tools.forEach(tool => { if (tool.classList.contains('is-open') && !tool.contains(event.target)) setOpen(tool, false); });
@@ -69,6 +90,31 @@ import GoogleMapsPin from './GoogleMapsPin.astro';
   .studio-hero-tool--route .studio-hero-tool__panel {border-radius:0 14px 14px 0;border-left:0;}
   .studio-hero-tool--reviews .studio-hero-tool__panel {border-radius:14px 0 0 14px;border-right:0;}
   .studio-hero-tool.is-open .studio-hero-tool__panel {visibility:visible;pointer-events:auto;opacity:1;}
-  @media(max-width:700px){.studio-hero-tool {--handle:38px;top:55%;}.studio-hero-tool__toggle {height:88px;gap:5px}.studio-hero-tool__toggle span{font-size:17px}:global(.studio-hero-tool__pin){width:17px;height:20px}.studio-hero-tool__toggle strong{font-size:9px}}
+  .studio-hero-tool__sheet-heading{display:none;}
+  @media(max-width:800px){
+    .studio-hero-tool,.studio-hero-tool--route,.studio-hero-tool--reviews{
+      position:fixed;left:0;right:0;top:auto;bottom:0;
+      width:100%;max-width:none;display:block;z-index:120;
+      transform:translateY(110%);filter:drop-shadow(0 -12px 32px rgba(4,20,15,.30));
+      transition:transform .28s ease;
+    }
+    .studio-hero-tool.is-open{transform:translateY(0);}
+    .studio-hero-tool__toggle{display:none;}
+    .studio-hero-tool__panel,.studio-hero-tool--route .studio-hero-tool__panel,.studio-hero-tool--reviews .studio-hero-tool__panel{
+      max-height:min(79dvh,680px);overflow-y:auto;overscroll-behavior:contain;
+      border-radius:18px 18px 0 0;border:1px solid #c2d4bc;
+      background:#faf9f3;
+    }
+    .studio-hero-tool__sheet-heading{
+      display:flex;align-items:center;justify-content:space-between;
+      position:sticky;top:0;z-index:5;
+      padding:12px 16px;background:#f0f4e8;border-bottom:1px solid #d7e3d1;
+      color:#33552b;font-size:11px;font-weight:800;letter-spacing:.13em;
+    }
+    .studio-hero-tool__close{
+      min-width:38px;min-height:38px;border:1px solid #c7d6c0;
+      border-radius:10px;background:#fff;color:#183020;font-size:18px;
+    }
+  }
   @media(prefers-reduced-motion:reduce){.studio-hero-tool,.studio-hero-tool__panel{transition:none}}
 </style>

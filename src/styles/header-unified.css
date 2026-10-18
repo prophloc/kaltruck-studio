@@ -238,3 +238,24 @@ main > .subhero {padding-top:clamp(165px,15vh + 94px,220px);}
   -webkit-backdrop-filter:none;
   box-shadow:none;
 }
+
+/* The bulky side handles are replaced by two compact destinations inside
+   the existing mobile navigation; links work across every site subpage. */
+.site-header.home-header .mobile-nav__tools{display:none;}
+@media(max-width:800px){
+ .site-header.home-header .mobile-nav__tools{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;padding:14px 0;border-bottom:1px solid rgba(21,42,32,.12);
+ }
+ .site-header.home-header .mobile-nav__tools a{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  padding:13px 10px;min-height:52px;
+  background:#eaf4dc;border:1px solid #c5d9b0;border-radius:11px;
+  color:#183522;font-size:12px;font-weight:800;text-align:center;
+ }
+ .site-header.home-header .mobile-nav__tool-icon{font-size:20px;line-height:1;color:#467632;}
+ .site-header.home-header .mobile-nav__tools a:active{background:#d8edbf;}
+}
+@media(max-width:370px){
+ .site-header.home-header .mobile-nav__tools{grid-template-columns:1fr;}
+}
