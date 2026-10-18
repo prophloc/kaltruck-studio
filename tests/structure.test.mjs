@@ -234,7 +234,7 @@ test('exactly one lime highlighted key word appears in each of five photo storie
  assert.match(story, /hasHighlight && <span class="ps-story__highlight">\{highlight\}<\/span>/);
  assert.match(story, /title\.indexOf\(highlight\)/);
  for (const word of expected) assert.match(home,new RegExp('highlight="' + word + '"'));
- assert.match(css, /\.ps-story__copy h2 \.ps-story__highlight\s*\{[\s\S]*?font-family:'DM Sans'[\s\S]*?color:var\(--green\);[\s\S]*?background:none;/);
+ assert.match(css, /\.ps-story__copy h2 \.ps-story__highlight\s*\{[\s\S]*?font-family:'DM Sans'[\s\S]*?color:#86ab46;[\s\S]*?background:none;/);
 });
 
 test('services dropdown uses exactly the same cream surface as Google Maps drawer', () => {
@@ -322,7 +322,7 @@ test('Google Maps wordmark is baseline aligned in hero drawer and footer', () =>
   const route=read('src/components/studio/DistanceEstimator.astro');
   const footer=read('src/styles/footer-refresh.css');
   assert.match(route, /\.google-route-heading\{display:flex;align-items:baseline;/);
-  assert.match(route, /\.google-route-heading-logo\{display:block;position:relative;top:2px;/);
+  assert.match(route, /\.google-route-heading-logo\{display:block;position:relative;top:4px;/);
   assert.match(route, /align-self:baseline;/);
   assert.match(footer, /\.studio-footer-route \.google-route-heading\{[^\n]*align-items:baseline/);
 });
@@ -351,7 +351,7 @@ test('green individual service words use distinct DM Sans, no outline or shadow'
   const block=css.slice(start,css.indexOf('}',start)+1);
   assert.match(block,/font-family:'DM Sans'/);
   assert.match(block,/font-weight:800/);
-  assert.match(block,/color:var\(--green\)/);
+  assert.match(block,/color:#86ab46/);
   assert.match(block,/-webkit-text-stroke:0/);
   assert.match(block,/text-shadow:none/);
   assert.doesNotMatch(block,/font:inherit/);
@@ -430,15 +430,26 @@ test('favicon SVG is namespace-safe and contains no unbound Serif prefixes',()=>
  assert.match(icon,/<g id="Layer-1">/);
 });
 
-test('single highlighted words use exact lime brand palette with no background',()=>{
+test('single highlighted words use softer green than global lime with no background',()=>{
  const css=read('src/styles/premium-layout.css');
  const globals=read('src/styles/global.css');
  const start=css.indexOf('.ps-story__copy h2 .ps-story__highlight {');
  assert.ok(start>=0);
  const block=css.slice(start,css.indexOf('}',start)+1);
  assert.match(globals,/--green:#c8ef72/);
- assert.match(block,/color:var\(--green\)/);
+ assert.match(block,/color:#86ab46/);
  assert.match(block,/background:none/);
  assert.match(block,/text-shadow:none/);
  assert.match(block,/-webkit-text-stroke:0/);
+});
+test('route wordmark shifts two pixels and service accents use softer Studio green',()=>{
+ const route=read('src/components/studio/DistanceEstimator.astro');
+ const css=read('src/styles/premium-layout.css');
+ const start=css.indexOf('.ps-story__copy h2 .ps-story__highlight {');
+ assert.ok(start>=0);
+ const block=css.slice(start,css.indexOf('}',start)+1);
+ assert.match(route,/\.google-route-heading-logo\{display:block;position:relative;top:4px;/);
+ assert.match(block,/color:#86ab46;/);
+ assert.match(block,/background:none;/);
+ assert.doesNotMatch(block,/color:var\(--green\)/);
 });
