@@ -266,8 +266,10 @@
 /* Single key word accented without a box or background. On light story
    sections use a readable forest green from the same Studio palette. */
 .ps-story__copy h2 .ps-story__highlight {
-  color:#5b8736;
+  color:var(--green);
   background:none;
+  -webkit-text-stroke:.85px #547d35;
+  text-shadow:0 1px 0 rgba(38,70,31,.20);
   border-radius:0;
   padding:0;
   box-decoration-break:slice;

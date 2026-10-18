@@ -233,7 +233,7 @@ test('exactly one lime highlighted key word appears in each of five photo storie
  assert.match(story, /hasHighlight && <span class="ps-story__highlight">\{highlight\}<\/span>/);
  assert.match(story, /title\.indexOf\(highlight\)/);
  for (const word of expected) assert.match(home,new RegExp('highlight="' + word + '"'));
- assert.match(css, /\.ps-story__copy h2 \.ps-story__highlight\s*\{[\s\S]*?color:#5b8736;[\s\S]*?background:none;/);
+ assert.match(css, /\.ps-story__copy h2 \.ps-story__highlight\s*\{[\s\S]*?color:var\(--green\);[\s\S]*?background:none;/);
 });
 
 test('services dropdown uses exactly the same cream surface as Google Maps drawer', () => {
@@ -276,7 +276,13 @@ test('route handle uses same Google Maps pin as Premium, scaled down', () => {
  const hero=read('src/components/studio/HeroTools.astro');
  const pin=read('src/components/studio/GoogleMapsPin.astro');
  assert.match(hero, /<GoogleMapsPin class="studio-hero-tool__pin" \/>/);
- assert.match(hero, /\.studio-hero-tool__pin\{display:block;width:24px;height:28px/);
+ assert.match(hero, /:global\(\.studio-hero-tool__pin\)\{display:block;width:24px;height:28px/);
  assert.match(pin, /data-google-maps-pin/);
  assert.match(pin, /data:image\/png;base64/);
+});
+
+test('Premium child Google Maps icon styling uses Astro global class scope', () => {
+ const hero=read('src/components/studio/HeroTools.astro');
+ assert.match(hero, /:global\(\.studio-hero-tool__pin\)\{display:block;width:24px;height:28px/);
+ assert.match(hero, /:global\(\.studio-hero-tool__pin\)\{width:19px;height:23px\}/);
 });
