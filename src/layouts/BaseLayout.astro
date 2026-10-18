@@ -1,0 +1,80 @@
+---
+import { site, services } from '../data/site';
+import '../styles/global.css';
+
+interface Props { title: string; description: string; image?: string; }
+const { title, description, image = 'https://raw.githubusercontent.com/prophloc/kaltruck-premium/main/public/images/home/hero-hds-kaltruck.webp' } = Astro.props;
+const path = Astro.url.pathname;
+const canonical = site.url ? site.url + path : null;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: site.legalName,
+  address: { '@type': 'PostalAddress', addressLocality: site.city, addressCountry: 'PL' },
+  telephone: [site.phone, site.secondPhone],
+  email: site.email,
+  areaServed: [{ '@type': 'City', name: 'Płock' }, { '@type': 'Country', name: 'Polska' }],
+  ...(site.url ? { url: site.url } : {}),
+};
+---
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="robots" content={site.url ? 'index,follow,max-image-preview:large' : 'noindex,nofollow'} />
+    <meta name="theme-color" content="#14231e" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.legalName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    {canonical && <><link rel="canonical" href={canonical} /><meta property="og:url" content={canonical} /></>}
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Przejdź do treści</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="KALTRUCK — strona główna">KAL<span>TRUCK</span><small>TRANSPORT HDS</small></a>
+        <nav class="desktop-nav" aria-label="Menu główne">
+          <a href="/">Start</a>
+          <div class="dropdown"><a href="/#uslugi">Usługi ⌄</a>
+            <div class="dropdown-list">{services.map((s) => <a href={'/uslugi/' + s.slug + '/'}>{s.title}</a>)}</div>
+          </div>
+          <a href="/realizacje/">Realizacje</a>
+          <a href="/o-nas/">O nas</a>
+        </nav>
+        <a class="button button-green header-cta" href="/kontakt/">Zapytaj o wycenę ↗</a>
+        <button class="menu-toggle" aria-controls="mobile-nav" aria-expanded="false" aria-label="Otwórz menu"><span></span><span></span></button>
+      </div>
+      <nav class="mobile-nav" id="mobile-nav" hidden>
+        <a href="/">Start</a><a href="/#uslugi">Usługi</a><a href="/realizacje/">Realizacje</a><a href="/o-nas/">O nas</a><a href="/kontakt/">Kontakt</a>
+      </nav>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="footer">
+      <div class="container footer-head">
+        <div><div class="eyebrow">KONTAKT / WYCENA</div><h2>Masz trudne<br /><em>zlecenie?</em></h2></div>
+        <div><p>Opowiedz nam, co trzeba przewieźć lub ustawić. Dobierzemy rozwiązanie do warunków.</p><a class="footer-phone" href={'tel:' + site.phoneHref}>{site.phone} ↗</a><a href={'mailto:' + site.email}>{site.email}</a></div>
+      </div>
+      <div class="container footer-bottom"><a class="brand" href="/">KAL<span>TRUCK</span></a><span>Transport HDS Kalwasińscy · Płock · Polska</span><a href="#main">Do góry ↑</a></div>
+    </footer>
+    <script>
+      const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+      const mobileNav = document.querySelector<HTMLElement>('.mobile-nav');
+      toggle?.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+        if (mobileNav) mobileNav.hidden = open;
+      });
+      mobileNav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        if (mobileNav) mobileNav.hidden = true;
+        toggle?.setAttribute('aria-expanded', 'false');
+      }));
+    </script>
+  </body>
+</html>
