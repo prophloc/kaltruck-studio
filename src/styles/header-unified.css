@@ -228,3 +228,13 @@ main > .subhero {padding-top:clamp(165px,15vh + 94px,220px);}
   .site-header.home-header .studio-services-label,
   .site-header.home-header .desktop-nav .dropdown-list {transition:none;}
 }
+
+/* No milky scroll band across sections: the header remains dark green and
+   overlayed, without blurring the cream page behind it into a grey stripe. */
+.site-header.home-header.scrolled{
+  background:rgba(10,25,27,.90);
+  border-bottom-color:rgba(255,255,255,.12);
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  box-shadow:none;
+}

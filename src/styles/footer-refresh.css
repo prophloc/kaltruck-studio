@@ -95,3 +95,11 @@
 .studio-footer-route .google-route-heading-caption{color:#426a35;}
 .studio-footer-route .google-route-meta a{color:#466c33;}
 .studio-footer-route .google-route-point{background:var(--green);color:var(--forest);}
+
+/* Align the footer's "Zajmiemy się resztą." with the rest of Studio. */
+.studio-footer__contact-copy h2 em{
+  font-family:'Manrope',Arial,sans-serif;
+  font-style:normal;
+  font-weight:600;
+  letter-spacing:-.052em;
+}

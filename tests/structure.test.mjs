@@ -233,7 +233,7 @@ test('exactly one lime highlighted key word appears in each of five photo storie
  assert.match(story, /hasHighlight && <span class="ps-story__highlight">\{highlight\}<\/span>/);
  assert.match(story, /title\.indexOf\(highlight\)/);
  for (const word of expected) assert.match(home,new RegExp('highlight="' + word + '"'));
- assert.match(css, /\.ps-story__copy h2 \.ps-story__highlight\s*\{[\s\S]*?color:var\(--green\);[\s\S]*?background:var\(--forest\);/);
+ assert.match(css, /\.ps-story__copy h2 \.ps-story__highlight\s*\{[\s\S]*?color:#5b8736;[\s\S]*?background:none;/);
 });
 
 test('services dropdown uses exactly the same cream surface as Google Maps drawer', () => {
@@ -245,4 +245,21 @@ test('services dropdown uses exactly the same cream surface as Google Maps drawe
  assert.match(map, /\.google-route--drawer\{[^\n]*background:#faf9f3;/);
  assert.match(css, /\.desktop-nav \.dropdown-list > a,[\s\S]*?color:#183020;/);
  assert.match(css, /\.dropdown-list > a:hover,[\s\S]*?background:var\(--green\);/);
+});
+
+test('no bright bar below scrolled menu and no extra services anchor gap', () => {
+ const menu=read('src/styles/header-unified.css');
+ const global=read('src/styles/global.css');
+ assert.match(menu, /\.site-header\.home-header\.scrolled\{\s*background:rgba\(10,25,27,\.90\);/);
+ assert.match(menu, /backdrop-filter:none;/);
+ assert.match(global, /html:has\(#uslugi\.ps-service-stories:target\)\{scroll-padding-top:0;\}/);
+});
+test('photo-story words have no dark backing, both closing taglines use Manrope', () => {
+ const story=read('src/styles/premium-layout.css');
+ const footer=read('src/styles/footer-refresh.css');
+ const cta=read('src/components/studio/CTASection.astro');
+ assert.match(story, /\.ps-story__copy h2 \.ps-story__highlight\s*\{[\s\S]*?background:none;/);
+ assert.match(cta, /<span class="ps-cta__closing-line">My zajmiemy się resztą\.<\/span>/);
+ assert.match(story, /\.ps-cta__copy h2 \.ps-cta__closing-line\s*\{[\s\S]*?font-family:'Manrope'/);
+ assert.match(footer, /\.studio-footer__contact-copy h2 em\s*\{[\s\S]*?font-family:'Manrope'/);
 });
