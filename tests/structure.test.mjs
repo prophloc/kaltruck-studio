@@ -37,7 +37,7 @@ test('gallery supports filtering, fullscreen and keyboard navigation', () => {
   assert.match(gallery, /showModal/);
   assert.match(gallery, /ArrowRight/);
   assert.match(gallery, /ArrowLeft/);
-  assert.match(gallery, /aria-label="Zamknij zdjęcie"/);
+  assert.match(gallery, /aria-label="Zamknij galerię"/);
 });
 
 test('contact uses mailto and never pretends to send to a server', () => {
@@ -594,4 +594,33 @@ test('side tab icon and vertical title have equal edge insets',()=>{
  const tools=read('src/components/studio/HeroTools.astro');
  assert.match(tools,/justify-content:space-between; gap:0; padding:14px 6px;/);
  assert.match(tools,/strong \{writing-mode:vertical-rl;[^\n]*line-height:1;/);
+});
+
+test('Studio realization photos mirror every checked-in external photo from 10 Premium projects',()=>{
+ const data=read('src/data/realizations.ts');
+ const page=read('src/pages/realizacje.astro');
+ const entries=[...data.matchAll(/"id": "([0-9]{2})"/g)].map(x=>x[1]);
+ const photos=[...data.matchAll(/"https:\/\/hdsplock\.pl\/zdj\/realizacje\/[^"]+\.jpg"/g)].map(x=>x[0]);
+ // Each project's primary photograph is also listed in its larger image set.
+ assert.equal(entries.length,10);
+ assert.ok(photos.length>=76);
+ assert.equal(new Set(photos).size,76);
+ assert.match(data,/export const galleryByGroup/);
+ assert.match(data,/export const realizationGroups/);
+ assert.match(page,/realizations\.map/);
+ assert.match(page,/project\.images\.length/);
+ assert.match(page,/data-start-src/);
+});
+test('Premium-style category thumbnails navigate into matching gallery and full-photo thumbnail strip',()=>{
+ const page=read('src/pages/realizacje.astro');
+ assert.match(page,/class="gallery-preview__grid"/);
+ assert.match(page,/data-preview-category=\{category\}/);
+ assert.match(page,/href="#realization-gallery"/);
+ assert.match(page,/selectCategory\(preview\.dataset\.previewCategory/);
+ assert.match(page,/data-gallery-thumbs/);
+ assert.match(page,/data-gallery-thumb/);
+ assert.match(page,/thumbRow\.append\(button\)/);
+ assert.match(page,/data-gallery-counter/);
+ assert.match(page,/dlg\.showModal\(\)/);
+ assert.match(page,/@media\(max-width:980px\)/);
 });
