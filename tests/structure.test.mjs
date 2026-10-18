@@ -72,7 +72,7 @@ test('Studio homepage follows Premium section order without changing menu or her
   assert.match(homepage, /PEWNE ROZWIĄZANIA\./);
   assert.match(homepage, /home-hero__photo/);
   assert.match(homepage, /home-hero__actions/);
-  assert.match(header, /class:list=\{\['site-header', \{ 'home-header': isHome \}\]\}/);
+  assert.match(header, /class="site-header home-header"/);
   assert.match(header, /href="\/#uslugi"/);
   assert.doesNotMatch(homepage, /class="service-grid"/);
   assert.doesNotMatch(homepage, /class="proof-grid"/);
@@ -99,4 +99,15 @@ test('Premium-inspired service stories link only to available service routes', (
     assert.match(homepage, new RegExp('href="/uslugi/' + slug + '/"'));
     assert.match(read('src/data/site.ts'), new RegExp("slug: '" + slug + "'"));
   }
+});
+
+test('common header uses authentic logo, two phone numbers and arrow-free services', () => {
+ const layout = read('src/layouts/BaseLayout.astro');
+ assert.match(layout, /src="\/brand\/kaltruck-logo\.svg"/);
+ assert.match(layout, /data-studio-services/);
+ assert.match(layout, /class="studio-header-contacts"/);
+ assert.match(layout, /site\.secondPhoneHref/);
+ assert.match(layout, />Usługi<\/a>/);
+ assert.doesNotMatch(layout, /Usługi ⌄/);
+ assert.match(read('src/styles/header-unified.css'), /site-header\.home-header/);
 });

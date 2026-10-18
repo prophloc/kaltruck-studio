@@ -2,11 +2,45 @@
 import { site, services } from '../data/site';
 import '../styles/global.css';
 import '../styles/hero.css';
+import '../styles/header-unified.css';
 
 interface Props { title: string; description: string; image?: string; }
 const { title, description, image = 'https://raw.githubusercontent.com/prophloc/kaltruck-premium/main/public/images/home/hero-hds-kaltruck.webp' } = Astro.props;
 const path = Astro.url.pathname;
 const isHome = path === '/';
+const headerServices = [
+  "Kontenery i magazynowanie",
+  "Suwnice przemysłowe",
+  "Domki holenderskie",
+  "Stacje ładowania",
+  "Agregaty prądotwórcze",
+  "Magazyny energii",
+  "Stacje transformatorowe",
+  "Baraki i stróżówki",
+  "Domy szkieletowe",
+  "Materiały budowlane",
+  "Big-Bagi",
+  "Płyty drogowe MON",
+  "Ogrodzenia",
+  "Prefabrykaty",
+  "Ekrany akustyczne",
+  "Kładki i wiadukty",
+  "Rusztowania i szalunki",
+  "Maszty energetyczne",
+  "Wiatraki energetyczne",
+  "Maszyny i urządzenia",
+  "Sprzęt budowlany",
+  "Zwoje kabli i kręgi",
+  "Rury, słupy i latarnie",
+  "Sejfy i kasy pancerne",
+  "Silosy rolnicze",
+  "Maszyny rolnicze",
+  "Trawa i siano w rolkach",
+  "Łodzie i jachty",
+  "Gołębniki z trawersem",
+  "Reklamy, billboardy i paczkomaty",
+  "Eventy i imprezy masowe"
+];
 const canonical = site.url ? site.url + path : null;
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -39,23 +73,33 @@ const jsonLd = {
   </head>
   <body>
     <a class="skip-link" href="#main">Przejdź do treści</a>
-    <header class:list={['site-header', { 'home-header': isHome }]}>
+    <header class="site-header home-header" data-studio-header>
       <div class="container header-inner">
-        <a class="brand" href="/" aria-label="KALTRUCK — strona główna">KAL<span>TRUCK</span><small>TRANSPORT HDS</small></a>
+        <a class="brand brand--image" href="/" aria-label="KALTRUCK Transport HDS — strona główna">
+          <img class="studio-brand-logo" src="/brand/kaltruck-logo.svg" width="2548" height="1305" alt="KALTRUCK Transport HDS" />
+        </a>
+        <div class="studio-services-rotator" data-studio-services data-services={JSON.stringify(headerServices)} aria-label="Przykładowe usługi KALTRUCK">
+          <span class="studio-services-label" data-studio-services-label>{headerServices[0]}</span>
+        </div>
         <nav class="desktop-nav" aria-label="Menu główne">
-          <a href="/">Start</a>
-          <div class="dropdown"><a href="/#uslugi">Usługi ⌄</a>
+          <a href="/" aria-current={path === '/' ? 'page' : undefined}>Start</a>
+          <div class="dropdown"><a href="/#uslugi" aria-current={path.startsWith('/uslugi/') ? 'page' : undefined}>Usługi</a>
             <div class="dropdown-list">{services.map((s) => <a href={'/uslugi/' + s.slug + '/'}>{s.title}</a>)}</div>
           </div>
-          <a href="/realizacje/">Realizacje</a>
-          <a href="/o-nas/">O nas</a>
+          <a href="/realizacje/" aria-current={path === '/realizacje/' ? 'page' : undefined}>Realizacje</a>
+          <a href="/o-nas/" aria-current={path === '/o-nas/' ? 'page' : undefined}>O nas</a>
+          <a href="/kontakt/" aria-current={path === '/kontakt/' ? 'page' : undefined}>Kontakt</a>
         </nav>
-        {isHome && <a class="home-header__phone" href={`tel:${site.phoneHref}`} aria-label={`Zadzwoń: ${site.phone}`}>☎ {site.phone}</a>}
+        <div class="studio-header-contacts" aria-label="Telefony kontaktowe">
+          <a href={`tel:${site.phoneHref}`}>{site.phone}</a>
+          <a href={`tel:${site.secondPhoneHref}`}>{site.secondPhone}</a>
+        </div>
         <a class="button button-green header-cta" href="/kontakt/">Zapytaj o wycenę ↗</a>
-        <button class="menu-toggle" aria-controls="mobile-nav" aria-expanded="false" aria-label="Otwórz menu"><span></span><span></span></button>
+        <button class="menu-toggle" type="button" aria-controls="mobile-nav" aria-expanded="false" aria-label="Otwórz menu"><span></span><span></span></button>
       </div>
-      <nav class="mobile-nav" id="mobile-nav" hidden>
+      <nav class="mobile-nav" id="mobile-nav" aria-label="Menu mobilne" hidden>
         <a href="/">Start</a><a href="/#uslugi">Usługi</a><a href="/realizacje/">Realizacje</a><a href="/o-nas/">O nas</a><a href="/kontakt/">Kontakt</a>
+        <div class="mobile-nav__contacts"><a href={`tel:${site.phoneHref}`}>{site.phone}</a><a href={`tel:${site.secondPhoneHref}`}>{site.secondPhone}</a><a href={`mailto:${site.email}`}>{site.email}</a></div>
       </nav>
     </header>
     <main id="main"><slot /></main>
@@ -69,21 +113,35 @@ const jsonLd = {
     <script>
       const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
       const mobileNav = document.querySelector<HTMLElement>('.mobile-nav');
-      const overlayHeader = document.querySelector<HTMLElement>('.home-header');
-      if (overlayHeader) {
-        const updateHeader = () => overlayHeader.classList.toggle('scrolled', window.scrollY > 48);
-        updateHeader();
-        window.addEventListener('scroll', updateHeader, { passive: true });
+      const header = document.querySelector<HTMLElement>('[data-studio-header]');
+      const updateHeader = () => header?.classList.toggle('scrolled', window.scrollY > 48);
+      updateHeader();
+      window.addEventListener('scroll', updateHeader, { passive: true });
+      const setMobileMenu = (open: boolean) => {
+        if (!toggle || !mobileNav) return;
+        toggle.setAttribute('aria-expanded', String(open));
+        mobileNav.hidden = !open;
+      };
+      toggle?.addEventListener('click', () => setMobileMenu(toggle.getAttribute('aria-expanded') !== 'true'));
+      mobileNav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMobileMenu(false)));
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') setMobileMenu(false); });
+      const rotator = document.querySelector<HTMLElement>('[data-studio-services]');
+      const rotatorLabel = rotator?.querySelector<HTMLElement>('[data-studio-services-label]');
+      if (rotator && rotatorLabel && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        let items: string[] = [];
+        try { items = JSON.parse(rotator.dataset.services || '[]') as string[]; } catch { /* keep fallback */ }
+        if (items.length > 1) {
+          let i = 0;
+          window.setInterval(() => {
+            rotatorLabel.classList.add('is-changing');
+            window.setTimeout(() => {
+              i = (i + 1) % items.length;
+              rotatorLabel.textContent = items[i];
+              rotatorLabel.classList.remove('is-changing');
+            }, 180);
+          }, 3200);
+        }
       }
-      toggle?.addEventListener('click', () => {
-        const open = toggle.getAttribute('aria-expanded') === 'true';
-        toggle.setAttribute('aria-expanded', String(!open));
-        if (mobileNav) mobileNav.hidden = open;
-      });
-      mobileNav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-        if (mobileNav) mobileNav.hidden = true;
-        toggle?.setAttribute('aria-expanded', 'false');
-      }));
     </script>
   </body>
 </html>

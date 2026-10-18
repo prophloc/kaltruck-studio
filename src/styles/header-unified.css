@@ -1,0 +1,45 @@
+/* Persistent Studio header: same logo, layout, navigation and contacts on all routes. */
+.site-header.home-header { position:fixed; top:0; left:0; right:0; height:94px; color:white; }
+.site-header.home-header .header-inner { min-height:94px; width:min(calc(100% - 52px),1500px); max-width:1500px; gap:clamp(10px,1.25vw,22px); }
+.home-header .brand--image { display:flex; flex:0 0 138px; align-items:center; min-width:0; }
+.home-header .studio-brand-logo { width:138px; max-width:100%; height:74px; object-fit:contain; filter:invert(1); transition:filter .22s ease; }
+.home-header.scrolled .studio-brand-logo { filter:none; }
+.home-header .desktop-nav { gap:clamp(13px,1.35vw,24px); margin:0; flex:0 0 auto; }
+.home-header .desktop-nav a { font-size:13px; font-weight:800; white-space:nowrap; }
+.home-header .desktop-nav a[aria-current="page"] { color:var(--green); }
+.home-header.scrolled .desktop-nav a[aria-current="page"] { color:#527a3e; }
+.home-header .dropdown-list { top:calc(100% - 5px); }
+.home-header .studio-services-rotator { display:flex; flex:1 1 190px; min-width:0; align-items:center; justify-content:center; height:38px; padding:0 9px; pointer-events:none; overflow:hidden; }
+.home-header .studio-services-label { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-align:center; max-width:100%; font-size:11px; color:rgba(255,255,255,.88); font-weight:800; text-transform:uppercase; letter-spacing:.08em; transition:opacity .2s ease,transform .2s ease; }
+.home-header .studio-services-label.is-changing {opacity:0;transform:translateY(-8px)}
+.home-header.scrolled .studio-services-label {color:#405f4b;}
+.home-header .studio-header-contacts { display:flex; flex:0 0 auto; flex-direction:column; gap:4px; align-items:flex-start; }
+.home-header .studio-header-contacts a { font:800 11px/1.15 'DM Sans',sans-serif; color:inherit; white-space:nowrap; }
+.home-header .studio-header-contacts a:hover { color:var(--green); }
+.home-header.scrolled .studio-header-contacts a:hover {color:#527a3e;}
+.home-header .header-cta { flex:0 0 auto; white-space:nowrap; padding:15px 19px; }
+.home-header .mobile-nav { top:94px; max-height:calc(100dvh - 94px); overflow:auto; }
+.home-header .mobile-nav__contacts { display:grid; gap:7px; margin-top:10px; }
+.home-header .mobile-nav__contacts a {border:0;font-size:14px;padding:6px 14px;color:var(--forest);}
+.home-header .menu-toggle {flex:0 0 44px;}
+/* Subpages use the same fixed, dark transparent header as the homepage.
+   Compensate in subhero content, not in header geometry. */
+main > .subhero { padding-top:clamp(165px,15vh + 94px,220px); }
+@media (max-width:1450px) {
+ .home-header .studio-services-rotator {display:none;}
+ .home-header .desktop-nav {margin-left:auto;}
+}
+@media (max-width:1120px) {
+ .home-header .studio-header-contacts {display:none;}
+ .home-header .header-cta {padding-inline:14px;}
+}
+@media (max-width:800px) {
+ .site-header.home-header {height:72px;}
+ .site-header.home-header .header-inner {min-height:72px; width:calc(100% - 36px);}
+ .home-header .brand--image{flex-basis:105px;}
+ .home-header .studio-brand-logo{height:61px;width:105px;}
+ .home-header .mobile-nav{top:72px;max-height:calc(100dvh - 72px);}
+ .home-header .header-cta {display:none;}
+ main > .subhero {padding-top:140px;}
+}
+@media(prefers-reduced-motion:reduce){.home-header .studio-services-label{transition:none;}.home-header .studio-brand-logo{transition:none;}}
