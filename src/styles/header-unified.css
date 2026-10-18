@@ -43,3 +43,31 @@ main > .subhero { padding-top:clamp(165px,15vh + 94px,220px); }
  main > .subhero {padding-top:140px;}
 }
 @media(prefers-reduced-motion:reduce){.home-header .studio-services-label{transition:none;}.home-header .studio-brand-logo{transition:none;}}
+
+/* Fixed contrast regression: never switch the floating Studio navigation to cream.
+   The header and its typography stay identical on homepage, subpages and scroll. */
+.site-header.home-header,
+.site-header.home-header.scrolled{
+  color:#fff;
+  background:rgba(11,27,29,.94);
+  border-color:rgba(255,255,255,.13);
+  backdrop-filter:blur(18px);
+  box-shadow:0 5px 24px rgba(4,14,12,.10);
+}
+.site-header.home-header.scrolled{
+  background:rgba(10,25,27,.98);
+  box-shadow:0 9px 28px rgba(4,14,12,.20);
+}
+.site-header.home-header.scrolled .studio-brand-logo{filter:invert(1);}
+.site-header.home-header.scrolled .desktop-nav a{color:#fff;}
+.site-header.home-header.scrolled .desktop-nav a:hover,
+.site-header.home-header.scrolled .desktop-nav a[aria-current="page"]{color:var(--green);}
+.site-header.home-header.scrolled .studio-services-label{color:rgba(238,248,236,.88);}
+.site-header.home-header.scrolled .studio-header-contacts a{color:#fff;}
+.site-header.home-header.scrolled .studio-header-contacts a:hover{color:var(--green);}
+.site-header.home-header.scrolled .menu-toggle{border-color:rgba(255,255,255,.40);}
+.site-header.home-header.scrolled .menu-toggle span{background:#fff;}
+.site-header.home-header .dropdown-list{color:var(--ink);background:var(--paper);}
+.site-header.home-header .dropdown-list a{color:var(--ink);text-shadow:none;}
+.site-header.home-header .dropdown-list a:hover{color:#527a3e;background:var(--cream);}
+.site-header.home-header .studio-header-contacts a{font-size:12px;line-height:1.35;letter-spacing:0;}
