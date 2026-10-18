@@ -144,3 +144,11 @@
   font-weight:600;
   letter-spacing:-.052em;
 }
+
+/* Social accounts complement the footer brand, retaining the green-cream palette. */
+.studio-footer__social{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:24px;}
+.studio-footer__social a{display:inline-flex;align-items:center;justify-content:flex-start;gap:8px;border:1px solid rgba(200,239,114,.23);background:rgba(255,255,255,.035);border-radius:999px;padding:7px 12px 7px 7px;color:#f0f6ec;font-size:12px;font-weight:800;transition:border-color .2s,background .2s;}
+.studio-footer__social a:hover{background:rgba(200,239,114,.13);border-color:var(--green);color:#fff;}
+.studio-footer__social a:focus-visible{outline:3px solid var(--green);outline-offset:3px;}
+.studio-footer__social img{display:block;width:29px;height:29px;object-fit:contain;}
+@media(max-width:520px){.studio-footer__social{margin-top:19px;gap:9px}.studio-footer__social a{font-size:11px}}

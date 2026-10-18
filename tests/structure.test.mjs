@@ -396,3 +396,32 @@ test('side drawers show supplied social channels and close competing panels',()=
  assert.ok(existsSync('public/brand/facebook-icon.svg'));
  assert.ok(existsSync('public/brand/instagram-icon.svg'));
 });
+
+test('Facebook and Instagram icon links appear in footer and JSON-LD',()=>{
+ const layout=read('src/layouts/BaseLayout.astro');
+ const footer=read('src/styles/footer-refresh.css');
+ assert.match(layout,/class="studio-footer__social"/);
+ assert.match(layout,/src="\/brand\/facebook-icon\.svg"/);
+ assert.match(layout,/src="\/brand\/instagram-icon\.svg"/);
+ assert.match(layout,/sameAs: socialUrls/);
+ assert.match(footer,/\.studio-footer__social a:focus-visible/);
+});
+test('browser favicon uses cropped genuine KALTRUCK vector emblem',()=>{
+ const layout=read('src/layouts/BaseLayout.astro');
+ const favicon=read('public/favicon.svg');
+ const manifest=JSON.parse(read('public/site.webmanifest'));
+ assert.match(layout,/rel="icon" type="image\/svg\+xml" href="\/favicon\.svg"/);
+ assert.match(layout,/rel="manifest" href="\/site\.webmanifest"/);
+ assert.match(favicon,/viewBox="205 305 835 835"/);
+ assert.match(favicon,/fill="#11251d"/);
+ assert.ok((favicon.match(/<path /g)||[]).length>=4);
+ assert.equal(manifest.icons[0].src,'/favicon.svg');
+});
+test('Open Graph uses full-quality original truck photograph from hdsplock material',()=>{
+ const layout=read('src/layouts/BaseLayout.astro');
+ assert.match(layout,/const defaultOgImage = 'https:\/\/raw\.githubusercontent\.com\/prophloc\/kaltruck-premium\/main\/public\/images\/home\/hero-hds-original\.png'/);
+ assert.match(layout,/name="twitter:card" content="summary_large_image"/);
+ assert.match(layout,/property="og:image:width" content="1672"/);
+ assert.match(layout,/property="og:image:height" content="941"/);
+ assert.match(layout,/name="twitter:image" content=\{ogImage\}/);
+});

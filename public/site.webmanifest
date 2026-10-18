@@ -1,0 +1,17 @@
+{
+  "name": "KALTRUCK Transport HDS",
+  "short_name": "KALTRUCK",
+  "description": "Transport HDS Płock i cała Polska",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#11251d",
+  "theme_color": "#11251d",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
