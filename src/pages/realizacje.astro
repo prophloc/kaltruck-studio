@@ -61,7 +61,7 @@ const categories = ['Wszystkie', ...new Set(projects.map((p) => p.category))];
 
   <style>
     .gallery-hero-title{max-width:none;display:flex;flex-direction:column;align-items:flex-start;gap:3px;font-size:clamp(3.1rem,6.4vw,6.5rem);line-height:1.08;}
-    .gallery-hero-title__first{display:block;white-space:nowrap;font:800 inherit;letter-spacing:-.067em;}
+    .gallery-hero-title__first{display:block;white-space:nowrap;font-family:inherit;font-weight:800;letter-spacing:-.067em;}
     .gallery-hero-title__first strong{color:var(--green);font-weight:inherit;}
     .gallery-hero-title__second{display:block;font-family:Georgia,serif;font-weight:400;font-style:italic;letter-spacing:-.077em;}
     @media(max-width:700px){

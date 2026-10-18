@@ -36,6 +36,17 @@ import GoogleMapsPin from './GoogleMapsPin.astro';
         }
       }
     };
+    const mobileLayout = window.matchMedia('(max-width:800px)');
+    const homeHero = document.querySelector('.home-hero');
+    const syncToolContainers = () => {
+      if (!homeHero) return;
+      tools.forEach(tool => {
+        const target = mobileLayout.matches ? document.body : homeHero;
+        if (tool.parentElement !== target) target.appendChild(tool);
+      });
+    };
+    syncToolContainers();
+    mobileLayout.addEventListener('change', syncToolContainers);
     const openTool = (name) => {
       const selected = tools.find(tool => tool.dataset.studioTool === name);
       if (!selected) return false;

@@ -274,7 +274,7 @@ test('route handle uses same Google Maps pin as Premium, scaled down', () => {
 test('Premium child Google Maps icon styling uses Astro global class scope', () => {
  const hero=read('src/components/studio/HeroTools.astro');
  assert.match(hero, /:global\(\.studio-hero-tool__pin\)\{display:block;width:20px;height:24px/);
- assert.match(hero, /:global\(\.studio-hero-tool__pin\)\{width:17px;height:20px\}/);
+ assert.match(hero, /\.studio-hero-tool__toggle\{display:none;\}/);
 });
 
 test('reviews header aligns kicker left, larger centered logo, attribution right', () => {
@@ -540,4 +540,14 @@ test('gallery headline has one-line To nasza praca and bright-green praca',()=>{
  assert.ok(gallery.includes('class="gallery-hero-title__second">Na zdjęciach.</span>'));
  assert.ok(gallery.includes('.gallery-hero-title__first{display:block;white-space:nowrap;'));
  assert.ok(gallery.includes('.gallery-hero-title__first strong{color:var(--green)'));
+});
+
+test('mobile tools escape hero overflow and gallery headline uses valid typography rules',()=>{
+ const tools=read('src/components/studio/HeroTools.astro');
+ const gallery=read('src/pages/realizacje.astro');
+ assert.ok(tools.includes("window.matchMedia('(max-width:800px)')"));
+ assert.ok(tools.includes('mobileLayout.matches ? document.body : homeHero'));
+ assert.ok(tools.includes("mobileLayout.addEventListener('change', syncToolContainers)"));
+ assert.ok(gallery.includes('font-family:inherit;font-weight:800;letter-spacing:-.067em;'));
+ assert.ok(!gallery.includes('font:800 inherit'));
 });
