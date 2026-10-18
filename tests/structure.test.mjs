@@ -286,3 +286,13 @@ test('Premium child Google Maps icon styling uses Astro global class scope', () 
  assert.match(hero, /:global\(\.studio-hero-tool__pin\)\{display:block;width:24px;height:28px/);
  assert.match(hero, /:global\(\.studio-hero-tool__pin\)\{width:19px;height:23px\}/);
 });
+
+test('reviews header aligns kicker left, larger centered logo, attribution right', () => {
+  const src=read('src/components/studio/GoogleReviews.astro');
+  assert.match(src, /<div class="google-reviews-head">\s*<p class="google-reviews-kicker">OPINIE KLIENTÓW<\/p>\s*<img class="google-reviews-brand"/);
+  assert.match(src, /grid-template-columns:minmax\(0,1fr\) minmax\(0,220px\) minmax\(0,1fr\)/);
+  assert.match(src, /\.google-reviews-brand\{display:block;justify-self:center;width:215px/);
+  assert.match(src, /\.google-reviews-attribution\{justify-self:end/);
+  assert.match(src, /@media\(max-width:620px\)/);
+  assert.match(src, /place\.fetchFields/);
+});
