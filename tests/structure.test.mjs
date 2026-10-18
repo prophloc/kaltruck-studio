@@ -46,3 +46,11 @@ test('contact uses mailto and never pretends to send to a server', () => {
   assert.match(contact, /reportValidity/);
   assert.doesNotMatch(contact, /fetch\(/);
 });
+
+test('editorial process, proof strip and FAQ exist', () => {
+  const homepage = read('src/pages/index.astro');
+  assert.match(homepage, /id="method-title"/);
+  assert.match(homepage, /proof-grid/);
+  assert.match(homepage, /id="faq-title"/);
+  assert.match(homepage, /<details>/);
+});

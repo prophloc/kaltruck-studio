@@ -22,6 +22,12 @@ import { site, services, projects } from '../data/site';
       <div><p class="section-lead">Każdy transport to inne miejsce, inny ładunek i inne wyzwanie. W KALTRUCK łączymy logistykę z pracą żurawia, dzięki czemu załadunek, przewóz i ustawienie można zaplanować jako jedną realizację.</p><a class="text-link" href="/o-nas/">Poznaj naszą firmę ↗</a></div>
     </div>
   </section>
+
+  <div class="proof-strip"><div class="container proof-grid" aria-label="Zakres KALTRUCK">
+    <div><span>01 /</span><strong>Transport i HDS</strong><small>Wspólna organizacja przewozu i rozładunku</small></div>
+    <div><span>02 /</span><strong>Płock i cała Polska</strong><small>Zlecenia lokalne i krajowe</small></div>
+    <div><span>03 /</span><strong>Dobór do zadania</strong><small>Uwzględniamy parametry i warunki ładunku</small></div>
+  </div></div>
   <section class="section services-section" id="uslugi">
     <div class="container">
       <div class="section-top"><div><p class="eyebrow">NASZA OFERTA</p><h2>Duży zakres.<br/><em>Jedna firma.</em></h2></div><p class="section-lead">Specjalistyczne rozwiązania w transporcie i pracach przeładunkowych.</p></div>
@@ -33,11 +39,31 @@ import { site, services, projects } from '../data/site';
       </a>)}</div>
     </div>
   </section>
+
+  <section class="section method-section" aria-labelledby="method-title"><div class="container">
+    <div class="section-top"><div><p class="eyebrow">JAK PRACUJEMY</p><h2 id="method-title">Dobry plan.<br/><em>Sprawny transport.</em></h2></div><p class="section-lead">Od pierwszej rozmowy do ustawienia ładunku — każdy etap ma znaczenie.</p></div>
+    <div class="method-grid">
+      <article><small>ETAP 01 ↗</small><h3>Opisz zlecenie</h3><p>Podaj rodzaj ładunku, masę, wymiary oraz lokalizacje.</p></article>
+      <article><small>ETAP 02 ↗</small><h3>Ustalimy warunki</h3><p>Sprawdzimy dojazd, miejsce pracy i zakres rozładunku.</p></article>
+      <article><small>ETAP 03 ↗</small><h3>Dobierzemy sprzęt</h3><p>Ustalimy sposób transportu, pracy HDS i termin.</p></article>
+      <article><small>ETAP 04 ↗</small><h3>Wykonamy realizację</h3><p>Przewóz i rozładunek zgodnie z uzgodnionym zakresem.</p></article>
+    </div>
+  </div></section>
   <section class="section projects-section">
     <div class="container">
       <div class="section-top"><div><p class="eyebrow">REALIZACJE</p><h2>Widać efekty.<br/><em>Nie tylko obietnice.</em></h2></div><a class="text-link" href="/realizacje/">Wszystkie realizacje ↗</a></div>
-      <div class="project-preview">{projects.slice(0,3).map((p) => <a href="/realizacje/" class="preview-card"><img src={p.image} alt={p.alt} loading="lazy" /><span>{p.category} / {p.title} ↗</span></a>)}</div>
+      <div class="project-preview">{projects.slice(0,5).map((p) => <a href="/realizacje/" class="preview-card"><img src={p.image} alt={p.alt} loading="lazy" /><span>{p.category} / {p.title} ↗</span></a>)}</div>
     </div>
   </section>
+
+  <section class="section faq-section" aria-labelledby="faq-title"><div class="container faq-grid">
+    <div><p class="eyebrow">PRZED ZAMÓWIENIEM</p><h2 id="faq-title">Warto<br/><em>wiedzieć.</em></h2><p class="section-lead">Najważniejsze informacje przed zamówieniem usługi.</p></div>
+    <div class="faq-questions">
+      <details><summary>Czy realizujecie transport poza Płockiem?</summary><p>Tak, obsługujemy także zlecenia na terenie całej Polski. Szczegóły ustalamy indywidualnie.</p></details>
+      <details><summary>Czy można zamówić tylko rozładunek HDS?</summary><p>Tak, oferujemy również prace przeładunkowe bez usługi przewozu.</p></details>
+      <details><summary>Co przygotować do wyceny?</summary><p>Rodzaj, masę i wymiary ładunku, trasę oraz warunki dojazdu i rozładunku. Przydatne mogą być zdjęcia miejsca pracy.</p></details>
+      <details><summary>Jak ustalany jest termin?</summary><p>Potwierdzamy go po omówieniu zakresu, warunków i lokalizacji zlecenia.</p></details>
+    </div>
+  </div></section>
   <section class="section cta-section"><div class="container cta-inner"><p class="eyebrow">ZAPLANUJ TRANSPORT</p><h2>Masz zadanie?<br /><em>Znajdziemy sposób.</em></h2><a class="button button-green" href="/kontakt/">Zapytaj o wycenę ↗</a><span>Możesz też zadzwonić: <a href={'tel:' + site.phoneHref}>{site.phone}</a></span></div></section>
 </BaseLayout>
