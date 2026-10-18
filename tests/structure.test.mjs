@@ -510,3 +510,18 @@ test('every service has its own useful guide with preparation and visible FAQs',
  assert.match(page,/faqSchema\(guide\.faq\)/);
  assert.match(page,/href="\/realizacje\/"/);
 });
+
+test('CI verifies actual generated SEO pages, schema and indexable canonical URLs',()=>{
+ const ci=read('.github/workflows/ci.yml');
+ const script=read('scripts/verify-seo-build.mjs');
+ const packageInfo=JSON.parse(read('package.json'));
+ assert.match(ci,/PUBLIC_SITE_URL: https:\/\/studio-seo-ci\.example\.invalid/);
+ assert.match(ci,/npm run test:seo:build/);
+ assert.equal(packageInfo.scripts['test:seo:build'],'node scripts/verify-seo-build.mjs');
+ assert.match(script,/LocalBusiness/);
+ assert.match(script,/BreadcrumbList/);
+ assert.match(script,/FAQPage/);
+ assert.match(script,/sitemap\.xml/);
+ assert.match(script,/robots\.txt/);
+ assert.match(script,/Duplicated title/);
+});

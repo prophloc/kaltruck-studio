@@ -8,8 +8,14 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "test:seo:build": "node scripts/verify-seo-build.mjs"
   },
-  "dependencies": { "astro": "^5.0.0" },
-  "devDependencies": { "@astrojs/check": "^0.9.4", "typescript": "^5.7.0" }
+  "dependencies": {
+    "astro": "^5.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "typescript": "^5.7.0"
+  }
 }
