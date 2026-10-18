@@ -246,3 +246,19 @@
   .ps-process__step {min-height:205px;padding:50px 20px 18px;}
   .ps-process__step-top {left:18px;right:18px;top:15px;}
 }
+
+/* 2026-10-18: #uslugi previously combined scroll-margin-top:78px with the
+   document scroll-padding, exposing a large cream strip under the fixed nav. */
+#uslugi.ps-service-stories {scroll-margin-top:0;}
+
+/* Studio lime accent on the step counters AND their continuation rules. */
+.ps-process__step .ps-process__step-top > span {
+  color:var(--forest);
+  background:var(--green);
+  border:1px solid var(--green);
+  font-weight:800;
+}
+.ps-process__step .ps-process__step-top > i {
+  height:2px;
+  background:linear-gradient(90deg,var(--green) 0%,rgba(200,239,114,.64) 74%,rgba(200,239,114,.15) 100%);
+}

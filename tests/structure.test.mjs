@@ -208,3 +208,15 @@ test('menu glass background and readable animated dropdown on all pages', () => 
  assert.match(css, /visibility:hidden/);
  assert.match(css, /opacity:0/);
 });
+
+test('services anchor uses a single sticky-header offset without blank strip', () => {
+ const css=read('src/styles/premium-layout.css');
+ const global=read('src/styles/global.css');
+ assert.match(global, /scroll-padding-top:88px/);
+ assert.match(css, /#uslugi\.ps-service-stories\s*\{scroll-margin-top:0;\}/);
+});
+test('process badge numbers and lines use the actual theme lime', () => {
+ const css=read('src/styles/premium-layout.css');
+ assert.match(css, /\.ps-process__step \.ps-process__step-top > span\s*\{[\s\S]*?background:var\(--green\);/);
+ assert.match(css, /\.ps-process__step \.ps-process__step-top > i\s*\{[\s\S]*?linear-gradient\(90deg,var\(--green\)/);
+});
