@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { projects } from '../data/site';
+const categories = ['Wszystkie', ...new Set(projects.map((p) => p.category))];
+---
+<BaseLayout title="Realizacje transportu HDS | KALTRUCK Płock" description="Zobacz zdjęcia realizacji KALTRUCK: transport kontenerów, prefabrykatów, maszyn i prace montażowe żurawiem HDS.">
+  <section class="subhero"><div class="container narrow"><p class="eyebrow">KALTRUCK / NASZE REALIZACJE</p><h1>Nasza praca.<br /><em>Na zdjęciach.</em></h1><p class="section-lead">Wybrane realizacje transportowe i montażowe. Kliknij zdjęcie, aby wyświetlić je na pełnym ekranie.</p></div></section>
+  <section class="section gallery-section"><div class="container">
+    <div class="gallery-filters" role="group" aria-label="Filtruj realizacje">{categories.map((category, index) => <button class:list={['filter-button', { active: index === 0 }]} data-filter={category} type="button" aria-pressed={index === 0}>{category}</button>)}</div>
+    <div class="gallery-grid">{projects.map((project, index) => <button class="gallery-item" data-category={project.category} data-index={index} type="button" aria-label={'Powiększ zdjęcie: ' + project.title}>
+      <img src={project.image} alt={project.alt} loading="lazy" /><span class="gallery-caption"><small>{project.category}</small><strong>{project.title} ↗</strong></span>
+    </button>)}</div>
+  </div></section>
+  <dialog class="lightbox" id="photo-lightbox" aria-label="Powiększone zdjęcie realizacji">
+    <button class="lightbox-close" aria-label="Zamknij zdjęcie" type="button">✕</button>
+    <button class="lightbox-prev" aria-label="Poprzednie zdjęcie" type="button">←</button>
+    <figure><img id="lightbox-image" alt="" /><figcaption id="lightbox-caption"></figcaption></figure>
+    <button class="lightbox-next" aria-label="Następne zdjęcie" type="button">→</button>
+  </dialog>
+  <script>
+    const projects = Array.from(document.querySelectorAll<HTMLButtonElement>('.gallery-item'));
+    const dialog = document.querySelector<HTMLDialogElement>('#photo-lightbox');
+    const image = dialog?.querySelector<HTMLImageElement>('#lightbox-image');
+    const caption = dialog?.querySelector<HTMLElement>('#lightbox-caption');
+    let visible = projects.slice();
+    let current = 0;
+    function show(index: number) {
+      if (!visible.length || !image || !caption) return;
+      current = (index + visible.length) % visible.length;
+      const card = visible[current];
+      const source = card.querySelector<HTMLImageElement>('img');
+      if (!source) return;
+      image.src = source.src;
+      image.alt = source.alt;
+      caption.textContent = card.querySelector('strong')?.textContent || '';
+    }
+    document.querySelectorAll<HTMLButtonElement>('.filter-button').forEach(button => button.addEventListener('click', () => {
+      document.querySelectorAll<HTMLButtonElement>('.filter-button').forEach(b => {
+        const selected = b === button;
+        b.classList.toggle('active', selected);
+        b.setAttribute('aria-pressed', String(selected));
+      });
+      const category = button.dataset.filter;
+      projects.forEach(card => card.hidden = category !== 'Wszystkie' && card.dataset.category !== category);
+      visible = projects.filter(card => !card.hidden);
+    }));
+    projects.forEach(card => card.addEventListener('click', () => {
+      visible = projects.filter(p => !p.hidden);
+      show(visible.indexOf(card));
+      dialog?.showModal();
+    }));
+    dialog?.querySelector('.lightbox-close')?.addEventListener('click', () => dialog.close());
+    dialog?.querySelector('.lightbox-prev')?.addEventListener('click', () => show(current - 1));
+    dialog?.querySelector('.lightbox-next')?.addEventListener('click', () => show(current + 1));
+    dialog?.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+    dialog?.addEventListener('keydown', event => {
+      if (event.key === 'ArrowLeft') show(current - 1);
+      if (event.key === 'ArrowRight') show(current + 1);
+    });
+  </script>
+</BaseLayout>

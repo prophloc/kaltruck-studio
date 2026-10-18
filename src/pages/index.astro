@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site, services, projects } from '../data/site';
+---
+<BaseLayout title="Transport HDS Płock i cała Polska | KALTRUCK Kalwasińscy" description="Transport HDS w Płocku i całej Polsce. Przewóz kontenerów, maszyn, prefabrykatów oraz załadunek i rozładunek HDS.">
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">TRANSPORT SPECJALISTYCZNY / PŁOCK I POLSKA</p>
+        <h1>CIĘŻKIE<br />ZADANIA.<br /><em>PEWNE</em><br />ROZWIĄZANIA.</h1>
+        <p class="hero-lead">Precyzyjny transport, załadunek, rozładunek i montaż ciężkich elementów. Od kontenera po wymagające projekty przemysłowe.</p>
+        <div class="actions"><a class="button button-green" href="/kontakt/">Wyceń realizację ↗</a><a class="button button-outline" href="/realizacje/">Zobacz realizacje ↗</a></div>
+        <div class="hero-tags"><span>Transport HDS</span><span>Obsługa w Polsce</span><span>Doświadczony zespół</span></div>
+      </div>
+      <div class="hero-visual"><img src="https://raw.githubusercontent.com/prophloc/kaltruck-premium/main/public/images/home/hero-hds-kaltruck.webp" alt="Pojazd ciężarowy KALTRUCK z żurawiem HDS" fetchpriority="high" /><div class="visual-label">KALTRUCK <span>↗</span><small>TRANSPORT / HDS</small></div></div>
+    </div>
+  </section>
+  <div class="ticker"><div class="container">TRANSPORT HDS <b>✳</b> KONTENERY <b>✳</b> MASZYNY <b>✳</b> PREFABRYKATY <b>✳</b> MONTAŻ</div></div>
+  <section class="section" id="o-nas">
+    <div class="container intro-grid">
+      <div><p class="eyebrow">WIĘCEJ NIŻ TRANSPORT</p><h2>Nie przewozimy tylko ładunku.<br /><em>Dowozimy spokój.</em></h2></div>
+      <div><p class="section-lead">Każdy transport to inne miejsce, inny ładunek i inne wyzwanie. W KALTRUCK łączymy logistykę z pracą żurawia, dzięki czemu załadunek, przewóz i ustawienie można zaplanować jako jedną realizację.</p><a class="text-link" href="/o-nas/">Poznaj naszą firmę ↗</a></div>
+    </div>
+  </section>
+  <section class="section services-section" id="uslugi">
+    <div class="container">
+      <div class="section-top"><div><p class="eyebrow">NASZA OFERTA</p><h2>Duży zakres.<br/><em>Jedna firma.</em></h2></div><p class="section-lead">Specjalistyczne rozwiązania w transporcie i pracach przeładunkowych.</p></div>
+      <div class="service-grid">{services.map((s) => <a class="service-card" href={'/uslugi/' + s.slug + '/'}>
+        <span class="service-num">{s.number} / USŁUGA</span>
+        <h3>{s.title}</h3><p>{s.tagline}</p>
+        <img src={s.image} alt={s.title + ' — realizacje KALTRUCK'} loading="lazy" />
+        <span class="service-arrow" aria-label="Poznaj usługę">↗</span>
+      </a>)}</div>
+    </div>
+  </section>
+  <section class="section projects-section">
+    <div class="container">
+      <div class="section-top"><div><p class="eyebrow">REALIZACJE</p><h2>Widać efekty.<br/><em>Nie tylko obietnice.</em></h2></div><a class="text-link" href="/realizacje/">Wszystkie realizacje ↗</a></div>
+      <div class="project-preview">{projects.slice(0,3).map((p) => <a href="/realizacje/" class="preview-card"><img src={p.image} alt={p.alt} loading="lazy" /><span>{p.category} / {p.title} ↗</span></a>)}</div>
+    </div>
+  </section>
+  <section class="section cta-section"><div class="container cta-inner"><p class="eyebrow">ZAPLANUJ TRANSPORT</p><h2>Masz zadanie?<br /><em>Znajdziemy sposób.</em></h2><a class="button button-green" href="/kontakt/">Zapytaj o wycenę ↗</a><span>Możesz też zadzwonić: <a href={'tel:' + site.phoneHref}>{site.phone}</a></span></div></section>
+</BaseLayout>
