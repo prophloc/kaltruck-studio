@@ -2,6 +2,7 @@
 import DistanceEstimator from './DistanceEstimator.astro';
 import GoogleReviews from './GoogleReviews.astro';
 import GoogleMapsPin from './GoogleMapsPin.astro';
+import SocialTabs from './SocialTabs.astro';
 ---
 <div class="studio-hero-tool studio-hero-tool--route" data-studio-tool="route">
   <div class="studio-hero-tool__panel" id="studio-route-panel" data-studio-tool-panel aria-hidden="true" inert>
@@ -15,6 +16,7 @@ import GoogleMapsPin from './GoogleMapsPin.astro';
     <GoogleReviews />
   </div>
 </div>
+<SocialTabs />
 <script is:inline>
   (() => {
     const tools = Array.from(document.querySelectorAll('[data-studio-tool]')).filter(node => node instanceof HTMLElement);
@@ -29,7 +31,7 @@ import GoogleMapsPin from './GoogleMapsPin.astro';
       if (open) {
         if (tool.dataset.studioTool === 'route') {
           panel.querySelector('[data-google-route]')?.dispatchEvent(new CustomEvent('kaltruck:route-activate'));
-        } else {
+        } else if (tool.dataset.studioTool === 'reviews') {
           panel.querySelector('[data-google-reviews]')?.dispatchEvent(new CustomEvent('kaltruck:reviews-activate'));
         }
       }
@@ -62,13 +64,13 @@ import GoogleMapsPin from './GoogleMapsPin.astro';
   .studio-hero-tool--reviews .studio-hero-tool__star{color:#4f7e34;transition:color .2s ease,transform .2s ease;}
   .studio-hero-tool--reviews.is-open .studio-hero-tool__star{color:#e1aa2f;transform:scale(1.12);}
   .studio-hero-tool--reviews .studio-hero-tool__toggle[aria-expanded="true"] .studio-hero-tool__star{color:#e1aa2f;}
-  :global(.studio-hero-tool__pin){display:block;width:24px;height:28px;object-fit:contain;transform:rotate(-90deg);filter:drop-shadow(0 1px 2px rgba(0,0,0,.12));}
+  :global(.studio-hero-tool__pin){display:block;width:20px;height:24px;object-fit:contain;transform:rotate(-90deg);filter:drop-shadow(0 1px 2px rgba(0,0,0,.12));}
   .studio-hero-tool__toggle strong {writing-mode:vertical-rl;transform:rotate(180deg);font-size:10px;letter-spacing:.14em;}
   .studio-hero-tool__toggle:hover,.studio-hero-tool__toggle[aria-expanded=true] {background:#e4f4c1;}
   .studio-hero-tool__panel {background:#faf9f3;color:#16291d;max-height:min(78svh,690px);overflow:auto;pointer-events:none;visibility:hidden;opacity:0;transition:opacity .2s,visibility .2s;border:1px solid #b6c8ae;}
   .studio-hero-tool--route .studio-hero-tool__panel {border-radius:0 14px 14px 0;border-left:0;}
   .studio-hero-tool--reviews .studio-hero-tool__panel {border-radius:14px 0 0 14px;border-right:0;}
   .studio-hero-tool.is-open .studio-hero-tool__panel {visibility:visible;pointer-events:auto;opacity:1;}
-  @media(max-width:700px){.studio-hero-tool {--handle:38px;top:55%;}.studio-hero-tool__toggle {height:88px;gap:5px}.studio-hero-tool__toggle span{font-size:17px}:global(.studio-hero-tool__pin){width:19px;height:23px}.studio-hero-tool__toggle strong{font-size:9px}}
+  @media(max-width:700px){.studio-hero-tool {--handle:38px;top:55%;}.studio-hero-tool__toggle {height:88px;gap:5px}.studio-hero-tool__toggle span{font-size:17px}:global(.studio-hero-tool__pin){width:17px;height:20px}.studio-hero-tool__toggle strong{font-size:9px}}
   @media(prefers-reduced-motion:reduce){.studio-hero-tool,.studio-hero-tool__panel{transition:none}}
 </style>

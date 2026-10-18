@@ -277,15 +277,15 @@ test('route handle uses same Google Maps pin as Premium, scaled down', () => {
  const hero=read('src/components/studio/HeroTools.astro');
  const pin=read('src/components/studio/GoogleMapsPin.astro');
  assert.match(hero, /<GoogleMapsPin class="studio-hero-tool__pin" \/>/);
- assert.match(hero, /:global\(\.studio-hero-tool__pin\)\{display:block;width:24px;height:28px/);
+ assert.match(hero, /:global\(\.studio-hero-tool__pin\)\{display:block;width:20px;height:24px/);
  assert.match(pin, /data-google-maps-pin/);
  assert.match(pin, /data:image\/png;base64/);
 });
 
 test('Premium child Google Maps icon styling uses Astro global class scope', () => {
  const hero=read('src/components/studio/HeroTools.astro');
- assert.match(hero, /:global\(\.studio-hero-tool__pin\)\{display:block;width:24px;height:28px/);
- assert.match(hero, /:global\(\.studio-hero-tool__pin\)\{width:19px;height:23px\}/);
+ assert.match(hero, /:global\(\.studio-hero-tool__pin\)\{display:block;width:20px;height:24px/);
+ assert.match(hero, /:global\(\.studio-hero-tool__pin\)\{width:17px;height:20px\}/);
 });
 
 test('reviews header aligns kicker left, larger centered logo, attribution right', () => {
@@ -381,4 +381,18 @@ test('footer vertical alignment raises logo and centers other columns', () => {
  assert.match(css, /\.studio-footer__nav\{[^\n]*justify-content:center;align-self:center;/);
  assert.match(css, /\.studio-footer__scope\{align-self:center;\}/);
  assert.match(css, /\.studio-footer__identity\{grid-column:1\/-1;top:0;/);
+});
+
+test('side drawers show supplied social channels and close competing panels',()=>{
+ const hero=read('src/components/studio/HeroTools.astro');
+ const social=read('src/components/studio/SocialTabs.astro');
+ assert.match(hero, /<SocialTabs \/>/);
+ assert.match(hero, /tool\.dataset\.studioTool === 'reviews'/);
+ assert.match(social, /facebook\.com\/profile\.php\?id=61561070733012/);
+ assert.match(social, /instagram\.com\/transporthdsplock\//);
+ assert.match(social, /data-studio-tool-toggle/);
+ assert.match(social, /data-studio-tool-panel/);
+ assert.match(social, /aria-expanded="false"/);
+ assert.ok(existsSync('public/brand/facebook-icon.svg'));
+ assert.ok(existsSync('public/brand/instagram-icon.svg'));
 });
