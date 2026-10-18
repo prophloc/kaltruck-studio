@@ -25,7 +25,7 @@ for file in dist.rglob("*"):
         except UnicodeError:
             pass
 
-photo_pattern = re.compile(r"https://hdsplock\\.pl/zdj/[a-zA-Z0-9_./%+()@-]+\\.(?:jpg|jpeg|png|webp)", re.I)
+photo_pattern = re.compile(r"https://hdsplock\.pl/zdj/[a-zA-Z0-9_./%+()@-]+\.(?:jpg|jpeg|png|webp)", re.I)
 image_urls = sorted({match.group() for text in contents.values() for match in photo_pattern.finditer(text)})
 headers = {"User-Agent": "Mozilla/5.0 (compatible; KALTRUCK-static-export/1.0)"}
 
@@ -65,7 +65,7 @@ original_og = "https://raw.githubusercontent.com/prophloc/kaltruck-premium/main/
 try:
     with urlopen(Request(original_og, headers=headers), timeout=20) as response:
         og_data = response.read(10_000_000)
-    if og_data.startswith(b"\\x89PNG") and len(og_data) > 1024:
+    if og_data.startswith(b"\x89PNG") and len(og_data) > 1024:
         (dist / "images").mkdir(exist_ok=True)
         (dist / "images" / "kaltruck-social.png").write_bytes(og_data)
         fetched[original_og] = origin + "/images/kaltruck-social.png"
@@ -85,11 +85,11 @@ DirectoryIndex index.html
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteCond %{HTTPS} !=on [OR]
-RewriteCond %{HTTP_HOST} !^transportplockhds\\.pl$ [NC]
+RewriteCond %{HTTP_HOST} !^transportplockhds\.pl$ [NC]
 RewriteRule ^ https://transportplockhds.pl%{REQUEST_URI} [R=301,L,NE]
 </IfModule>
 <IfModule mod_headers.c>
-<FilesMatch "\\.(?:css|js|svg|png|jpg|jpeg|webp|ico|woff2?)$">
+<FilesMatch "\.(?:css|js|svg|png|jpg|jpeg|webp|ico|woff2?)$">
 Header set Cache-Control "public, max-age=604800"
 </FilesMatch>
 </IfModule>
