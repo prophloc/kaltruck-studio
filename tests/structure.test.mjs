@@ -233,7 +233,7 @@ test('exactly one lime highlighted key word appears in each of five photo storie
  assert.match(story, /hasHighlight && <span class="ps-story__highlight">\{highlight\}<\/span>/);
  assert.match(story, /title\.indexOf\(highlight\)/);
  for (const word of expected) assert.match(home,new RegExp('highlight="' + word + '"'));
- assert.match(css, /\.ps-story__copy h2 \.ps-story__highlight\s*\{[\s\S]*?color:var\(--green\);[\s\S]*?background:none;/);
+ assert.match(css, /\.ps-story__copy h2 \.ps-story__highlight\s*\{[\s\S]*?font-family:'DM Sans'[\s\S]*?color:#4f7c38;[\s\S]*?background:none;/);
 });
 
 test('services dropdown uses exactly the same cream surface as Google Maps drawer', () => {
@@ -331,4 +331,27 @@ test('review logo has real transparent letter counters, not solid fills', () => 
   assert.match(asset, /aria-label="Google i pięć gwiazdek"/);
   assert.equal((asset.match(/fill-rule="evenodd"/g)||[]).length,4);
   assert.equal((asset.match(/M\d+,\d+/g)||[]).length,15);
+});
+
+test('Premium-style centered footer brand uses larger logo and one-line slogan', () => {
+  const layout=read('src/layouts/BaseLayout.astro');
+  const footer=read('src/styles/footer-refresh.css');
+  assert.match(layout, /<p>CIĘŻKI ŁADUNEK\.\.\. PRECYZYJNA ROBOTA\.<\/p>/);
+  assert.doesNotMatch(layout, /Transport HDS, załadunek i rozładunek\.<br \/>Płock i cała Polska\./);
+  assert.match(footer, /\.studio-footer__identity\{[\s\S]*?align-items:center;[\s\S]*?text-align:center;/);
+  assert.match(footer, /width:clamp\(280px,21vw,340px\)/);
+  assert.match(footer, /\.studio-footer__identity p\{[\s\S]*?white-space:nowrap;/);
+  assert.match(footer, /\.studio-footer__identity img\{width:clamp\(230px,62vw,290px\)/);
+});
+test('green individual service words use distinct DM Sans, no outline or shadow', () => {
+  const css=read('src/styles/premium-layout.css');
+  const start=css.indexOf('.ps-story__copy h2 .ps-story__highlight {');
+  assert.ok(start>=0);
+  const block=css.slice(start,css.indexOf('}',start)+1);
+  assert.match(block,/font-family:'DM Sans'/);
+  assert.match(block,/font-weight:700/);
+  assert.match(block,/color:#4f7c38/);
+  assert.match(block,/-webkit-text-stroke:0/);
+  assert.match(block,/text-shadow:none/);
+  assert.doesNotMatch(block,/font:inherit/);
 });

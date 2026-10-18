@@ -49,9 +49,42 @@
 .studio-footer__email{font-size:15px;color:#c9dbcd;margin:5px 0 8px;}
 .studio-footer__button{width:100%;justify-content:center;min-height:53px;margin-top:4px;}
 .studio-footer__lower{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(160px,.7fr) minmax(200px,.8fr);gap:clamp(35px,7vw,120px);padding:64px 0 59px;}
-.studio-footer__identity>a{display:inline-block;}
-.studio-footer__identity img{width:200px;height:auto;max-height:112px;object-fit:contain;object-position:left center;filter:invert(1);}
-.studio-footer__identity p,.studio-footer__scope p{font-size:14px;color:#b6cdbb;line-height:1.8;margin:18px 0 0;}
+/* Centered oversized brand composition taken from KALTRUCK Premium.
+   Slogan is one line, not the previous two-line paragraph. */
+.studio-footer__identity{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+.studio-footer__identity>a{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  max-width:100%;
+}
+.studio-footer__identity img{
+  display:block;
+  width:clamp(280px,21vw,340px);
+  max-width:100%;
+  height:auto;
+  max-height:none;
+  object-fit:contain;
+  object-position:center;
+  filter:invert(1);
+}
+.studio-footer__identity p{
+  margin:10px 0 0;
+  color:#c4d0c3;
+  font-size:clamp(.69rem,.83vw,.82rem);
+  font-weight:800;
+  letter-spacing:.095em;
+  line-height:1.25;
+  white-space:nowrap;
+}
+.studio-footer__scope p{font-size:14px;color:#b6cdbb;line-height:1.8;margin:0;}
 .studio-footer__nav{display:flex;flex-direction:column;gap:14px;align-items:flex-start;}
 .studio-footer__nav>span,.studio-footer__scope>span{display:block;margin-bottom:10px;}
 .studio-footer__nav a{font-size:14px;font-weight:700;color:#e1eee1;}
@@ -76,6 +109,8 @@
  .studio-footer__contact-actions{max-width:460px;}
  .studio-footer__lower{grid-template-columns:1fr 1fr;gap:38px;padding:48px 0;}
  .studio-footer__identity{grid-column:1/-1;}
+ .studio-footer__identity img{width:clamp(260px,51vw,310px);}
+ .studio-footer__identity p{font-size:clamp(.63rem,1.65vw,.77rem);letter-spacing:.07em;}
  .studio-footer__legal{flex-wrap:wrap;gap:12px;}
 }
 @media(max-width:520px){
@@ -88,6 +123,8 @@
  .studio-footer__contact-copy h2{font-size:clamp(2.55rem,10vw,3.6rem);}
  .studio-footer__lower{grid-template-columns:1fr;gap:32px;}
  .studio-footer__identity{grid-column:auto;}
+ .studio-footer__identity img{width:clamp(230px,62vw,290px);}
+ .studio-footer__identity p{font-size:clamp(.55rem,2.3vw,.7rem);letter-spacing:.04em;white-space:nowrap;}
 }
 
 /* Map label contrast kept explicit in the footer as well. */
