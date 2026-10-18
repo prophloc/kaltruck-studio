@@ -157,9 +157,9 @@ const destinationInputId = `${instanceId}-destination`;
 <style>
   .google-route{display:grid;grid-template-columns:minmax(270px,.72fr) minmax(0,1.28fr);gap:clamp(20px,2.6vw,38px);align-items:stretch;margin:0;padding:22px 0;border-bottom:1px solid var(--line)}
   .google-route-panel{display:flex;flex-direction:column;justify-content:center;min-width:0}
-  .google-route-heading{display:flex;align-items:center;gap:11px;margin:0 0 14px}
+  .google-route-heading{display:flex;align-items:baseline;gap:11px;margin:0 0 14px}
   .google-route-heading h2{margin:0;color:#183020;font-size:clamp(1.45rem,2vw,2.05rem);line-height:1;letter-spacing:-.04em}
-  .google-route-heading-logo{display:block;flex:0 0 auto;width:125px;max-width:35%;height:auto;max-height:27px;object-fit:contain;object-position:center right}
+  .google-route-heading-logo{display:block;position:relative;top:2px;flex:0 0 auto;align-self:baseline;width:125px;max-width:35%;height:auto;max-height:27px;object-fit:contain;object-position:center right}
   .google-route-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:stretch}
   .google-route-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;min-width:0}
   .google-route-field{position:relative;display:block;min-width:0}

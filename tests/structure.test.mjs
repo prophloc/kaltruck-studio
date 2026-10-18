@@ -316,3 +316,19 @@ test('Google reviews logo has five stars and the drawer star goes gold on open',
   assert.match(tools, /\[aria-expanded="true"\] \.studio-hero-tool__star\{color:#e1aa2f/);
   assert.match(reviews, /place\.fetchFields/);
 });
+
+test('Google Maps wordmark is baseline aligned in hero drawer and footer', () => {
+  const route=read('src/components/studio/DistanceEstimator.astro');
+  const footer=read('src/styles/footer-refresh.css');
+  assert.match(route, /\.google-route-heading\{display:flex;align-items:baseline;/);
+  assert.match(route, /\.google-route-heading-logo\{display:block;position:relative;top:2px;/);
+  assert.match(route, /align-self:baseline;/);
+  assert.match(footer, /\.studio-footer-route \.google-route-heading\{[^\n]*align-items:baseline/);
+});
+test('review logo has real transparent letter counters, not solid fills', () => {
+  const asset=read('public/brand/google-reviews-stars.svg');
+  assert.match(asset, /fill-rule="evenodd"/);
+  assert.match(asset, /aria-label="Google i pięć gwiazdek"/);
+  assert.equal((asset.match(/fill-rule="evenodd"/g)||[]).length,4);
+  assert.equal((asset.match(/M\d+,\d+/g)||[]).length,15);
+});
