@@ -1,0 +1,31 @@
+---
+const questions = [
+  {
+    question: 'Czy realizujecie transport HDS poza Płockiem?',
+    answer: 'Tak. Działamy w rejonie Płocka i realizujemy zlecenia na terenie całej Polski.',
+  },
+  {
+    question: 'Czy HDS może ustawić ładunek w miejscu docelowym?',
+    answer: 'Tak, jeżeli warunki dojazdu, podłoże, masa ładunku i wymagany promień pracy pozwalają na bezpieczne wykonanie operacji.',
+  },
+  {
+    question: 'Jakie informacje są potrzebne do wyceny?',
+    answer: 'Podaj rodzaj ładunku, przybliżoną masę i wymiary, adres odbioru i rozładunku oraz możliwości dojazdu. Zdjęcia miejsc załadunku i ustawienia mogą pomóc.',
+  },
+];
+const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: questions.map(({ question, answer }) => ({
+  '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer },
+})) };
+---
+<section class="ps-faq" aria-labelledby="ps-faq-title">
+  <div class="container ps-faq__grid">
+    <div class="ps-faq__heading"><p class="eyebrow">FAQ</p><h2 id="ps-faq-title">Zanim<br /><em>zamówisz HDS.</em></h2></div>
+    <div class="ps-faq__questions">
+      {questions.map((item) => <details>
+        <summary>{item.question}<span class="ps-faq__plus" aria-hidden="true"></span></summary>
+        <p>{item.answer}</p>
+      </details>)}
+    </div>
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+</section>

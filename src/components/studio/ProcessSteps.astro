@@ -1,0 +1,23 @@
+---
+const steps = [
+  ['01','Kontakt i zapytanie','Opisz, co chcesz przetransportować i gdzie.'],
+  ['02','Ocena ładunku i warunków','Dobierzemy sposób pracy do miejsca i gabarytów.'],
+  ['03','Wycena i termin','Uzgodnimy zakres oraz możliwy termin realizacji.'],
+  ['04','Transport i ustawienie','Przewieziemy oraz ustawimy ładunek zgodnie z ustaleniami.'],
+];
+---
+<section class="ps-process" aria-labelledby="ps-process-title">
+  <div class="container ps-process__grid">
+    <div class="ps-process__heading">
+      <p class="eyebrow">PROSTY PROCES</p>
+      <h2 id="ps-process-title">Od telefonu<br /><em>do ustawienia.</em></h2>
+      <p>Przejrzysta współpraca od zapytania aż do zakończenia zlecenia.</p>
+    </div>
+    <div class="ps-process__steps">
+      {steps.map(([number, name, description]) => <article class="ps-process__step">
+        <span class="ps-process__step-top"><span>{number}</span><i aria-hidden="true"></i></span>
+        <div><h3>{name}</h3><p>{description}</p></div>
+      </article>)}
+    </div>
+  </div>
+</section>

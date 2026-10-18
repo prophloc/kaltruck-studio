@@ -1,0 +1,21 @@
+---
+interface Props {
+  eyebrow: string; title: string; text: string; href: string;
+  image: string; alt: string; reverse?: boolean; width?: number; height?: number;
+}
+const { eyebrow, title, text, href, image, alt, reverse = false, width = 1440, height = 1080 } = Astro.props;
+---
+<section class:list={['ps-story', {'ps-story--reverse': reverse}]} aria-label={title}>
+  <div class="container ps-story__grid">
+    <div class="ps-story__media">
+      <img src={image} alt={alt} width={width} height={height} loading="lazy" decoding="async" />
+      <span class="ps-story__photo-label">KALTRUCK / REALIZACJE</span>
+    </div>
+    <div class="ps-story__copy">
+      <p class="eyebrow">{eyebrow}</p>
+      <h2>{title}</h2>
+      <p class="ps-story__description">{text}</p>
+      <a class="ps-story__link" href={href}>Poznaj usługę <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>
