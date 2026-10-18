@@ -292,7 +292,7 @@ test('reviews header aligns kicker left, larger centered logo, attribution right
   assert.match(src, /<div class="google-reviews-head">\s*<p class="google-reviews-kicker">OPINIE KLIENTÓW<\/p>\s*<img class="google-reviews-brand"/);
   assert.match(src, /grid-template-columns:minmax\(0,1fr\) minmax\(0,220px\) minmax\(0,1fr\)/);
   assert.match(src, /\.google-reviews-brand\{display:block;justify-self:center;width:215px/);
-  assert.match(src, /\.google-reviews-attribution\{justify-self:end/);
+  assert.match(src, /\.google-reviews-attribution\{display:inline-flex;justify-self:end/);
   assert.match(src, /@media\(max-width:620px\)/);
   assert.match(src, /place\.fetchFields/);
 });
