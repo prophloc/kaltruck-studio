@@ -203,7 +203,9 @@ test('menu glass background and readable animated dropdown on all pages', () => 
  assert.match(css, /background:rgba\(10,25,27,\.74\)/);
  assert.match(css, /\.desktop-nav \.dropdown:is\(:hover,:focus-within\) \.dropdown-list/);
  assert.match(css, /\.dropdown-list > a,\s*\.site-header\.home-header\.scrolled \.desktop-nav \.dropdown-list > a/);
- assert.match(css, /color:#edf5ef/);
+ assert.match(css, /background:#faf9f3;/);
+ assert.match(css, /color:#183020;/);
+ assert.match(css, /background:var\(--green\);/);
  assert.match(css, /pointer-events:none/);
  assert.match(css, /visibility:hidden/);
  assert.match(css, /opacity:0/);
@@ -232,4 +234,15 @@ test('exactly one lime highlighted key word appears in each of five photo storie
  assert.match(story, /title\.indexOf\(highlight\)/);
  for (const word of expected) assert.match(home,new RegExp('highlight="' + word + '"'));
  assert.match(css, /\.ps-story__copy h2 \.ps-story__highlight\s*\{[\s\S]*?color:var\(--green\);[\s\S]*?background:var\(--forest\);/);
+});
+
+test('services dropdown uses exactly the same cream surface as Google Maps drawer', () => {
+ const css=read('src/styles/header-unified.css');
+ const map=read('src/components/studio/DistanceEstimator.astro');
+ const menu=css.match(/\.site-header\.home-header \.desktop-nav \.dropdown-list\s*\{([\s\S]*?)\n\}/);
+ assert.ok(menu,'menu dropdown CSS block must exist');
+ assert.match(menu[1], /background:#faf9f3;/);
+ assert.match(map, /\.google-route--drawer\{[^\n]*background:#faf9f3;/);
+ assert.match(css, /\.desktop-nav \.dropdown-list > a,[\s\S]*?color:#183020;/);
+ assert.match(css, /\.dropdown-list > a:hover,[\s\S]*?background:var\(--green\);/);
 });
