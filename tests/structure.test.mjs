@@ -47,12 +47,37 @@ test('contact uses mailto and never pretends to send to a server', () => {
   assert.doesNotMatch(contact, /fetch\(/);
 });
 
-test('editorial process, proof strip and FAQ exist', () => {
+test('Studio homepage follows Premium section order without changing menu or hero', () => {
   const homepage = read('src/pages/index.astro');
-  assert.match(homepage, /id="method-title"/);
-  assert.match(homepage, /proof-grid/);
-  assert.match(homepage, /id="faq-title"/);
-  assert.match(homepage, /<details>/);
+  const header = read('src/layouts/BaseLayout.astro');
+  const order = [
+    '<CapabilityStrip />',
+    'id="o-nas"',
+    'class="ps-service-stories"',
+    '<EquipmentSection />',
+    '<ProcessSteps />',
+    '<FAQSection />',
+    '<CTASection />'
+  ];
+  let previous = -1;
+  for (const step of order) {
+    const pos = homepage.indexOf(step);
+    assert.ok(pos > previous, step + ' must follow prior sections');
+    previous = pos;
+  }
+  assert.equal((homepage.match(/<ServiceStory\b/g) || []).length, 5);
+  assert.equal((homepage.match(/\n        reverse\n/g) || []).length, 2);
+  assert.match(homepage, /src="https:\/\/raw\.githubusercontent\.com\/prophloc\/kaltruck-premium\/main\/public\/images\/home\/hero-hds-original\.png"/);
+  assert.match(homepage, /CIĘŻKIE ZADANIA\./);
+  assert.match(homepage, /PEWNE ROZWIĄZANIA\./);
+  assert.match(homepage, /home-hero__photo/);
+  assert.match(homepage, /home-hero__actions/);
+  assert.match(header, /class:list=\{\['site-header', \{ 'home-header': isHome \}\]\}/);
+  assert.match(header, /href="\/#uslugi"/);
+  assert.doesNotMatch(homepage, /class="service-grid"/);
+  assert.doesNotMatch(homepage, /class="proof-grid"/);
+  assert.match(read('src/styles/premium-layout.css'), /ps-story--reverse/);
+  assert.match(read('src/styles/premium-layout.css'), /var\(--green/);
 });
 
 test('homepage uses original-quality full-width photograph and integrated navigation', () => {
@@ -66,4 +91,12 @@ test('homepage uses original-quality full-width photograph and integrated naviga
   assert.match(styles, /object-fit:\s*cover/);
   assert.match(styles, /linear-gradient/);
   assert.match(styles, /prefers-reduced-motion/);
+});
+
+test('Premium-inspired service stories link only to available service routes', () => {
+  const homepage = read('src/pages/index.astro');
+  for (const slug of ["transport-kontenerow","transport-prefabrykatow","transport-maszyn","rozladunek-hds","transport-hds"]) {
+    assert.match(homepage, new RegExp('href="/uslugi/' + slug + '/"'));
+    assert.match(read('src/data/site.ts'), new RegExp("slug: '" + slug + "'"));
+  }
 });

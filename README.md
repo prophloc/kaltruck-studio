@@ -2,6 +2,17 @@
 
 **Independent Astro website for Transport HDS Kalwasińscy.** A second, modern visual direction developed independently from [KALTRUCK Premium](https://github.com/prophloc/kaltruck-premium).
 
+## Homepage visual system
+
+The Studio homepage follows KALTRUCK Premium's content hierarchy below the hero:
+capability strip, transport introduction, five alternating service photo stories,
+equipment data, four-step process, FAQ and contact CTA. It preserves Studio's existing
+green/cream color palette, navigation, full-width hero image and header behavior.
+
+Photo stories reuse real KALTRUCK image URLs from KALTRUCK Premium, but use Studio colors
+and link to Studio's own service pages. The hero markup was intentionally left unchanged.
+Visual inspection should still be performed locally before publication.
+
 ## Features
 
 - Responsive editorial homepage with transport photography and dedicated call-to-action.
