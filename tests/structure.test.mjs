@@ -234,7 +234,7 @@ test('exactly one lime highlighted key word appears in each of five photo storie
  assert.match(story, /hasHighlight && <span class="ps-story__highlight">\{highlight\}<\/span>/);
  assert.match(story, /title\.indexOf\(highlight\)/);
  for (const word of expected) assert.match(home,new RegExp('highlight="' + word + '"'));
- assert.match(css, /\.ps-story__copy h2 \.ps-story__highlight\s*\{[\s\S]*?font-family:'DM Sans'[\s\S]*?color:#4f7c38;[\s\S]*?background:none;/);
+ assert.match(css, /\.ps-story__copy h2 \.ps-story__highlight\s*\{[\s\S]*?font-family:'DM Sans'[\s\S]*?color:var\(--green\);[\s\S]*?background:none;/);
 });
 
 test('services dropdown uses exactly the same cream surface as Google Maps drawer', () => {
@@ -350,8 +350,8 @@ test('green individual service words use distinct DM Sans, no outline or shadow'
   assert.ok(start>=0);
   const block=css.slice(start,css.indexOf('}',start)+1);
   assert.match(block,/font-family:'DM Sans'/);
-  assert.match(block,/font-weight:700/);
-  assert.match(block,/color:#4f7c38/);
+  assert.match(block,/font-weight:800/);
+  assert.match(block,/color:var\(--green\)/);
   assert.match(block,/-webkit-text-stroke:0/);
   assert.match(block,/text-shadow:none/);
   assert.doesNotMatch(block,/font:inherit/);
@@ -383,18 +383,15 @@ test('footer vertical alignment raises logo and centers other columns', () => {
  assert.match(css, /\.studio-footer__identity\{grid-column:1\/-1;top:0;/);
 });
 
-test('side drawers show supplied social channels and close competing panels',()=>{
+test('Facebook and Instagram drawer tabs are gone while their footer links remain',()=>{
  const hero=read('src/components/studio/HeroTools.astro');
- const social=read('src/components/studio/SocialTabs.astro');
- assert.match(hero, /<SocialTabs \/>/);
- assert.match(hero, /tool\.dataset\.studioTool === 'reviews'/);
- assert.match(social, /facebook\.com\/profile\.php\?id=61561070733012/);
- assert.match(social, /instagram\.com\/transporthdsplock\//);
- assert.match(social, /data-studio-tool-toggle/);
- assert.match(social, /data-studio-tool-panel/);
- assert.match(social, /aria-expanded="false"/);
- assert.ok(existsSync('public/brand/facebook-icon.svg'));
- assert.ok(existsSync('public/brand/instagram-icon.svg'));
+ const layout=read('src/layouts/BaseLayout.astro');
+ assert.doesNotMatch(hero,/SocialTabs/);
+ assert.match(hero,/studio-hero-tool--route/);
+ assert.match(hero,/studio-hero-tool--reviews/);
+ assert.match(layout,/class="studio-footer__social"/);
+ assert.match(layout,/src="\/brand\/facebook-icon\.svg"/);
+ assert.match(layout,/src="\/brand\/instagram-icon\.svg"/);
 });
 
 test('Facebook and Instagram icon links appear in footer and JSON-LD',()=>{
@@ -431,4 +428,17 @@ test('favicon SVG is namespace-safe and contains no unbound Serif prefixes',()=>
  assert.doesNotMatch(icon,/serif:id/);
  assert.match(icon,/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/);
  assert.match(icon,/<g id="Layer-1">/);
+});
+
+test('single highlighted words use exact lime brand palette with no background',()=>{
+ const css=read('src/styles/premium-layout.css');
+ const globals=read('src/styles/global.css');
+ const start=css.indexOf('.ps-story__copy h2 .ps-story__highlight {');
+ assert.ok(start>=0);
+ const block=css.slice(start,css.indexOf('}',start)+1);
+ assert.match(globals,/--green:#c8ef72/);
+ assert.match(block,/color:var\(--green\)/);
+ assert.match(block,/background:none/);
+ assert.match(block,/text-shadow:none/);
+ assert.match(block,/-webkit-text-stroke:0/);
 });

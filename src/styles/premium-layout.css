@@ -267,12 +267,12 @@
    sections use a readable forest green from the same Studio palette. */
 .ps-story__copy h2 .ps-story__highlight {
   font-family:'DM Sans',Arial,sans-serif;
-  font-weight:700;
+  font-weight:800;
   font-size:.99em;
   font-style:normal;
   letter-spacing:-.052em;
   line-height:inherit;
-  color:#4f7c38;
+  color:var(--green);
   background:none;
   -webkit-text-stroke:0;
   text-shadow:none;

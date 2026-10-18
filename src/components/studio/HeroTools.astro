@@ -2,7 +2,6 @@
 import DistanceEstimator from './DistanceEstimator.astro';
 import GoogleReviews from './GoogleReviews.astro';
 import GoogleMapsPin from './GoogleMapsPin.astro';
-import SocialTabs from './SocialTabs.astro';
 ---
 <div class="studio-hero-tool studio-hero-tool--route" data-studio-tool="route">
   <div class="studio-hero-tool__panel" id="studio-route-panel" data-studio-tool-panel aria-hidden="true" inert>
@@ -16,7 +15,6 @@ import SocialTabs from './SocialTabs.astro';
     <GoogleReviews />
   </div>
 </div>
-<SocialTabs />
 <script is:inline>
   (() => {
     const tools = Array.from(document.querySelectorAll('[data-studio-tool]')).filter(node => node instanceof HTMLElement);
