@@ -632,3 +632,10 @@ test('uploaded cPanel footer places NIP in copyright bar, not in right column',(
  assert.ok(footer.includes('© {new Date().getFullYear()} {site.legalName} · NIP: {site.nip}'));
  assert.ok(footer.includes('class="container footer-bottom"'));
 });
+
+test('copyright is close beneath the footer divider and ends with prophloc',()=>{
+  const component=read('src/components/studio/PremiumFooter.astro');
+  assert.match(component,/<span>© \{new Date\(\).getFullYear\(\)\} \{site.legalName\} · NIP: \{site.nip\}<\/span><span>prophloc<\/span>/);
+  assert.match(component,/\.footer-bottom\{[^\n]*min-height:0;height:auto;padding:8px 0 9px;/);
+  assert.match(component,/\.footer-bottom\{[^\n]*align-items:center;justify-content:space-between;/);
+});
