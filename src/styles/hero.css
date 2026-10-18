@@ -98,6 +98,9 @@
 }
 .home-hero__title span { display:block; font-weight:800; }
 .home-hero__title span:last-child { font-weight:400; letter-spacing:-.075em; }
+/* Accent only the final word, matching the lime-green Studio brand palette. */
+.home-hero__title .home-hero__accent { color:var(--green); font:inherit; letter-spacing:inherit; }
+
 .home-hero__description {
   max-width:630px;
   color:#d9dfdf;

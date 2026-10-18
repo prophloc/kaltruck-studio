@@ -71,3 +71,18 @@ main > .subhero { padding-top:clamp(165px,15vh + 94px,220px); }
 .site-header.home-header .dropdown-list a{color:var(--ink);text-shadow:none;}
 .site-header.home-header .dropdown-list a:hover{color:#527a3e;background:var(--cream);}
 .site-header.home-header .studio-header-contacts a{font-size:12px;line-height:1.35;letter-spacing:0;}
+
+/* Restore the original photo-integrated header only at the TOP of the homepage.
+   Keep a consistent, contrast-safe deep-green header when scrolling and on subpages. */
+.site-header.home-header[data-home="true"]:not(.scrolled) {
+  background:linear-gradient(180deg,rgba(7,19,23,.83) 0%,rgba(9,22,25,.51) 67%,rgba(9,22,25,.26) 100%);
+  border-bottom-color:rgba(255,255,255,.16);
+  box-shadow:none;
+  backdrop-filter:blur(6px);
+}
+.site-header.home-header[data-home="false"]:not(.scrolled) {
+  background:rgba(11,27,29,.94);
+}
+@media(prefers-reduced-motion:reduce) {
+  .site-header.home-header { transition:none; }
+}
