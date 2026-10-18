@@ -512,11 +512,11 @@ test('Premium footer has valid real contacts, navigation and social profiles acr
   assert.ok(premium.includes('grid-template-columns:1fr 1fr'));
 });
 
-test('footer headings share top alignment and retain supplied Premium grid and phone typography',()=>{
+test('footer keeps nav at original height and lowers only contact by 10px',()=>{
  const footer=read('src/components/studio/PremiumFooter.astro');
  assert.ok(footer.includes('.footer-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--grid-gap);align-items:stretch;min-height:220px;padding:18px 0;}'));
- assert.ok(footer.includes('.footer-links-wrap{grid-column:6/span 2;align-self:start;}'));
- assert.ok(footer.includes('.footer-contact{grid-column:9/-1;align-self:start;}'));
+ assert.ok(footer.includes('.footer-links-wrap{grid-column:6/span 2;align-self:center;}'));
+ assert.ok(footer.includes('.footer-contact{grid-column:9/-1;align-self:center;position:relative;top:10px;}'));
  assert.ok(footer.includes('.footer-phone{color:#e7e4de!important;font-size:.94rem;font-weight:700;letter-spacing:normal;}'));
  assert.ok(footer.includes('NIP: {site.nip}'));
 });
@@ -638,4 +638,11 @@ test('copyright is close beneath the footer divider and ends with prophloc',()=>
   assert.match(component,/<span>© \{new Date\(\).getFullYear\(\)\} \{site.legalName\} · NIP: \{site.nip\}<\/span><span>prophloc<\/span>/);
   assert.match(component,/\.footer-bottom\{[^\n]*min-height:0;height:auto;padding:8px 0 9px;/);
   assert.match(component,/\.footer-bottom\{[^\n]*align-items:center;justify-content:space-between;/);
+});
+
+test('mobile footer columns are unaffected by desktop-only contact vertical shift',()=>{
+ const footer=read('src/components/studio/PremiumFooter.astro');
+ assert.ok(footer.includes('.footer-links-wrap,.footer-contact{grid-column:auto;align-self:start;top:0;}'));
+ assert.ok(footer.includes('<p class="footer-label">Nawigacja</p>'));
+ assert.ok(footer.includes('<p class="footer-label">Kontakt</p>'));
 });

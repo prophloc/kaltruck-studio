@@ -48,8 +48,8 @@ const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Tokarska%2040%2
   .footer-brand a{display:block;max-width:100%;}
   .footer-brand img{display:block;width:clamp(280px,19vw,320px);max-width:100%;height:auto;filter:invert(1);}
   .footer-brand p{margin:10px 0 0;color:#bbb7af;font-size:clamp(.72rem,.82vw,.82rem);font-weight:800;line-height:1.2;letter-spacing:.1em;white-space:nowrap;}
-  .footer-links-wrap{grid-column:6/span 2;align-self:start;}
-  .footer-contact{grid-column:9/-1;align-self:start;}
+  .footer-links-wrap{grid-column:6/span 2;align-self:center;}
+  .footer-contact{grid-column:9/-1;align-self:center;position:relative;top:10px;}
   .footer-label{margin:0 0 10px;color:var(--accent);font-size:.68rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;}
   .footer-links,.footer-contact{display:grid;align-content:start;gap:7px;}
   .footer-links a{width:max-content;color:#e7e4de;}
@@ -78,7 +78,7 @@ const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Tokarska%2040%2
   @media(max-width:760px){
     .footer-grid{grid-template-columns:1fr 1fr;gap:28px 22px;min-height:0;padding:22px 0;}
     .footer-brand{grid-column:1/-1;padding:6px 0 8px;}
-    .footer-links-wrap,.footer-contact{grid-column:auto;align-self:start;}
+    .footer-links-wrap,.footer-contact{grid-column:auto;align-self:start;top:0;}
     .footer-brand img{width:clamp(230px,62vw,280px);}
     .footer-brand p{font-size:clamp(.62rem,2.4vw,.74rem);letter-spacing:.07em;white-space:normal;}
     .footer-bottom{margin-top:0;flex-direction:column;gap:7px;}
