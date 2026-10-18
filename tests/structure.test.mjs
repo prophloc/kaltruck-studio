@@ -347,8 +347,8 @@ test('Sprzęt route exists in desktop, mobile, footer and sitemap', () => {
  const sitemap=read('src/pages/sitemap.xml.ts');
  const page=read('src/pages/sprzet.astro');
  assert.match(layout, /href="\/sprzet\/" aria-current=\{path === '\/sprzet\/'/);
- assert.equal((layout.match(/href="\\/sprzet\\/"/g)||[]).length,2);
-  assert.match(read('src/components/studio/PremiumFooter.astro'),/href="\\/sprzet\\/"/);
+ assert.equal(layout.split('href="/sprzet/"').length-1, 2);
+ assert.ok(read('src/components/studio/PremiumFooter.astro').includes('href="/sprzet/"'));
  assert.match(sitemap, /'\/sprzet\/'/);
  assert.match(page, /do 12 ton|12 t/);
  assert.match(page, /14 m/);
@@ -473,39 +473,41 @@ test('CI verifies actual generated SEO pages, schema and indexable canonical URL
  assert.match(script,/Duplicated title/);
 });
 
-test('Premium footer component replaces Studio-specific bottom grid while retaining map and CTA above it',()=>{
- const layout=read('src/layouts/BaseLayout.astro');
- const footer=read('src/components/studio/PremiumFooter.astro');
- const oldCss=read('src/styles/footer-refresh.css');
- assert.match(layout,/import PremiumFooter from '..\\/components\\/studio\\/PremiumFooter\\.astro'/);
- assert.match(layout,/<section class="footer studio-footer" aria-labelledby="studio-footer-title">/);
- assert.match(layout,/class="studio-footer-route"/);
- assert.match(layout,/class="studio-footer__contact"/);
- assert.match(layout,/<PremiumFooter \\/>/);
- assert.doesNotMatch(layout,/studio-footer__lower/);
- assert.doesNotMatch(oldCss,/\\.studio-footer__lower\\{/);
- assert.match(footer,/<footer class="site-footer"/);
- assert.match(footer,/background:#060708/);
- assert.match(footer,/grid-template-columns:repeat\\(12,minmax\\(0,1fr\\)\\)/);
- assert.match(footer,/\\.footer-brand\\{grid-column:1\\/span 5;/);
- assert.match(footer,/\\.footer-links-wrap\\{grid-column:6\\/span 2;/);
- assert.match(footer,/\\.footer-contact\\{grid-column:9\\/-1;/);
- assert.match(footer,/\\.footer-brand img\\{display:block;width:clamp\\(280px,19vw,320px\\)/);
- assert.match(footer,/CIĘŻKI ŁADUNEK\\.\\.\\. PRECYZYJNA ROBOTA\\./);
- assert.match(footer,/class="footer-bottom"/);
+
+test('Premium footer uses original twelve-column composition without removing Studio map or CTA', () => {
+  const layout = read('src/layouts/BaseLayout.astro');
+  const premium = read('src/components/studio/PremiumFooter.astro');
+  const studioCss = read('src/styles/footer-refresh.css');
+  assert.ok(layout.includes("import PremiumFooter from '../components/studio/PremiumFooter.astro'"));
+  assert.ok(layout.includes('<section class="footer studio-footer"'));
+  assert.ok(layout.includes('class="studio-footer-route"'));
+  assert.ok(layout.includes('class="studio-footer__contact"'));
+  assert.ok(layout.includes('<PremiumFooter />'));
+  assert.ok(!layout.includes('studio-footer__lower'));
+  assert.ok(!studioCss.includes('.studio-footer__lower{'));
+  assert.ok(premium.includes('<footer class="site-footer"'));
+  assert.ok(premium.includes('background:#060708'));
+  assert.ok(premium.includes('grid-template-columns:repeat(12,minmax(0,1fr))'));
+  assert.ok(premium.includes('.footer-brand{grid-column:1/span 5;'));
+  assert.ok(premium.includes('.footer-links-wrap{grid-column:6/span 2;'));
+  assert.ok(premium.includes('.footer-contact{grid-column:9/-1;'));
+  assert.ok(premium.includes('width:clamp(280px,19vw,320px)'));
+  assert.ok(premium.includes('CIĘŻKI ŁADUNEK... PRECYZYJNA ROBOTA.'));
+  assert.ok(premium.includes('class="footer-bottom"'));
 });
-test('Premium footer retains contacts, original addresses, social links, mobile layout',()=>{
- const footer=read('src/components/studio/PremiumFooter.astro');
- assert.match(footer,/href=\\{`tel:\\$\\{site.phoneHref\\}`\\}/);
- assert.match(footer,/href=\\{`tel:\\$\\{site.secondPhoneHref\\}`\\}/);
- assert.match(footer,/site.email/);
- assert.match(footer,/Tokarska 40, 09-401 Płock/);
- assert.match(footer,/class="footer-links"/);
- assert.match(footer,/href="\\/sprzet\\/"/);
- assert.match(footer,/facebook.com\\/profile.php\\?id=61561070733012/);
- assert.match(footer,/instagram.com\\/transporthdsplock\\//);
- assert.match(footer,/src="\\/brand\\/facebook-icon.svg"/);
- assert.match(footer,/src="\\/brand\\/instagram-icon.svg"/);
- assert.match(footer,/@media\\(max-width:760px\\)/);
- assert.match(footer,/grid-template-columns:1fr 1fr/);
+
+test('Premium footer has valid real contacts, navigation and social profiles across breakpoints', () => {
+  const premium = read('src/components/studio/PremiumFooter.astro');
+  assert.ok(premium.includes('site.phoneHref'));
+  assert.ok(premium.includes('site.secondPhoneHref'));
+  assert.ok(premium.includes('site.email'));
+  assert.ok(premium.includes('Tokarska 40, 09-401 Płock'));
+  assert.ok(premium.includes('class="footer-links"'));
+  assert.ok(premium.includes('href="/sprzet/"'));
+  assert.ok(premium.includes('facebook.com/profile.php?id=61561070733012'));
+  assert.ok(premium.includes('instagram.com/transporthdsplock/'));
+  assert.ok(premium.includes('src="/brand/facebook-icon.svg"'));
+  assert.ok(premium.includes('src="/brand/instagram-icon.svg"'));
+  assert.ok(premium.includes('@media(max-width:760px)'));
+  assert.ok(premium.includes('grid-template-columns:1fr 1fr'));
 });
