@@ -512,11 +512,11 @@ test('Premium footer has valid real contacts, navigation and social profiles acr
   assert.ok(premium.includes('grid-template-columns:1fr 1fr'));
 });
 
-test('Premium footer headings align on one horizontal line with normal phone typography',()=>{
+test('footer follows uploaded cPanel Premium grid and centered columns without altering phone typography',()=>{
  const footer=read('src/components/studio/PremiumFooter.astro');
- assert.ok(footer.includes('.footer-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--grid-gap);align-items:start;'));
- assert.ok(footer.includes('.footer-links-wrap{grid-column:6/span 2;align-self:start;}'));
- assert.ok(footer.includes('.footer-contact{grid-column:9/-1;align-self:start;}'));
+ assert.ok(footer.includes('.footer-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--grid-gap);align-items:stretch;min-height:220px;padding:18px 0;}'));
+ assert.ok(footer.includes('.footer-links-wrap{grid-column:6/span 2;align-self:center;}'));
+ assert.ok(footer.includes('.footer-contact{grid-column:9/-1;align-self:center;}'));
  assert.ok(footer.includes('.footer-phone{color:#e7e4de!important;font-size:.94rem;font-weight:700;letter-spacing:normal;}'));
  assert.ok(footer.includes('NIP: {site.nip}'));
 });
@@ -623,4 +623,12 @@ test('Premium-style category thumbnails navigate into matching gallery and full-
  assert.match(page,/data-gallery-counter/);
  assert.match(page,/dlg\.showModal\(\)/);
  assert.match(page,/@media\(max-width:980px\)/);
+});
+
+test('uploaded cPanel footer places NIP in copyright bar, not in right column',()=>{
+ const footer=read('src/components/studio/PremiumFooter.astro');
+ const rightColumn=footer.split('<div class="footer-contact">')[1].split('</div>')[0];
+ assert.ok(!rightColumn.includes('footer-nip'));
+ assert.ok(footer.includes('© {new Date().getFullYear()} {site.legalName} · NIP: {site.nip}'));
+ assert.ok(footer.includes('class="container footer-bottom"'));
 });
