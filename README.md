@@ -11,6 +11,14 @@
 - Per-page meta descriptions, LocalBusiness JSON-LD, canonical URLs, robots.txt and sitemap.
 - GitHub Actions checks on every push and pull request.
 
+## Live development preview (no installation)
+
+[**Open KALTRUCK Studio in StackBlitz**](https://stackblitz.com/github/prophloc/kaltruck-studio?startScript=dev)
+
+StackBlitz imports the latest `main` branch directly from GitHub and starts the Astro development server in the browser. Wait for dependencies to install, then open the `Preview` panel. This is a temporary development preview, not a deployed production website, and the external preview service may be unavailable depending on browser settings.
+
+The project remains under `prophloc/kaltruck-studio`; please avoid using the original ZIP upload script against this repository because that ZIP has unrelated local Git commit history.
+
 ## Local development
 
 Install [Node.js 22 LTS](https://nodejs.org/) and run:
