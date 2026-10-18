@@ -3,12 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../data/site';
 ---
 <BaseLayout title="Kontakt i wycena transportu HDS | KALTRUCK Płock" description="Skontaktuj się z KALTRUCK. Zapytaj o wycenę transportu HDS, załadunku, rozładunku i montażu. Płock i cała Polska.">
-  <section class="subhero"><div class="container narrow"><p class="eyebrow">KONTAKT / WYCENA</p><h1>Porozmawiajmy<br /><em>o szczegółach.</em></h1><p class="section-lead">Prześlij informacje o ładunku, miejscu załadunku i rozładunku. Pomożemy ustalić dalsze kroki.</p></div></section>
-  <section class="section contact-section"><div class="container contact-grid">
+  <section class="section contact-section contact-section--standalone"><div class="container contact-grid">
     <div class="contact-details">
       <p class="eyebrow">BEZPOŚREDNI KONTAKT</p>
       <a class="contact-phone" href={'tel:' + site.phoneHref}>{site.phone} ↗</a>
-      <a class="contact-phone secondary" href={'tel:' + site.secondPhoneHref}>{site.secondPhone}</a>
       <a class="contact-mail" href={'mailto:' + site.email}>{site.email}</a>
       <div class="contact-location"><span>PŁOCK</span><p>Realizacje lokalne i ogólnopolskie</p></div>
     </div>

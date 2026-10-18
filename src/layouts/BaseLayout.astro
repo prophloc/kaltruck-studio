@@ -96,9 +96,9 @@ const schemas = buildPageSchemas(path, title, description, ogImage, extras.filte
           <span class="studio-services-label" data-studio-services-label>{headerServices[0]}</span>
         </div>
         <nav class="desktop-nav" aria-label="Menu główne">
-          <a href="/" aria-current={path === '/' ? 'page' : undefined}>Start</a>
-          <div class="dropdown"><a href="/#uslugi" aria-current={path.startsWith('/uslugi/') ? 'page' : undefined}>Usługi</a>
-            <div class="dropdown-list">{services.map((s) => <a href={'/uslugi/' + s.slug + '/'}>{s.title}</a>)}</div>
+          <a href="/" aria-current={path === '/' ? 'page' : undefined} data-nav-home>Start</a>
+          <div class="dropdown"><a href="/#uslugi" data-nav-services aria-current={path.startsWith('/uslugi/') ? 'page' : undefined}>Usługi</a>
+            <div class="dropdown-list">{services.map((s) => <a href={'/uslugi/' + s.slug + '/'} aria-current={path === '/uslugi/' + s.slug + '/' ? 'page' : undefined}>{s.title}</a>)}</div>
           </div>
           <a href="/realizacje/" aria-current={path === '/realizacje/' ? 'page' : undefined}>Realizacje</a>
           <a href="/sprzet/" aria-current={path === '/sprzet/' ? 'page' : undefined}>Sprzęt</a>
@@ -107,18 +107,17 @@ const schemas = buildPageSchemas(path, title, description, ogImage, extras.filte
         </nav>
         <div class="studio-header-contacts" aria-label="Telefony kontaktowe">
           <a href={`tel:${site.phoneHref}`}>{site.phone}</a>
-          <a href={`tel:${site.secondPhoneHref}`}>{site.secondPhone}</a>
         </div>
         <a class="button button-green header-cta" href="/kontakt/">Zapytaj o wycenę ↗</a>
         <button class="menu-toggle" type="button" aria-controls="mobile-nav" aria-expanded="false" aria-label="Otwórz menu"><span></span><span></span></button>
       </div>
       <nav class="mobile-nav" id="mobile-nav" aria-label="Menu mobilne" hidden>
-        <a href="/">Start</a><a href="/#uslugi">Usługi</a><a href="/realizacje/">Realizacje</a><a href="/sprzet/">Sprzęt</a><a href="/o-nas/">O nas</a><a href="/kontakt/">Kontakt</a>
+        <a href="/" aria-current={path === '/' ? 'page' : undefined} data-mobile-nav-home>Start</a><a href="/#uslugi" aria-current={path.startsWith('/uslugi/') ? 'page' : undefined} data-mobile-nav-services>Usługi</a><a href="/realizacje/" aria-current={path === '/realizacje/' ? 'page' : undefined}>Realizacje</a><a href="/sprzet/" aria-current={path === '/sprzet/' ? 'page' : undefined}>Sprzęt</a><a href="/o-nas/" aria-current={path === '/o-nas/' ? 'page' : undefined}>O nas</a><a href="/kontakt/" aria-current={path === '/kontakt/' ? 'page' : undefined}>Kontakt</a>
         <div class="mobile-nav__tools" aria-label="Google Maps i opinie klientów">
-          <a href="/?panel=route" data-studio-mobile-panel="route"><span class="mobile-nav__tool-icon" aria-hidden="true">⌖</span><span>Sprawdź trasę</span><span aria-hidden="true">↗</span></a>
-          <a href="/?panel=reviews" data-studio-mobile-panel="reviews"><span class="mobile-nav__tool-icon" aria-hidden="true">★</span><span>Opinie Google</span><span aria-hidden="true">↗</span></a>
+          <a href="/?panel=route" data-studio-mobile-panel="route"><img class="mobile-nav__tool-image mobile-nav__tool-image--map" src="/brand/google-maps-wordmark.svg" alt="" aria-hidden="true" width="92" height="22" /><span>Sprawdź trasę</span></a>
+          <a href="/?panel=reviews" data-studio-mobile-panel="reviews"><img class="mobile-nav__tool-image mobile-nav__tool-image--reviews" src="/brand/google-reviews-stars.svg" alt="" aria-hidden="true" width="75" height="32" /><span>Opinie Google</span></a>
         </div>
-        <div class="mobile-nav__contacts"><a href={`tel:${site.phoneHref}`}>{site.phone}</a><a href={`tel:${site.secondPhoneHref}`}>{site.secondPhone}</a><a href={`mailto:${site.email}`}>{site.email}</a></div>
+        <div class="mobile-nav__contacts"><a href={`tel:${site.phoneHref}`}>{site.phone}</a><a href={`mailto:${site.email}`}>{site.email}</a></div>
       </nav>
     </header>
     <main id="main"><slot /></main>
@@ -145,7 +144,6 @@ const schemas = buildPageSchemas(path, title, description, ogImage, extras.filte
           <div class="studio-footer__contact-actions">
             <span class="studio-footer__contact-kicker">ZADZWOŃ LUB NAPISZ</span>
             <a class="studio-footer__primary-number" href={`tel:${site.phoneHref}`}>{site.phone} <span>↗</span></a>
-            <a class="studio-footer__secondary-number" href={`tel:${site.secondPhoneHref}`}>{site.secondPhone} <span>↗</span></a>
             <a class="studio-footer__email" href={`mailto:${site.email}`}>{site.email}</a>
             <a class="button button-green studio-footer__button" href="/kontakt/">Poproś o wycenę ↗</a>
           </div>
@@ -160,6 +158,31 @@ const schemas = buildPageSchemas(path, title, description, ogImage, extras.filte
       const updateHeader = () => header?.classList.toggle('scrolled', window.scrollY > 48);
       updateHeader();
       window.addEventListener('scroll', updateHeader, { passive: true });
+      // Update active nav state for the homepage as the services section enters view.
+      // Other pages retain their canonical server-rendered aria-current markers.
+      const navHome = document.querySelector<HTMLAnchorElement>('[data-nav-home]');
+      const navServices = document.querySelector<HTMLAnchorElement>('[data-nav-services]');
+      const mobileHome = document.querySelector<HTMLAnchorElement>('[data-mobile-nav-home]');
+      const mobileServices = document.querySelector<HTMLAnchorElement>('[data-mobile-nav-services]');
+      const servicesSection = document.querySelector<HTMLElement>('#uslugi');
+      const updateActiveSection = () => {
+        if (window.location.pathname !== '/' || !servicesSection) return;
+        const sectionVisible = window.scrollY + (header?.offsetHeight || 94) + 100 >= servicesSection.offsetTop;
+        ([navHome, mobileHome] as Array<HTMLAnchorElement | null>).forEach(link => {
+          if (!link) return;
+          if (sectionVisible) link.removeAttribute('aria-current');
+          else link.setAttribute('aria-current', 'page');
+        });
+        ([navServices, mobileServices] as Array<HTMLAnchorElement | null>).forEach(link => {
+          if (!link) return;
+          if (sectionVisible) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        });
+      };
+      updateActiveSection();
+      window.addEventListener('scroll', updateActiveSection, { passive: true });
+      window.addEventListener('hashchange', updateActiveSection);
+
       const setMobileMenu = (open: boolean) => {
         if (!toggle || !mobileNav) return;
         toggle.setAttribute('aria-expanded', String(open));

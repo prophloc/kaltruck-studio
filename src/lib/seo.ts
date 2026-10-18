@@ -77,7 +77,8 @@ export function localBusinessSchema() {
     logo: absolute('/brand/kaltruck-logo.svg'),
     image: defaultOgImage,
     description: 'Specjalistyczny transport, załadunek i rozładunek żurawiem HDS — Płock i cała Polska.',
-    telephone: [site.phone, site.secondPhone],
+    telephone: site.phone,
+    vatID: site.nip,
     email: site.email,
     address: {
       '@type': 'PostalAddress',

@@ -1,10 +1,9 @@
 export const site = {
   name: 'KALTRUCK',
   legalName: 'Transport HDS Kalwasińscy',
-  phone: '+48 514 948 373',
-  phoneHref: '+48514948373',
-  secondPhone: '+48 784 430 022',
-  secondPhoneHref: '+48784430022',
+  phone: '+48 784 430 022',
+  phoneHref: '+48784430022',
+  nip: '7742982717',
   email: 'hds.plock@gmail.com',
   city: 'Płock',
   url: import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/, '') || null,

@@ -249,7 +249,7 @@
 
 /* 2026-10-18: #uslugi previously combined scroll-margin-top:78px with the
    document scroll-padding, exposing a large cream strip under the fixed nav. */
-#uslugi.ps-service-stories {scroll-margin-top:0;}
+#uslugi.ps-service-stories {scroll-margin-top:20px;}
 
 /* Studio lime accent on the step counters AND their continuation rules. */
 .ps-process__step .ps-process__step-top > span {

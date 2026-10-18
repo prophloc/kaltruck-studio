@@ -259,3 +259,22 @@ main > .subhero {padding-top:clamp(165px,15vh + 94px,220px);}
 @media(max-width:370px){
  .site-header.home-header .mobile-nav__tools{grid-template-columns:1fr;}
 }
+
+/* Highlight the page currently displayed (including individual service links). */
+.site-header.home-header .desktop-nav .dropdown-list > a[aria-current="page"]{
+  color:#193820;
+  background:#dcedc7;
+  font-weight:850;
+}
+.site-header.home-header .desktop-nav a[aria-current="location"],
+.site-header.home-header .desktop-nav .dropdown > a[aria-current="location"]{color:var(--green);}
+.site-header.home-header .mobile-nav > a[aria-current="page"],
+.site-header.home-header .mobile-nav > a[aria-current="location"]{
+  color:#315b25;background:#e1edcf;border-radius:8px;
+}
+@media(max-width:800px){
+ .site-header.home-header .mobile-nav__tools a{flex-direction:column;gap:5px;line-height:1.25;}
+ .site-header.home-header .mobile-nav__tool-image{display:block;flex:0 0 auto;width:auto;max-width:94px;max-height:27px;object-fit:contain;}
+ .site-header.home-header .mobile-nav__tool-image--map{width:90px;height:24px;}
+ .site-header.home-header .mobile-nav__tool-image--reviews{width:78px;height:28px;}
+}

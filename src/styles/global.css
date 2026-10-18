@@ -200,3 +200,7 @@ em{font-family:Georgia,serif;font-weight:400;letter-spacing:-.075em}
 /* When targeting the homepage services via /#uslugi, do not reserve another
    88px for the fixed navigation; the story already has internal padding. */
 html:has(#uslugi.ps-service-stories:target){scroll-padding-top:0;}
+
+/* Contact starts with details/form; reserve space below the fixed header. */
+main > .contact-section--standalone{padding-top:clamp(160px,15vh + 94px,215px);}
+@media(max-width:800px){main > .contact-section--standalone{padding-top:112px;}}

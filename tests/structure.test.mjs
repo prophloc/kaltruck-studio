@@ -102,12 +102,12 @@ test('Premium-inspired service stories link only to available service routes', (
   }
 });
 
-test('common header uses authentic logo, two phone numbers and arrow-free services', () => {
+test('common header uses authentic logo, current phone and arrow-free services', () => {
  const layout = read('src/layouts/BaseLayout.astro');
  assert.match(layout, /src="\/brand\/kaltruck-logo\.svg"/);
  assert.match(layout, /data-studio-services/);
  assert.match(layout, /class="studio-header-contacts"/);
- assert.match(layout, /site\.secondPhoneHref/);
+ assert.match(layout, /site\.phoneHref/);
  assert.match(layout, />Usługi<\/a>/);
  assert.doesNotMatch(layout, /Usługi ⌄/);
  assert.match(read('src/styles/header-unified.css'), /site-header\.home-header/);
@@ -205,7 +205,7 @@ test('services anchor uses a single sticky-header offset without blank strip', (
  const css=read('src/styles/premium-layout.css');
  const global=read('src/styles/global.css');
  assert.match(global, /scroll-padding-top:88px/);
- assert.match(css, /#uslugi\.ps-service-stories\s*\{scroll-margin-top:0;\}/);
+ assert.match(css, /#uslugi\.ps-service-stories\s*\{scroll-margin-top:20px;\}/);
 });
 test('process badge numbers and lines use the actual theme lime', () => {
  const css=read('src/styles/premium-layout.css');
@@ -499,7 +499,7 @@ test('Premium footer uses original twelve-column composition without removing St
 test('Premium footer has valid real contacts, navigation and social profiles across breakpoints', () => {
   const premium = read('src/components/studio/PremiumFooter.astro');
   assert.ok(premium.includes('site.phoneHref'));
-  assert.ok(premium.includes('site.secondPhoneHref'));
+  assert.ok(premium.includes('site.nip'));
   assert.ok(premium.includes('site.email'));
   assert.ok(premium.includes('Tokarska 40, 09-401 Płock'));
   assert.ok(premium.includes('class="footer-links"'));
@@ -518,7 +518,7 @@ test('Premium footer headings align on one horizontal line with normal phone typ
  assert.ok(footer.includes('.footer-links-wrap{grid-column:6/span 2;align-self:start;}'));
  assert.ok(footer.includes('.footer-contact{grid-column:9/-1;align-self:start;}'));
  assert.ok(footer.includes('.footer-phone{color:#e7e4de!important;font-size:.94rem;font-weight:700;letter-spacing:normal;}'));
- assert.ok(footer.includes('.footer-second-phone{color:#e7e4de;font-size:.94rem;font-weight:700;}'));
+ assert.ok(footer.includes('NIP: {site.nip}'));
 });
 test('mobile Maps and reviews move into compact navigation instead of side tabs',()=>{
  const nav=read('src/layouts/BaseLayout.astro');
@@ -550,4 +550,48 @@ test('mobile tools escape hero overflow and gallery headline uses valid typograp
  assert.ok(tools.includes("mobileLayout.addEventListener('change', syncToolContainers)"));
  assert.ok(gallery.includes('font-family:inherit;font-weight:800;letter-spacing:-.067em;'));
  assert.ok(!gallery.includes('font:800 inherit'));
+});
+
+test('20px service anchor correction, active menu sections and individual service links',()=>{
+ const layout=read('src/layouts/BaseLayout.astro');
+ const style=read('src/styles/premium-layout.css');
+ const header=read('src/styles/header-unified.css');
+ assert.match(style, /#uslugi\.ps-service-stories\s*\{scroll-margin-top:20px;\}/);
+ assert.ok(layout.includes('data-nav-services'));
+ assert.ok(layout.includes("link.setAttribute('aria-current', 'location')"));
+ assert.ok(layout.includes("window.addEventListener('scroll', updateActiveSection"));
+ assert.ok(layout.includes("aria-current={path === '/uslugi/' + s.slug + '/' ? 'page' : undefined}"));
+ assert.ok(header.includes('.dropdown-list > a[aria-current="page"]'));
+});
+test('contact begins at real details without removed introductory hero',()=>{
+ const contact=read('src/pages/kontakt.astro');
+ const global=read('src/styles/global.css');
+ assert.doesNotMatch(contact,/Porozmawiajmy/);
+ assert.doesNotMatch(contact,/KONTAKT \/ WYCENA/);
+ assert.match(contact,/contact-section--standalone/);
+ assert.match(global,/main > \.contact-section--standalone\{padding-top:/);
+});
+test('only supplied 784 phone is published, with NIP in footer and business schema',()=>{
+ const site=read('src/data/site.ts');
+ const footer=read('src/components/studio/PremiumFooter.astro');
+ const seo=read('src/lib/seo.ts');
+ assert.match(site,/phone: '\+48 784 430 022'/);
+ assert.match(site,/phoneHref: '\+48784430022'/);
+ assert.match(site,/nip: '7742982717'/);
+ assert.doesNotMatch(site,/514 948 373|secondPhone/);
+ assert.match(footer,/NIP: \{site.nip\}/);
+ assert.match(seo,/vatID: site.nip/);
+});
+test('mobile navigation contains actual Maps and Google review artwork',()=>{
+ const layout=read('src/layouts/BaseLayout.astro');
+ const css=read('src/styles/header-unified.css');
+ assert.match(layout,/src="\/brand\/google-maps-wordmark\.svg"/);
+ assert.match(layout,/src="\/brand\/google-reviews-stars\.svg"/);
+ assert.match(css,/\.mobile-nav__tool-image--map/);
+ assert.match(css,/\.mobile-nav__tool-image--reviews/);
+});
+test('side tab icon and vertical title have equal edge insets',()=>{
+ const tools=read('src/components/studio/HeroTools.astro');
+ assert.match(tools,/justify-content:space-between; gap:0; padding:14px 6px;/);
+ assert.match(tools,/strong \{writing-mode:vertical-rl;[^\n]*line-height:1;/);
 });
