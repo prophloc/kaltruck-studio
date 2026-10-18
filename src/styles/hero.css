@@ -156,3 +156,12 @@
   .home-header { transition:none; }
   .home-hero__photo { animation:none; }
 }
+
+/* Refinements: clear navigation and truthful one-frame marker */
+.home-header__phone { font-size:13px; font-weight:800; white-space:nowrap; letter-spacing:.02em; }
+.home-header__phone:hover { color:var(--green); }
+.home-header.scrolled .home-header__phone:hover { color:#507934; }
+.home-hero__progress { color:#edf2e9; font-variant-numeric:tabular-nums; }
+.home-hero__progress small { font-size:10px; letter-spacing:.1em; }
+.home-hero__photo { background:#172220; }
+@media (max-width:1200px) { .home-header__phone { display:none; } }

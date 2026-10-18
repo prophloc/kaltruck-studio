@@ -50,6 +50,7 @@ const jsonLd = {
           <a href="/realizacje/">Realizacje</a>
           <a href="/o-nas/">O nas</a>
         </nav>
+        {isHome && <a class="home-header__phone" href={`tel:${site.phoneHref}`} aria-label={`Zadzwoń: ${site.phone}`}>☎ {site.phone}</a>}
         <a class="button button-green header-cta" href="/kontakt/">Zapytaj o wycenę ↗</a>
         <button class="menu-toggle" aria-controls="mobile-nav" aria-expanded="false" aria-label="Otwórz menu"><span></span><span></span></button>
       </div>
