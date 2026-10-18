@@ -168,3 +168,22 @@ test('map has no unbounded SVG ornament and uses contrasting panel labels', () =
  assert.match(css, /\.studio-footer-route \.google-route-heading h2\{color:#1b3224/);
  assert.match(css, /\.studio-footer-route \.google-route-form input\{background:#fff;color:#183020/);
 });
+
+test('map OD/DO labels use theme lime and headings stay dark on cream', () => {
+ const map=read('src/components/studio/DistanceEstimator.astro');
+ const footer=read('src/styles/footer-refresh.css');
+ assert.match(map, /\.google-route\.google-route--drawer \.google-route-point/);
+ assert.match(map, /background:var\(--green\);color:var\(--forest\)/);
+ assert.doesNotMatch(map, /#d9ba68|#ede2c9|#6d5117/);
+ assert.match(footer, /\.studio-footer-route \.google-route-point\{background:var\(--green\)/);
+});
+test('homepage header overlays hero and ROZWIĄZANIA uses brand lime', () => {
+ const home=read('src/pages/index.astro');
+ const hero=read('src/styles/hero.css');
+ const header=read('src/styles/header-unified.css');
+ const layout=read('src/layouts/BaseLayout.astro');
+ assert.match(home, /<strong class="home-hero__accent">ROZWIĄZANIA\.<\/strong>/);
+ assert.match(hero, /\.home-hero__title \.home-hero__accent \{ color:var\(--green\)/);
+ assert.match(layout, /data-home=\{isHome \? "true" : "false"\}/);
+ assert.match(header, /\.site-header\.home-header\[data-home="true"\]:not\(\.scrolled\)/);
+});

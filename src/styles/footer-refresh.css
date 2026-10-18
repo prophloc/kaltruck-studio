@@ -30,7 +30,7 @@
 .studio-footer-route .google-route-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .studio-footer-route .google-route-form input{background:#fff;color:#183020;border:1px solid #c9d8c5;height:50px;box-shadow:none;}
 .studio-footer-route .google-route-form input::placeholder{color:#728277;}
-.studio-footer-route .google-route-point{background:#e4eddd;color:#406a32;}
+.studio-footer-route .google-route-point{background:var(--green);color:var(--forest);font-weight:900;}
 .studio-footer-route .google-route-form button{height:48px;color:#16271b;background:var(--green);border-color:var(--green);width:100%;font-size:13px;letter-spacing:0;}
 .studio-footer-route .google-route-meta{margin-top:14px;gap:5px;font-size:12px;}
 .studio-footer-route .google-route-meta a{color:#456e35;font-weight:700;}
@@ -89,3 +89,9 @@
  .studio-footer__lower{grid-template-columns:1fr;gap:32px;}
  .studio-footer__identity{grid-column:auto;}
 }
+
+/* Map label contrast kept explicit in the footer as well. */
+.studio-footer-route .google-route-heading h2{color:#183020;}
+.studio-footer-route .google-route-heading-caption{color:#426a35;}
+.studio-footer-route .google-route-meta a{color:#466c33;}
+.studio-footer-route .google-route-point{background:var(--green);color:var(--forest);}
