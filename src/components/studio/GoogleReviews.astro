@@ -13,7 +13,7 @@ const placeId = import.meta.env.PUBLIC_GOOGLE_PLACE_ID || 'ChIJhbMF0yh3HEcRVTtOs
   <div class="google-reviews-head">
     <p class="google-reviews-kicker">OPINIE KLIENTÓW</p>
     <img class="google-reviews-brand" src="/brand/kaltruck-logo.svg" width="2548" height="1305" alt="KALTRUCK Transport HDS" />
-    <a class="google-reviews-attribution" href={siteConfig.googleMapsUrl} target="_blank" rel="noreferrer" translate="no">Google Maps</a>
+    <a class="google-reviews-attribution" href={siteConfig.googleMapsUrl} target="_blank" rel="noreferrer" aria-label="Otwórz opinie KALTRUCK w Google Maps"><img class="google-reviews-attribution-logo" src="/brand/google-reviews-stars.svg" alt="Google, pięć gwiazdek" width="112" height="50" loading="lazy" decoding="async" /></a>
   </div>
 
   <div class="google-reviews-summary" data-google-reviews-summary hidden>
@@ -214,8 +214,8 @@ const placeId = import.meta.env.PUBLIC_GOOGLE_PLACE_ID || 'ChIJhbMF0yh3HEcRVTtOs
   .google-reviews-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,220px) minmax(0,1fr);align-items:center;column-gap:12px;min-height:116px;border-bottom:1px solid rgba(20,20,18,.12);padding-bottom:12px}
   .google-reviews-kicker{margin:0;justify-self:start;color:#5e883b;font-size:.68rem;font-weight:900;letter-spacing:.12em;line-height:1.5}
   .google-reviews-brand{display:block;justify-self:center;width:215px;max-width:100%;height:105px;object-fit:contain;object-position:center center}
-  .google-reviews-attribution{justify-self:end;color:#5e5e5e;font-family:Roboto,Arial,sans-serif;font-size:13px;font-style:normal;font-weight:400;letter-spacing:normal;text-decoration:none;white-space:nowrap}
-  .google-reviews-attribution:hover{text-decoration:underline}
+  .google-reviews-attribution{display:inline-flex;justify-self:end;align-items:center;justify-content:center;max-width:125px;text-decoration:none;line-height:1}
+  .google-reviews-attribution:hover{opacity:.82}.google-reviews-attribution-logo{display:block;width:112px;max-width:100%;height:auto;max-height:55px;object-fit:contain}
   .google-reviews-summary{display:flex;align-items:center;gap:9px;min-height:32px}
   .google-reviews-summary strong{font-size:1.75rem;line-height:1;color:#151514}
   .google-reviews-summary-stars,.google-review-stars{color:#e1aa2f;letter-spacing:.08em}
@@ -236,6 +236,6 @@ const placeId = import.meta.env.PUBLIC_GOOGLE_PLACE_ID || 'ChIJhbMF0yh3HEcRVTtOs
   .google-reviews-third-party:empty{display:none}
   .google-reviews-fallback{width:max-content;max-width:100%;color:#527b38;font-size:.78rem;font-weight:750;text-decoration:none}
   .google-reviews-fallback:hover{text-decoration:underline}
-  @media(max-width:620px){.google-reviews{padding:18px}.google-reviews-head{grid-template-columns:minmax(0,1fr) minmax(0,170px) minmax(0,1fr);column-gap:7px;min-height:95px}.google-reviews-brand{width:168px;height:84px}.google-reviews-kicker{font-size:.57rem;letter-spacing:.07em}.google-reviews-attribution{font-size:11px}.google-reviews-list{grid-template-columns:1fr}.google-review-card p{-webkit-line-clamp:3}}
-  @media(max-width:400px){.google-reviews-head{grid-template-columns:minmax(0,1fr) minmax(0,130px) minmax(0,1fr);column-gap:5px}.google-reviews-brand{width:130px;height:72px}.google-reviews-kicker{font-size:.53rem}.google-reviews-attribution{font-size:10px}}
+  @media(max-width:620px){.google-reviews{padding:18px}.google-reviews-head{grid-template-columns:minmax(0,1fr) minmax(0,170px) minmax(0,1fr);column-gap:7px;min-height:95px}.google-reviews-brand{width:168px;height:84px}.google-reviews-kicker{font-size:.57rem;letter-spacing:.07em}.google-reviews-attribution-logo{width:91px}.google-reviews-list{grid-template-columns:1fr}.google-review-card p{-webkit-line-clamp:3}}
+  @media(max-width:400px){.google-reviews-head{grid-template-columns:minmax(0,1fr) minmax(0,130px) minmax(0,1fr);column-gap:5px}.google-reviews-brand{width:130px;height:72px}.google-reviews-kicker{font-size:.53rem}.google-reviews-attribution-logo{width:72px}}
 </style>

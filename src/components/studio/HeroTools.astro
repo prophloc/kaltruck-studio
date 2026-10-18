@@ -10,7 +10,7 @@ import GoogleMapsPin from './GoogleMapsPin.astro';
   <button type="button" class="studio-hero-tool__toggle" data-studio-tool-toggle aria-expanded="false" aria-controls="studio-route-panel" aria-label="Otwórz planowanie trasy w Google Maps"><GoogleMapsPin class="studio-hero-tool__pin" /><strong>TRASA</strong></button>
 </div>
 <div class="studio-hero-tool studio-hero-tool--reviews" data-studio-tool="reviews">
-  <button type="button" class="studio-hero-tool__toggle" data-studio-tool-toggle aria-expanded="false" aria-controls="studio-reviews-panel" aria-label="Pokaż opinie Google"><span aria-hidden="true">★</span><strong>OPINIE</strong></button>
+  <button type="button" class="studio-hero-tool__toggle" data-studio-tool-toggle aria-expanded="false" aria-controls="studio-reviews-panel" aria-label="Pokaż opinie Google"><span class="studio-hero-tool__star" aria-hidden="true">★</span><strong>OPINIE</strong></button>
   <div class="studio-hero-tool__panel" id="studio-reviews-panel" data-studio-tool-panel aria-hidden="true" inert>
     <GoogleReviews />
   </div>
@@ -59,6 +59,9 @@ import GoogleMapsPin from './GoogleMapsPin.astro';
   .studio-hero-tool--route .studio-hero-tool__toggle {border-radius:0 13px 13px 0;border-left:0;}
   .studio-hero-tool--reviews .studio-hero-tool__toggle {border-radius:13px 0 0 13px;border-right:0;}
   .studio-hero-tool__toggle span {font-size:24px;line-height:1;color:#4f7e34;}
+  .studio-hero-tool--reviews .studio-hero-tool__star{color:#4f7e34;transition:color .2s ease,transform .2s ease;}
+  .studio-hero-tool--reviews.is-open .studio-hero-tool__star{color:#e1aa2f;transform:scale(1.12);}
+  .studio-hero-tool--reviews .studio-hero-tool__toggle[aria-expanded="true"] .studio-hero-tool__star{color:#e1aa2f;}
   :global(.studio-hero-tool__pin){display:block;width:24px;height:28px;object-fit:contain;transform:rotate(-90deg);filter:drop-shadow(0 1px 2px rgba(0,0,0,.12));}
   .studio-hero-tool__toggle strong {writing-mode:vertical-rl;transform:rotate(180deg);font-size:10px;letter-spacing:.14em;}
   .studio-hero-tool__toggle:hover,.studio-hero-tool__toggle[aria-expanded=true] {background:#e4f4c1;}

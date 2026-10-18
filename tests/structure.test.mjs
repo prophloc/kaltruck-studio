@@ -165,7 +165,7 @@ test('scrolled header stays dark and accessible across subpages', () => {
 test('map has no unbounded SVG ornament and uses contrasting panel labels', () => {
  const map = read('src/components/studio/DistanceEstimator.astro');
  assert.doesNotMatch(map, /<GoogleMapsPin/);
- assert.match(map, /google-route-heading-caption/);
+ assert.match(map, /google-route-heading-logo/);
  const css = read('src/styles/footer-refresh.css');
  assert.match(css, /\.studio-footer-route \.google-route-heading h2\{color:#1b3224/);
  assert.match(css, /\.studio-footer-route \.google-route-form input\{background:#fff;color:#183020/);
@@ -295,4 +295,24 @@ test('reviews header aligns kicker left, larger centered logo, attribution right
   assert.match(src, /\.google-reviews-attribution\{justify-self:end/);
   assert.match(src, /@media\(max-width:620px\)/);
   assert.match(src, /place\.fetchFields/);
+});
+
+test('Google Maps wordmark replaces route caption on both route panels', () => {
+  const route=read('src/components/studio/DistanceEstimator.astro');
+  assert.match(route, /src="\/brand\/google-maps-wordmark\.svg"/);
+  assert.match(route, /class="google-route-heading-logo"/);
+  assert.doesNotMatch(route, /google-route-heading-caption/);
+  assert.ok(existsSync('public/brand/google-maps-wordmark.svg'));
+  assert.match(read('public/brand/google-maps-wordmark.svg'), /viewBox="0 0 1000 185\.335"/);
+});
+test('Google reviews logo has five stars and the drawer star goes gold on open', () => {
+  const reviews=read('src/components/studio/GoogleReviews.astro');
+  const tools=read('src/components/studio/HeroTools.astro');
+  assert.match(reviews, /src="\/brand\/google-reviews-stars\.svg"/);
+  assert.match(reviews, /aria-label="Otwórz opinie KALTRUCK w Google Maps"/);
+  assert.ok(existsSync('public/brand/google-reviews-stars.svg'));
+  assert.match(tools, /class="studio-hero-tool__star"/);
+  assert.match(tools, /\.studio-hero-tool--reviews\.is-open \.studio-hero-tool__star\{color:#e1aa2f/);
+  assert.match(tools, /\[aria-expanded="true"\] \.studio-hero-tool__star\{color:#e1aa2f/);
+  assert.match(reviews, /place\.fetchFields/);
 });
