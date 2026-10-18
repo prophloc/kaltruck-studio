@@ -262,3 +262,14 @@
   height:2px;
   background:linear-gradient(90deg,var(--green) 0%,rgba(200,239,114,.64) 74%,rgba(200,239,114,.15) 100%);
 }
+
+/* One crisp, accessible Studio-green word per large service heading.
+   Lime text needs a deep green backing on the cream story panels. */
+.ps-story__copy h2 .ps-story__highlight {
+  color:var(--green);
+  background:var(--forest);
+  border-radius:.12em;
+  padding:.015em .12em .055em;
+  box-decoration-break:clone;
+  -webkit-box-decoration-break:clone;
+}

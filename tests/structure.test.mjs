@@ -220,3 +220,16 @@ test('process badge numbers and lines use the actual theme lime', () => {
  assert.match(css, /\.ps-process__step \.ps-process__step-top > span\s*\{[\s\S]*?background:var\(--green\);/);
  assert.match(css, /\.ps-process__step \.ps-process__step-top > i\s*\{[\s\S]*?linear-gradient\(90deg,var\(--green\)/);
 });
+
+test('exactly one lime highlighted key word appears in each of five photo stories', () => {
+ const home=read('src/pages/index.astro');
+ const story=read('src/components/studio/ServiceStory.astro');
+ const css=read('src/styles/premium-layout.css');
+ const expected=['Kontenery','Prefabrykaty','Maszyny','Ustawiamy','Nietypowy'];
+ const found=[...home.matchAll(/highlight="([^"]+)"/g)].map(x=>x[1]);
+ assert.deepEqual(found,expected);
+ assert.match(story, /hasHighlight && <span class="ps-story__highlight">\{highlight\}<\/span>/);
+ assert.match(story, /title\.indexOf\(highlight\)/);
+ for (const word of expected) assert.match(home,new RegExp('highlight="' + word + '"'));
+ assert.match(css, /\.ps-story__copy h2 \.ps-story__highlight\s*\{[\s\S]*?color:var\(--green\);[\s\S]*?background:var\(--forest\);/);
+});
