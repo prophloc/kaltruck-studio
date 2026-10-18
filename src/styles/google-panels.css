@@ -1,0 +1,4 @@
+.studio-footer-route {margin-bottom:70px; border:1px solid rgba(255,255,255,.13); border-radius:16px; overflow:hidden;}
+.studio-footer-route .google-route {color:#183020;}
+.studio-footer-route .google-route-panel {background:#faf9f3;}
+@media(max-width:800px){.studio-footer-route{margin-bottom:50px;border-radius:10px;}}

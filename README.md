@@ -13,6 +13,14 @@ Photo stories reuse real KALTRUCK image URLs from KALTRUCK Premium, but use Stud
 and link to Studio's own service pages. The hero markup was intentionally left unchanged.
 Visual inspection should still be performed locally before publication.
 
+## Google Maps and Reviews
+
+The homepage has slide-out route and reviews panels; a map also appears in the footer.
+Maps route planning opens Google Maps without an API key, and can embed directions
+in-page when configured. Reviews are real Google Place results when a browser-restricted
+API key is configured; otherwise the site shows a transparent external Google Maps link.
+See [Google integrations](docs/google-integrations.md). No review scores are fabricated.
+
 ## Features
 
 - Responsive editorial homepage with transport photography and dedicated call-to-action.

@@ -111,3 +111,22 @@ test('common header uses authentic logo, two phone numbers and arrow-free servic
  assert.doesNotMatch(layout, /Usługi ⌄/);
  assert.match(read('src/styles/header-unified.css'), /site-header\.home-header/);
 });
+
+test('hero Google tools show real lazy panels and a fallback without API credentials', () => {
+  const home = read('src/pages/index.astro');
+  const panel = read('src/components/studio/HeroTools.astro');
+  const route = read('src/components/studio/DistanceEstimator.astro');
+  const reviews = read('src/components/studio/GoogleReviews.astro');
+  const layout = read('src/layouts/BaseLayout.astro');
+  assert.match(home, /<HeroTools\s*\/>/);
+  assert.match(panel, /data-studio-tool="route"/);
+  assert.match(panel, /data-studio-tool="reviews"/);
+  assert.match(panel, /kaltruck:route-activate/);
+  assert.match(panel, /kaltruck:reviews-activate/);
+  assert.match(route, /google\.com\/maps\/dir/);
+  assert.match(route, /if \(!apiKey\)/);
+  assert.match(reviews, /fetchFields/);
+  assert.match(reviews, /!apiKey \|\| !placeId/);
+  assert.match(reviews, /Zobacz opinie w Google Maps/);
+  assert.match(layout, /studio-footer-route/);
+});

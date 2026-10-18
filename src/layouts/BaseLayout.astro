@@ -1,8 +1,10 @@
 ---
 import { site, services } from '../data/site';
+import DistanceEstimator from '../components/studio/DistanceEstimator.astro';
 import '../styles/global.css';
 import '../styles/hero.css';
 import '../styles/header-unified.css';
+import '../styles/google-panels.css';
 
 interface Props { title: string; description: string; image?: string; }
 const { title, description, image = 'https://raw.githubusercontent.com/prophloc/kaltruck-premium/main/public/images/home/hero-hds-kaltruck.webp' } = Astro.props;
@@ -104,6 +106,7 @@ const jsonLd = {
     </header>
     <main id="main"><slot /></main>
     <footer class="footer">
+      <div class="container studio-footer-route"><DistanceEstimator instanceId="studio-footer-route" /></div>
       <div class="container footer-head">
         <div><div class="eyebrow">KONTAKT / WYCENA</div><h2>Masz trudne<br /><em>zlecenie?</em></h2></div>
         <div><p>Opowiedz nam, co trzeba przewieźć lub ustawić. Dobierzemy rozwiązanie do warunków.</p><a class="footer-phone" href={'tel:' + site.phoneHref}>{site.phone} ↗</a><a href={'mailto:' + site.email}>{site.email}</a></div>
