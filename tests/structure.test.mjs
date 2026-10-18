@@ -425,3 +425,10 @@ test('Open Graph uses full-quality original truck photograph from hdsplock mater
  assert.match(layout,/property="og:image:height" content="941"/);
  assert.match(layout,/name="twitter:image" content=\{ogImage\}/);
 });
+
+test('favicon SVG is namespace-safe and contains no unbound Serif prefixes',()=>{
+ const icon=read('public/favicon.svg');
+ assert.doesNotMatch(icon,/serif:id/);
+ assert.match(icon,/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/);
+ assert.match(icon,/<g id="Layer-1">/);
+});
