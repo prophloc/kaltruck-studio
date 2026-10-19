@@ -29,7 +29,36 @@ jobs:
       - name: Build for transportplockhds.pl
         env:
           PUBLIC_SITE_URL: https://transportplockhds.pl
-        run: npm run build
+          PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.PUBLIC_GOOGLE_MAPS_API_KEY }}
+          PUBLIC_GOOGLE_PLACE_ID: ${{ vars.PUBLIC_GOOGLE_PLACE_ID }}
+        run: |
+          if [ -z "$PUBLIC_GOOGLE_MAPS_API_KEY" ]; then
+            echo "::error title=Missing Google API key::Add PUBLIC_GOOGLE_MAPS_API_KEY in repository Settings > Secrets and variables > Actions before exporting the cPanel ZIP."
+            exit 1
+          fi
+          npm run build
+      - name: Verify reviews configuration embedded in production HTML
+        run: |
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+
+          class ReviewsParser(HTMLParser):
+              entries = []
+              def handle_starttag(self, tag, attrs):
+                  attributes = dict(attrs)
+                  if 'data-google-reviews' in attributes:
+                      self.entries.append(attributes)
+
+          parser = ReviewsParser()
+          parser.feed(Path('dist/index.html').read_text(encoding='utf-8'))
+          if not parser.entries:
+              raise SystemExit('ERROR: Google reviews component missing from built HTML')
+          for entry in parser.entries:
+              if not entry.get('data-api-key') or not entry.get('data-place-id'):
+                  raise SystemExit('ERROR: Google reviews API key or Place ID missing from built HTML')
+          print('OK: Google reviews configuration exists in production HTML (values hidden)')
+          PY
       - name: Check production SEO
         env:
           PUBLIC_SITE_URL: https://transportplockhds.pl
