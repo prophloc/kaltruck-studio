@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - 'src/**'
+      - 'tests/**'
       - 'public/**'
       - 'astro.config.mjs'
       - 'package.json'
@@ -26,6 +27,8 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Test source
         run: npm test
+      - name: Lint cPanel contact handler (PHP)
+        run: php -l public/kontakt-wyslij.php
       - name: Build for transportplockhds.pl
         env:
           PUBLIC_SITE_URL: https://transportplockhds.pl
@@ -72,6 +75,7 @@ jobs:
           ! grep -r -q 'studio-seo-ci.example.invalid' dist/
           ! grep -q 'Disallow: /' dist/robots.txt
           test -f dist/.htaccess
+          test -f dist/kontakt-wyslij.php
       - name: Package files for direct public_html extraction
         run: |
           cd dist
