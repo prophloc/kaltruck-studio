@@ -43,14 +43,14 @@ test('gallery supports filtering, fullscreen and keyboard navigation', () => {
 test('contact form posts to cPanel PHP instead of composing mailto', () => {
   const contact = read('src/pages/kontakt.astro');
   const handler = read('public/kontakt-wyslij.php');
-  assert.match(contact, /action="\\/kontakt-wyslij\\.php"/);
-  assert.match(contact, /fetch\\(quoteForm\\.action/);
-  assert.match(contact, /Wyślij zapytanie/);
-  assert.doesNotMatch(contact, /window\\.location\\.href = 'mailto:/);
-  assert.match(handler, /hds\\.plock@gmail\\.com/);
-  assert.match(handler, /filter_var\\(\\$email, FILTER_VALIDATE_EMAIL\\)/);
-  assert.match(handler, /\\bmail\\(/);
-  assert.match(handler, /flock\\(/);
+  assert.ok(contact.includes('action="/kontakt-wyslij.php"'));
+  assert.ok(contact.includes('fetch(quoteForm.action'));
+  assert.ok(contact.includes('Wyślij zapytanie'));
+  assert.ok(!contact.includes("window.location.href = 'mailto:"));
+  assert.ok(handler.includes('hds.plock@gmail.com'));
+  assert.ok(handler.includes('FILTER_VALIDATE_EMAIL'));
+  assert.ok(handler.includes('$sent = @mail('));
+  assert.ok(handler.includes('flock('));
 });
 
 test('Studio homepage follows Premium section order without changing menu or hero', () => {
