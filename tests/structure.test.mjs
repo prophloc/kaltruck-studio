@@ -661,3 +661,13 @@ test('case-sensitive KALTRUCK Google Place ID matches the public listing', () =>
   assert.ok(envExample.includes(id));
   assert.doesNotMatch(reviews, /ChIJhbMF0yh3HEcRVTtOsPxz9eM/);
 });
+
+test('footer matches Premium 1440px grid, column positions and typography', () => {
+  const footer = read('src/components/studio/PremiumFooter.astro');
+  assert.ok(footer.includes('1440px'));
+  assert.ok(footer.includes('grid-template-columns:repeat(12,minmax(0,1fr))'));
+  for (const column of ['1/span 5', '6/span 2', '9/-1']) assert.ok(footer.includes('grid-column:' + column));
+  assert.ok(footer.includes('font-size:clamp(1.1rem,1.45vw,1.32rem)'));
+  assert.ok(footer.includes('padding:13px 0 0'));
+  assert.ok(!footer.includes('position:relative;top:10px'));
+});
