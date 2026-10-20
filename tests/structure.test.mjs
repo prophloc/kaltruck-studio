@@ -517,13 +517,14 @@ test('Premium footer has valid real contacts, navigation and social profiles acr
   assert.ok(premium.includes('grid-template-columns:1fr 1fr'));
 });
 
-test('footer keeps nav at original height and lowers only contact by 10px',()=>{
- const footer=read('src/components/studio/PremiumFooter.astro');
- assert.ok(footer.includes('.footer-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--grid-gap);align-items:stretch;min-height:220px;padding:18px 0;}'));
- assert.ok(footer.includes('.footer-links-wrap{grid-column:6/span 2;align-self:center;}'));
- assert.ok(footer.includes('.footer-contact{grid-column:9/-1;align-self:center;position:relative;top:10px;}'));
- assert.ok(footer.includes('.footer-phone{color:#e7e4de!important;font-size:.94rem;font-weight:700;letter-spacing:normal;}'));
- assert.ok(footer.includes('NIP: {site.nip}'));
+test('footer navigation and contact share Premium alignment', () => {
+  const footer = read('src/components/studio/PremiumFooter.astro');
+  assert.ok(footer.includes('.footer-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--grid-gap);align-items:stretch;min-height:220px;padding:18px 0}'));
+  assert.ok(footer.includes('.footer-links-wrap{grid-column:6/span 2;align-self:center}'));
+  assert.ok(footer.includes('.footer-contact{grid-column:9/-1;align-self:center}'));
+  assert.ok(!footer.includes('top:10px'));
+  assert.ok(footer.includes('font-size:clamp(1.1rem,1.45vw,1.32rem)'));
+  assert.ok(footer.includes('NIP: {site.nip}'));
 });
 test('mobile Maps and reviews move into compact navigation instead of side tabs',()=>{
  const nav=read('src/layouts/BaseLayout.astro');
@@ -638,18 +639,21 @@ test('uploaded cPanel footer places NIP in copyright bar, not in right column',(
  assert.ok(footer.includes('class="container footer-bottom"'));
 });
 
-test('copyright is close beneath the footer divider and ends with prophloc',()=>{
-  const component=read('src/components/studio/PremiumFooter.astro');
-  assert.match(component,/<span>© \{new Date\(\).getFullYear\(\)\} \{site.legalName\} · NIP: \{site.nip\}<\/span><span>prophloc<\/span>/);
-  assert.match(component,/\.footer-bottom\{[^\n]*min-height:0;height:auto;padding:8px 0 9px;/);
-  assert.match(component,/\.footer-bottom\{[^\n]*align-items:center;justify-content:space-between;/);
+test('copyright follows the Premium divider and ends with prophloc', () => {
+  const footer = read('src/components/studio/PremiumFooter.astro');
+  assert.ok(footer.includes('© {new Date().getFullYear()} {site.legalName} · NIP: {site.nip}'));
+  assert.ok(footer.includes('<span>prophloc</span>'));
+  assert.ok(footer.includes('.footer-bottom{border-top:1px solid var(--line);margin-top:0;padding:13px 0 0;min-height:0;height:auto;'));
+  assert.ok(footer.includes('justify-content:space-between'));
 });
 
-test('mobile footer columns are unaffected by desktop-only contact vertical shift',()=>{
- const footer=read('src/components/studio/PremiumFooter.astro');
- assert.ok(footer.includes('.footer-links-wrap,.footer-contact{grid-column:auto;align-self:start;top:0;}'));
- assert.ok(footer.includes('<p class="footer-label">Nawigacja</p>'));
- assert.ok(footer.includes('<p class="footer-label">Kontakt</p>'));
+test('mobile footer uses original Premium two-column alignment', () => {
+  const footer = read('src/components/studio/PremiumFooter.astro');
+  assert.ok(footer.includes('@media(max-width:760px)'));
+  assert.ok(footer.includes('.footer-grid{grid-template-columns:1fr 1fr;gap:28px 22px;min-height:0;padding:22px 0}'));
+  assert.ok(footer.includes('.footer-links-wrap,.footer-contact{grid-column:auto;align-self:start}'));
+  assert.ok(footer.includes('<p class="footer-label">Nawigacja</p>'));
+  assert.ok(footer.includes('<p class="footer-label">Kontakt</p>'));
 });
 
 
