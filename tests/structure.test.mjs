@@ -520,8 +520,9 @@ test('Premium footer has valid real contacts, navigation and social profiles acr
 test('footer navigation and contact share Premium alignment', () => {
   const footer = read('src/components/studio/PremiumFooter.astro');
   assert.ok(footer.includes('.footer-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--grid-gap);align-items:stretch;min-height:220px;padding:18px 0}'));
-  assert.ok(footer.includes('.footer-links-wrap{grid-column:6/span 2;align-self:center}'));
-  assert.ok(footer.includes('.footer-contact{grid-column:9/-1;align-self:center}'));
+  assert.ok(footer.includes('.footer-links-wrap{grid-column:6/span 2;align-self:start;padding-top:16px}'));
+  assert.ok(footer.includes('.footer-contact{grid-column:9/-1;align-self:start;padding-top:16px}'));
+  assert.ok(footer.includes('.footer-socials{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:3px}'));
   assert.ok(!footer.includes('top:10px'));
   assert.ok(footer.includes('font-size:clamp(1.1rem,1.45vw,1.32rem)'));
   assert.ok(footer.includes('NIP: {site.nip}'));
@@ -651,7 +652,7 @@ test('mobile footer uses original Premium two-column alignment', () => {
   const footer = read('src/components/studio/PremiumFooter.astro');
   assert.ok(footer.includes('@media(max-width:760px)'));
   assert.ok(footer.includes('.footer-grid{grid-template-columns:1fr 1fr;gap:28px 22px;min-height:0;padding:22px 0}'));
-  assert.ok(footer.includes('.footer-links-wrap,.footer-contact{grid-column:auto;align-self:start}'));
+  assert.ok(footer.includes('.footer-links-wrap,.footer-contact{grid-column:auto;align-self:start;padding-top:0}'));
   assert.ok(footer.includes('<p class="footer-label">Nawigacja</p>'));
   assert.ok(footer.includes('<p class="footer-label">Kontakt</p>'));
 });
