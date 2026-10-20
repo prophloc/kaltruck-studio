@@ -11,7 +11,7 @@ Copy the variable names from .env.example to a local .env file, set values, then
 
 ```
 PUBLIC_GOOGLE_MAPS_API_KEY=YOUR_BROWSER_RESTRICTED_KEY
-PUBLIC_GOOGLE_PLACE_ID=ChIJhbMF0yh3HEcRVTtOsPxz9eM
+PUBLIC_GOOGLE_PLACE_ID=ChIJhbMF0yh3HEcRVtTOsPxz9eM
 ```
 
 The Place ID and Tokarska 40 address are based on the existing KALTRUCK Premium configuration; verify they remain accurate before publishing.
@@ -60,3 +60,5 @@ Do not publish a Google API key in the repository. A PUBLIC key is intentionally
 sent to the browser at runtime: its security comes from HTTP referrer and API
 restrictions, not keeping the frontend JavaScript secret. Google reviews shown
 in the panel are returned by Google (typically up to five) and are never faked.
+
+**Production Place ID (case-sensitive):** `ChIJhbMF0yh3HEcRVtTOsPxz9eM` matches the listed KALTRUCK business at Tokarska 40. The previous checked-in identifier had two `T/t` characters inverted and returned `PLACES_GET_PLACE: NOT_FOUND`. The production workflow may override this default using the optional GitHub Actions variable `PUBLIC_GOOGLE_PLACE_ID`; when it is absent, the corrected default is used. Always confirm the address and name before updating the value.

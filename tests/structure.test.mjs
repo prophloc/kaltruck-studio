@@ -646,3 +646,13 @@ test('mobile footer columns are unaffected by desktop-only contact vertical shif
  assert.ok(footer.includes('<p class="footer-label">Nawigacja</p>'));
  assert.ok(footer.includes('<p class="footer-label">Kontakt</p>'));
 });
+
+
+test('case-sensitive KALTRUCK Google Place ID matches the public listing', () => {
+  const id = 'ChIJhbMF0yh3HEcRVtTOsPxz9eM';
+  const reviews = read('src/components/studio/GoogleReviews.astro');
+  const envExample = read('.env.example');
+  assert.ok(reviews.includes(id));
+  assert.ok(envExample.includes(id));
+  assert.doesNotMatch(reviews, /ChIJhbMF0yh3HEcRVTtOsPxz9eM/);
+});
