@@ -40,12 +40,17 @@ test('gallery supports filtering, fullscreen and keyboard navigation', () => {
   assert.match(gallery, /aria-label="Zamknij galerię"/);
 });
 
-test('contact uses mailto and never pretends to send to a server', () => {
+test('contact form posts to cPanel PHP instead of composing mailto', () => {
   const contact = read('src/pages/kontakt.astro');
-  assert.match(contact, /mailto:/);
-  assert.match(contact, /encodeURIComponent/);
-  assert.match(contact, /reportValidity/);
-  assert.doesNotMatch(contact, /fetch\(/);
+  const handler = read('public/kontakt-wyslij.php');
+  assert.match(contact, /action="\\/kontakt-wyslij\\.php"/);
+  assert.match(contact, /fetch\\(quoteForm\\.action/);
+  assert.match(contact, /Wyślij zapytanie/);
+  assert.doesNotMatch(contact, /window\\.location\\.href = 'mailto:/);
+  assert.match(handler, /hds\\.plock@gmail\\.com/);
+  assert.match(handler, /filter_var\\(\\$email, FILTER_VALIDATE_EMAIL\\)/);
+  assert.match(handler, /\\bmail\\(/);
+  assert.match(handler, /flock\\(/);
 });
 
 test('Studio homepage follows Premium section order without changing menu or hero', () => {

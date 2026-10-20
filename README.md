@@ -71,7 +71,7 @@ Avoid publishing this website and KALTRUCK Premium with duplicate SEO content on
 
 The content is based on KALTRUCK's current HDS transport service information. The prototype references existing KALTRUCK photos hosted at hdsplock.pl and the KALTRUCK Premium repository. Before public release, verify all image URLs, usage rights, performance and mobile crops.
 
-The contact form opens a **draft e-mail** in the user's configured email app. It does not send or store inquiries on a server. Replace it with a real form backend if needed.
+The contact form posts to a **PHP mail handler** bundled in the cPanel ZIP. This requires PHP with outbound mail configured on hosting; a successful PHP `mail()` response does not guarantee inbox delivery. See [Contact form cPanel deployment](docs/contact-form-cpanel.md) and test on your actual server. The mailto link remains a fallback.
 
 ## Repository and history
 

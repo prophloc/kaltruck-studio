@@ -10,26 +10,92 @@ import { site } from '../data/site';
       <a class="contact-mail" href={'mailto:' + site.email}>{site.email}</a>
       <div class="contact-location"><span>PŁOCK</span><p>Realizacje lokalne i ogólnopolskie</p></div>
     </div>
-    <div class="form-panel"><h2>Opisz zlecenie.</h2><p>Formularz przygotuje wiadomość w Twoim programie pocztowym. Nie wysyła danych na serwer.</p>
-      <form id="quote-form">
-        <label for="person">Imię / firma</label><input required id="person" name="person" autocomplete="name" />
-        <label for="phone">Telefon kontaktowy</label><input id="phone" name="phone" autocomplete="tel" />
-        <label for="service">Rodzaj usługi</label><select name="service" id="service"><option>Transport HDS</option><option>Transport kontenerów</option><option>Transport maszyn</option><option>Transport prefabrykatów</option><option>Rozładunek HDS</option><option>Wynajem HDS</option><option>Inne</option></select>
-        <label for="details">Opis ładunku i trasy</label><textarea required id="details" name="details" rows="5" placeholder="Co, skąd, dokąd i kiedy?"></textarea>
-        <button class="button button-green" type="submit">Przygotuj e-mail ↗</button>
+    <div class="form-panel">
+      <h2>Opisz zlecenie.</h2>
+      <p>Wyślij zapytanie bezpośrednio do KALTRUCK. Odpowiemy telefonicznie lub e-mailem.</p>
+      <form id="quote-form" method="post" action="/kontakt-wyslij.php">
+        <label for="person">Imię / firma</label><input required id="person" name="person" autocomplete="name" maxlength="120" />
+        <label for="phone">Telefon kontaktowy</label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="50" />
+        <label for="email">Adres e-mail</label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" />
+        <label for="service">Rodzaj usługi</label>
+        <select name="service" id="service"><option>Transport HDS</option><option>Transport kontenerów</option><option>Transport maszyn</option><option>Transport prefabrykatów</option><option>Rozładunek HDS</option><option>Wynajem HDS</option><option>Inne</option></select>
+        <label for="details">Opis ładunku i trasy</label><textarea required id="details" name="details" rows="5" maxlength="4000" placeholder="Co, skąd, dokąd i kiedy?"></textarea>
+        <div class="quote-honeypot" aria-hidden="true"><label for="company-website">Strona WWW</label><input id="company-website" name="website" tabindex="-1" autocomplete="off" /></div>
+        <p class="quote-form-hint">Podaj telefon lub e-mail, abyśmy mogli odpowiedzieć.</p>
+        <button class="button button-green" type="submit">Wyślij zapytanie ↗</button>
+        <p id="quote-form-status" class="quote-form-status" role="status" aria-live="polite"></p>
       </form>
     </div>
   </div></section>
   <script>
     const quoteForm = document.querySelector<HTMLFormElement>('#quote-form');
-    quoteForm?.addEventListener('submit', event => {
+    const status = document.querySelector<HTMLElement>('#quote-form-status');
+    const result = new URLSearchParams(window.location.search).get('status');
+    if (status && result === 'sent') {
+      status.textContent = 'Zapytanie zostało przyjęte do wysyłki. Dziękujemy!';
+      status.dataset.state = 'success';
+    } else if (status && result === 'error') {
+      status.textContent = 'Nie udało się wysłać zapytania. Spróbuj ponownie lub napisz na hds.plock@gmail.com.';
+      status.dataset.state = 'error';
+    }
+
+    quoteForm?.addEventListener('submit', async event => {
       event.preventDefault();
       if (!quoteForm.reportValidity()) return;
-      const data = new FormData(quoteForm);
-      const get = (key: string) => String(data.get(key) || '');
-      const message = ['Imię / firma: ' + get('person'), 'Telefon: ' + get('phone'), 'Usługa: ' + get('service'), '', 'Opis: ', get('details')].join('\n');
-      const address = 'hds.plock@gmail.com';
-      window.location.href = 'mailto:' + address + '?subject=' + encodeURIComponent('Wycena HDS — KALTRUCK') + '&body=' + encodeURIComponent(message);
+      const phone = quoteForm.querySelector<HTMLInputElement>('#phone')?.value.trim() || '';
+      const email = quoteForm.querySelector<HTMLInputElement>('#email')?.value.trim() || '';
+      if (!phone && !email) {
+        if (status) {
+          status.textContent = 'Podaj numer telefonu lub adres e-mail.';
+          status.dataset.state = 'error';
+        }
+        return;
+      }
+
+      const button = quoteForm.querySelector<HTMLButtonElement>('button[type="submit"]');
+      if (button?.disabled) return;
+      if (button) {
+        button.disabled = true;
+        button.textContent = 'Wysyłanie…';
+      }
+      if (status) {
+        status.dataset.state = '';
+        status.textContent = 'Wysyłamy zapytanie…';
+      }
+
+      try {
+        const response = await fetch(quoteForm.action, {
+          method: 'POST',
+          body: new FormData(quoteForm),
+          headers: { 'X-Requested-With': 'XMLHttpRequest' },
+          credentials: 'same-origin',
+        });
+        const data: { success?: boolean; message?: string } = await response.json();
+        if (!response.ok || !data.success) throw new Error(data.message || 'Nie udało się wysłać zapytania.');
+        if (status) {
+          status.dataset.state = 'success';
+          status.textContent = 'Zapytanie zostało przyjęte do wysyłki. Dziękujemy! Wkrótce się skontaktujemy.';
+        }
+        quoteForm.reset();
+      } catch (error) {
+        if (status) {
+          status.dataset.state = 'error';
+          status.textContent = error instanceof Error ? error.message : 'Nie udało się wysłać zapytania. Spróbuj ponownie.';
+        }
+      } finally {
+        if (button) {
+          button.disabled = false;
+          button.textContent = 'Wyślij zapytanie ↗';
+        }
+      }
     });
   </script>
+  <style>
+    .quote-honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
+    .form-panel .quote-form-hint{margin:4px 0 0;color:#626c63;font-size:12px}
+    .form-panel .quote-form-status{margin:9px 0 0;min-height:1.3em;color:#3e4c41;font-size:14px;line-height:1.5}
+    .form-panel .quote-form-status[data-state="success"]{color:#276a3e;font-weight:700}
+    .form-panel .quote-form-status[data-state="error"]{color:#a12626;font-weight:700}
+    .form-panel button:disabled{opacity:.65;cursor:wait}
+  </style>
 </BaseLayout>
