@@ -522,7 +522,9 @@ test('footer navigation and contact share Premium alignment', () => {
   assert.ok(footer.includes('.footer-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--grid-gap);align-items:stretch;min-height:220px;padding:18px 0}'));
   assert.ok(footer.includes('.footer-links-wrap{grid-column:6/span 2;align-self:start;padding-top:16px}'));
   assert.ok(footer.includes('.footer-contact{grid-column:9/-1;align-self:start;padding-top:16px}'));
-  assert.ok(footer.includes('.footer-socials{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:3px}'));
+  assert.ok(footer.includes('.footer-socials{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:0}'));
+  assert.ok(footer.includes('.footer-contact{color:#9d9992;row-gap:4px}'));
+  assert.ok(footer.includes('min-height:34px;padding:4px 10px'));
   assert.ok(!footer.includes('top:10px'));
   assert.ok(footer.includes('font-size:clamp(1.1rem,1.45vw,1.32rem)'));
   assert.ok(footer.includes('NIP: {site.nip}'));
