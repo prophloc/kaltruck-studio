@@ -525,7 +525,7 @@ test('footer navigation and contact share Premium alignment', () => {
   assert.ok(footer.includes('.footer-socials{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:0}'));
   assert.ok(footer.includes('.footer-contact{color:#9d9992;row-gap:4px}'));
   assert.ok(footer.includes('grid-template-rows:29px 30px minmax(0,1fr) 34px'));
-  assert.ok(footer.includes('.footer-contact-details{align-self:stretch;display:flex;flex-direction:column;justify-content:center;gap:3px}'));
+  assert.ok(footer.includes('.footer-contact-details{align-self:stretch;display:flex;flex-direction:column;justify-content:center;gap:3px;position:relative;top:2px}'));
   assert.ok(footer.includes('.footer-links a{height:21px;line-height:21px}'));
   assert.ok(footer.includes('min-height:34px;padding:4px 10px'));
   assert.ok(!footer.includes('top:10px'));
