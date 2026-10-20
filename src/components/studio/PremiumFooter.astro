@@ -19,8 +19,10 @@ const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Tokarska%2040%2
     <div class="footer-contact">
       <p class="footer-label">Kontakt</p>
       <a class="footer-phone" href={`tel:${site.phoneHref}`}>{site.phone}</a>
-      <a href={`mailto:${site.email}`}>{site.email}</a>
-      <a class="footer-address" href={mapsUrl} target="_blank" rel="noopener noreferrer">Tokarska 40, 09-401 Płock</a>
+      <div class="footer-contact-details">
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+        <a class="footer-address" href={mapsUrl} target="_blank" rel="noopener noreferrer">Tokarska 40, 09-401 Płock</a>
+      </div>
       <nav class="footer-socials" aria-label="Profile społecznościowe KALTRUCK">
         <a class="footer-social" href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="KALTRUCK na Facebooku">
           <img src="/brand/facebook-icon.svg" width="22" height="22" alt="" loading="lazy" /> <span>Facebook</span>
@@ -64,6 +66,7 @@ const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Tokarska%2040%2
   .footer-links a:hover{color:var(--accent)}
   .footer-contact{color:#9d9992;row-gap:4px}
   .footer-contact a{overflow-wrap:anywhere}
+  .footer-contact-details{display:grid;gap:3px}
   .footer-address{color:#9d9992;text-decoration:none}
   .footer-address:hover{color:var(--accent)}
   .footer-socials{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:0}
@@ -73,6 +76,17 @@ const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Tokarska%2040%2
   .footer-social:focus-visible{outline:2px solid var(--accent)}
   .footer-phone{color:#fff!important;font-family:inherit;font-size:clamp(1.1rem,1.45vw,1.32rem);font-weight:800;letter-spacing:-.02em}
   .footer-bottom{border-top:1px solid var(--line);margin-top:0;padding:13px 0 0;min-height:0;height:auto;display:flex;align-items:stretch;flex-wrap:nowrap;justify-content:space-between;gap:20px;color:#777;font-size:.74rem}
+  /* Shared vertical rhythm: phone begins with "Usługi", social bottoms with "Kontakt". */
+  @media(min-width:761px){
+    .footer-links-wrap>.footer-label,.footer-contact>.footer-label{height:29px;margin:0;line-height:18px}
+    .footer-links{gap:7px}
+    .footer-links a{height:21px;line-height:21px}
+    .footer-contact{height:162px;display:grid;grid-template-rows:29px 30px minmax(0,1fr) 34px;row-gap:0}
+    .footer-phone{line-height:30px;align-self:start}
+    .footer-contact-details{align-self:stretch;display:flex;flex-direction:column;justify-content:center;gap:3px}
+    .footer-contact-details a{line-height:20px}
+    .footer-socials{align-self:end;margin:0}
+  }
   @media(max-width:900px){
     .footer-grid{min-height:210px}
     .footer-brand{grid-column:1/span 5}
