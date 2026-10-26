@@ -7,9 +7,11 @@ import ProcessSteps from '../components/studio/ProcessSteps.astro';
 import FAQSection from '../components/studio/FAQSection.astro';
 import CTASection from '../components/studio/CTASection.astro';
 import '../styles/premium-layout.css';
+import '../styles/horizontal.css';
 import HeroTools from '../components/studio/HeroTools.astro';
 ---
 <BaseLayout title="Transport HDS Płock i cała Polska | KALTRUCK Kalwasińscy" image="https://raw.githubusercontent.com/prophloc/kaltruck-premium/main/public/images/home/hero-hds-original.png" description="Transport HDS w Płocku i całej Polsce. Przewóz kontenerów, maszyn, prefabrykatów oraz załadunek i rozładunek HDS.">
+  <div class="horizontal-track" id="horizontal-track" aria-label="Pozioma prezentacja KALTRUCK">
   <section class="home-hero" aria-labelledby="home-hero-title">
     <HeroTools />
     <div class="home-hero__media">
@@ -38,7 +40,7 @@ import HeroTools from '../components/studio/HeroTools.astro';
     </div>
     <div class="container home-hero__bottom">
       <div class="home-hero__progress" aria-label="Jedno hero"><span class="home-hero__progress-active"></span><small>01 / 01</small></div>
-      <a href="/#o-nas" class="home-hero__scroll">ODKRYJ KALTRUCK <span aria-hidden="true">↓</span></a>
+      <a href="/#o-nas" class="home-hero__scroll">ODKRYJ KALTRUCK <span aria-hidden="true">→</span></a>
       <span class="home-hero__chapter">01 / KALTRUCK STUDIO</span>
     </div>
   </section>
@@ -119,4 +121,12 @@ import HeroTools from '../components/studio/HeroTools.astro';
     <FAQSection />
     <CTASection />
   </div>
+  </div>
+  <nav class="horizontal-progress" aria-label="Nawigacja pozioma">
+    <button type="button" data-prev aria-label="Poprzednia sekcja">←</button>
+    <span data-count>01 / 12</span>
+    <span class="horizontal-progress__bar"><span class="horizontal-progress__fill" data-fill></span></span>
+    <button type="button" data-next aria-label="Następna sekcja">→</button>
+  </nav>
+  <script is:inline src="/horizontal-scroll.js"></script>
 </BaseLayout>
