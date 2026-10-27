@@ -54,25 +54,27 @@ test('contact form posts to cPanel PHP instead of composing mailto', () => {
 });
 
 
-test('horizontal v2 fits all services into five photo-led sections without altering Studio header', () => {
+
+test('horizontal v3 gives every main menu tab its own full-bleed section in menu order', () => {
   const home = read('src/pages/index.astro');
   const header = read('src/layouts/BaseLayout.astro');
-  const expected = ['id="start"', 'id="uslugi"', 'id="o-nas"', 'id="realizacje-home"', 'id="wycena"'];
+  const expected = ['start', 'uslugi', 'realizacje', 'sprzet', 'o-nas', 'kontakt'];
   let previous = -1;
-  for (const marker of expected) {
-    const pos = home.indexOf(marker);
-    assert.ok(pos > previous, marker + ' appears in navigation order');
+  for (const id of expected) {
+    const pos = home.indexOf('id="' + id + '"');
+    assert.ok(pos > previous, id + ' must be reachable in menu order');
     previous = pos;
+    assert.match(header, new RegExp("data-nav-section=\"" + id + "\""));
   }
-  assert.equal((home.match(/<section class="hz-slide/g) || []).length, 5);
+  assert.equal((home.match(/<section class="hz-slide/g) || []).length, 6);
   assert.equal((home.match(/<ServiceStory\b/g) || []).length, 0);
   assert.match(home, /services\.map\(\(service\)/);
   assert.match(home, /class="hz-services__list"/);
   assert.match(home, /<HeroTools\s*\/>/);
   assert.match(header, /class="site-header home-header"/);
   assert.match(header, /href="\/#uslugi"/);
+  assert.match(home, /<DistanceEstimator instanceId="horizontal-final-route" variant="drawer" deferMap=\{false\} \/>/);
 });
-
 
 test('horizontal v2 retains original hero photo and true full-screen imagery', () => {
   const home = read('src/pages/index.astro');
@@ -342,19 +344,19 @@ test('O nas hero uses two deliberate lines and lime second line', () => {
  assert.match(page, /\.about-hero-title__accent\{color:var\(--green\)/);
  assert.match(page, /\.about-hero-title>span\{display:block;max-width:100%;white-space:nowrap/);
 });
-test('Sprzęt route exists in desktop, mobile, footer and sitemap', () => {
- const layout=read('src/layouts/BaseLayout.astro');
- const sitemap=read('src/pages/sitemap.xml.ts');
- const page=read('src/pages/sprzet.astro');
- assert.match(layout, /href="\/sprzet\/" aria-current=\{path === '\/sprzet\/'/);
- assert.equal(layout.split('href="/sprzet/"').length-1, 2);
- assert.ok(read('src/components/studio/PremiumFooter.astro').includes('href="/sprzet/"'));
- assert.match(sitemap, /'\/sprzet\/'/);
- assert.match(page, /do 12 ton|12 t/);
- assert.match(page, /14 m/);
- assert.match(page, /masy, zasięgu i warunków pracy/);
-});
 
+test('equipment route remains accessible outside the new homepage section', () => {
+  const layout=read('src/layouts/BaseLayout.astro');
+  const sitemap=read('src/pages/sitemap.xml.ts');
+  const page=read('src/pages/sprzet.astro');
+  assert.match(layout, /isHome \? '\/#sprzet' : '\/sprzet\/'/);
+  assert.equal((layout.match(/data-nav-section="sprzet"/g)||[]).length, 2);
+  assert.ok(read('src/components/studio/PremiumFooter.astro').includes('href="/sprzet/"'));
+  assert.match(sitemap, /'\/sprzet\/'/);
+  assert.match(page, /do 12 ton|12 t/);
+  assert.match(page, /14 m/);
+  assert.match(page, /masy, zasięgu i warunków pracy/);
+});
 
 test('browser favicon uses cropped genuine KALTRUCK vector emblem',()=>{
  const layout=read('src/layouts/BaseLayout.astro');
@@ -559,17 +561,22 @@ test('mobile tools escape hero overflow and gallery headline uses valid typograp
  assert.ok(!gallery.includes('font:800 inherit'));
 });
 
-test('20px service anchor correction, active menu sections and individual service links',()=>{
+
+test('all six menu links navigate to homepage slides and synchronize active state',()=>{
  const layout=read('src/layouts/BaseLayout.astro');
- const style=read('src/styles/premium-layout.css');
+ const js=read('public/horizontal-scroll.js');
  const header=read('src/styles/header-unified.css');
- assert.match(style, /#uslugi\.ps-service-stories\s*\{scroll-margin-top:20px;\}/);
- assert.ok(layout.includes('data-nav-services'));
- assert.ok(layout.includes("link.setAttribute('aria-current', 'location')"));
- assert.ok(layout.includes("window.addEventListener('scroll', updateActiveSection"));
+ for (const id of ['start','uslugi','realizacje','sprzet','o-nas','kontakt']) {
+   assert.equal((layout.match(new RegExp('data-nav-section="' + id + '"','g'))||[]).length,2);
+ }
+ assert.match(layout,/href="\/#uslugi"/);
+ assert.match(js,/menuLinks\.forEach/);
+ assert.match(js,/link\.setAttribute\('aria-current'/);
+ assert.match(js,/window\.addEventListener\('wheel'/);
  assert.ok(layout.includes("aria-current={path === '/uslugi/' + s.slug + '/' ? 'page' : undefined}"));
  assert.ok(header.includes('.dropdown-list > a[aria-current="page"]'));
 });
+
 test('contact begins at real details without removed introductory hero',()=>{
  const contact=read('src/pages/kontakt.astro');
  const global=read('src/styles/global.css');
