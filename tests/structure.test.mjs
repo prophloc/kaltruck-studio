@@ -53,57 +53,50 @@ test('contact form posts to cPanel PHP instead of composing mailto', () => {
   assert.ok(handler.includes('flock('));
 });
 
-test('Studio homepage follows Premium section order without changing menu or hero', () => {
-  const homepage = read('src/pages/index.astro');
+
+test('horizontal v2 fits all services into five photo-led sections without altering Studio header', () => {
+  const home = read('src/pages/index.astro');
   const header = read('src/layouts/BaseLayout.astro');
-  const order = [
-    '<CapabilityStrip />',
-    'id="o-nas"',
-    'class="ps-service-stories"',
-    '<EquipmentSection />',
-    '<ProcessSteps />',
-    '<FAQSection />',
-    '<CTASection />'
-  ];
+  const expected = ['id="start"', 'id="uslugi"', 'id="o-nas"', 'id="realizacje-home"', 'id="wycena"'];
   let previous = -1;
-  for (const step of order) {
-    const pos = homepage.indexOf(step);
-    assert.ok(pos > previous, step + ' must follow prior sections');
+  for (const marker of expected) {
+    const pos = home.indexOf(marker);
+    assert.ok(pos > previous, marker + ' appears in navigation order');
     previous = pos;
   }
-  assert.equal((homepage.match(/<ServiceStory\b/g) || []).length, 5);
-  assert.equal((homepage.match(/\n        reverse\n/g) || []).length, 2);
-  assert.match(homepage, /src="https:\/\/raw\.githubusercontent\.com\/prophloc\/kaltruck-premium\/main\/public\/images\/home\/hero-hds-original\.png"/);
-  assert.match(homepage, /CIĘŻKIE ZADANIA\./);
-  assert.match(homepage, /PEWNE <strong class="home-hero__accent">ROZWIĄZANIA\.<\/strong>/);
-  assert.match(homepage, /home-hero__photo/);
-  assert.match(homepage, /home-hero__actions/);
+  assert.equal((home.match(/<section class="hz-slide/g) || []).length, 5);
+  assert.equal((home.match(/<ServiceStory\b/g) || []).length, 0);
+  assert.match(home, /services\.map\(\(service\)/);
+  assert.match(home, /class="hz-services__list"/);
+  assert.match(home, /<HeroTools\s*\/>/);
   assert.match(header, /class="site-header home-header"/);
   assert.match(header, /href="\/#uslugi"/);
-  assert.doesNotMatch(homepage, /class="service-grid"/);
-  assert.doesNotMatch(homepage, /class="proof-grid"/);
-  assert.match(read('src/styles/premium-layout.css'), /ps-story--reverse/);
-  assert.match(read('src/styles/premium-layout.css'), /var\(--green/);
 });
 
-test('homepage uses original-quality full-width photograph and integrated navigation', () => {
-  const homepage = read('src/pages/index.astro');
+
+test('horizontal v2 retains original hero photo and true full-screen imagery', () => {
+  const home = read('src/pages/index.astro');
   const layout = read('src/layouts/BaseLayout.astro');
-  const styles = read('src/styles/hero.css');
-  assert.match(homepage, /home-hero__photo/);
-  assert.match(homepage, /hero-hds-original\.png/);
-  assert.doesNotMatch(homepage, /hero-hds-kaltruck\.webp/);
+  const styles = read('src/styles/horizontal.css');
+  assert.match(home, /hero-hds-original\.png/);
+  assert.match(home, /class="hz-photo hz-photo--hero"/);
+  assert.match(home, /class="horizontal-track"/);
   assert.match(layout, /home-header/);
   assert.match(styles, /object-fit:\s*cover/);
-  assert.match(styles, /linear-gradient/);
+  assert.match(styles, /height:100dvh/);
   assert.match(styles, /prefers-reduced-motion/);
 });
 
-test('Premium-inspired service stories link only to available service routes', () => {
-  const homepage = read('src/pages/index.astro');
-  for (const slug of ["transport-kontenerow","transport-prefabrykatow","transport-maszyn","rozladunek-hds","transport-hds"]) {
-    assert.match(homepage, new RegExp('href="/uslugi/' + slug + '/"'));
-    assert.match(read('src/data/site.ts'), new RegExp("slug: '" + slug + "'"));
+
+test('single services board links to all six existing service routes', () => {
+  const home = read('src/pages/index.astro');
+  const data = read('src/data/site.ts');
+  assert.match(home, /services\.map\(\(service\)/);
+  assert.match(home, /service\.slug/);
+  assert.match(home, /service\.description/);
+  assert.match(home, /class="hz-service"/);
+  for (const slug of ["transport-kontenerow","transport-prefabrykatow","transport-maszyn","rozladunek-hds","transport-hds","wynajem-hds"]) {
+    assert.match(data, new RegExp("slug: '" + slug + "'"));
   }
 });
 
@@ -174,15 +167,16 @@ test('map OD/DO labels use theme lime and headings stay dark on cream', () => {
  assert.doesNotMatch(map, /#d9ba68|#ede2c9|#6d5117/);
  assert.match(footer, /\.studio-footer-route \.google-route-point\{background:var\(--green\)/);
 });
-test('homepage header overlays hero and ROZWIĄZANIA uses brand lime', () => {
- const home=read('src/pages/index.astro');
- const hero=read('src/styles/hero.css');
- const header=read('src/styles/header-unified.css');
- const layout=read('src/layouts/BaseLayout.astro');
- assert.match(home, /<strong class="home-hero__accent">ROZWIĄZANIA\.<\/strong>/);
- assert.match(hero, /\.home-hero__title \.home-hero__accent \{ color:var\(--green\)/);
- assert.match(layout, /data-home=\{isHome \? "true" : "false"\}/);
- assert.match(header, /\.site-header\.home-header\[data-home="true"\]:not\(\.scrolled\)/);
+
+test('homepage header overlays full-bleed hero and accent uses brand lime', () => {
+  const home=read('src/pages/index.astro');
+  const hz=read('src/styles/horizontal.css');
+  const header=read('src/styles/header-unified.css');
+  const layout=read('src/layouts/BaseLayout.astro');
+  assert.match(home, /PEWNE <em>ROZWIĄZANIA\.<\/em>/);
+  assert.match(hz, /\.hz-slide h2 em,\.hz-slide h1 em \{ color:var\(--hz-accent\)/);
+  assert.match(layout, /data-home=\{isHome \? "true" : "false"\}/);
+  assert.match(header, /home-header/);
 });
 
 test('process card text is visually centered in both axes', () => {
@@ -218,17 +212,18 @@ test('process badge numbers and lines use the actual theme lime', () => {
  assert.match(css, /\.ps-process__step \.ps-process__step-top > i\s*\{[\s\S]*?linear-gradient\(90deg,var\(--green\)/);
 });
 
-test('exactly one lime highlighted key word appears in each of five photo stories', () => {
- const home=read('src/pages/index.astro');
- const story=read('src/components/studio/ServiceStory.astro');
- const css=read('src/styles/premium-layout.css');
- const expected=['Kontenery','Prefabrykaty','Maszyny','Ustawiamy','Nietypowy'];
- const found=[...home.matchAll(/highlight="([^"]+)"/g)].map(x=>x[1]);
- assert.deepEqual(found,expected);
- assert.match(story, /hasHighlight && <span class="ps-story__highlight">\{highlight\}<\/span>/);
- assert.match(story, /title\.indexOf\(highlight\)/);
- for (const word of expected) assert.match(home,new RegExp('highlight="' + word + '"'));
- assert.match(css, /\.ps-story__copy h2 \.ps-story__highlight\s*\{[\s\S]*?font-family:'DM Sans'[\s\S]*?color:#86ab46;[\s\S]*?background:none;/);
+
+test('photo-led horizontal design presents services, projects and contact without empty story panels', () => {
+  const home = read('src/pages/index.astro');
+  const css = read('src/styles/horizontal.css');
+  const js = read('public/horizontal-scroll.js');
+  assert.equal((home.match(/<ServiceStory\b/g) || []).length, 0);
+  assert.match(home, /featuredProjects\.map/);
+  assert.match(home, /class="hz-equipment__stats"/);
+  assert.match(home, /class="hz-faq"/);
+  assert.match(css, /\.hz-services__list\s*\{display:grid/);
+  assert.match(js, /classList\.contains\('hz-slide'\)/);
+  assert.match(js, /window\.addEventListener\('wheel'/);
 });
 
 test('services dropdown uses exactly the same cream surface as Google Maps drawer', () => {
