@@ -1,130 +1,146 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CapabilityStrip from '../components/studio/CapabilityStrip.astro';
-import ServiceStory from '../components/studio/ServiceStory.astro';
-import EquipmentSection from '../components/studio/EquipmentSection.astro';
-import ProcessSteps from '../components/studio/ProcessSteps.astro';
-import FAQSection from '../components/studio/FAQSection.astro';
-import CTASection from '../components/studio/CTASection.astro';
-import '../styles/premium-layout.css';
-import '../styles/horizontal.css';
 import HeroTools from '../components/studio/HeroTools.astro';
----
-<BaseLayout title="Transport HDS Płock i cała Polska | KALTRUCK Kalwasińscy" image="https://raw.githubusercontent.com/prophloc/kaltruck-premium/main/public/images/home/hero-hds-original.png" description="Transport HDS w Płocku i całej Polsce. Przewóz kontenerów, maszyn, prefabrykatów oraz załadunek i rozładunek HDS.">
-  <div class="horizontal-track" id="horizontal-track" aria-label="Pozioma prezentacja KALTRUCK">
-  <section class="home-hero" aria-labelledby="home-hero-title">
-    <HeroTools />
-    <div class="home-hero__media">
-      <img
-        class="home-hero__photo"
-        src="https://raw.githubusercontent.com/prophloc/kaltruck-premium/main/public/images/home/hero-hds-original.png"
-        alt="Czerwony samochód HDS KALTRUCK z żurawiem podnoszącym kontener"
-        width="1672"
-        height="941"
-        fetchpriority="high"
-        decoding="async"
-      />
-    </div>
-    <div class="container home-hero__content">
-      <p class="home-hero__eyebrow"><span class="home-hero__line"></span> KALTRUCK / TRANSPORT HDS / PŁOCK I POLSKA</p>
-      <h1 id="home-hero-title" class="home-hero__title">
-        <span>CIĘŻKIE ZADANIA.</span>
-        <span>PEWNE <strong class="home-hero__accent">ROZWIĄZANIA.</strong></span>
-      </h1>
-      <p class="home-hero__description">Specjalistyczny transport, precyzyjny załadunek i rozładunek HDS. Od kontenerów i maszyn po wymagające projekty przemysłowe.</p>
-      <div class="home-hero__actions">
-        <a class="button button-green" href="/#uslugi">Nasze usługi ↗</a>
-        <a class="button home-hero__secondary" href="/kontakt/">Porozmawiajmy o transporcie ↗</a>
-      </div>
-      <div class="home-hero__tags"><span>TRANSPORT HDS</span><span>KONTENERY I MASZYNY</span><span>MONTAŻ I ROZŁADUNEK</span></div>
-    </div>
-    <div class="container home-hero__bottom">
-      <div class="home-hero__progress" aria-label="Jedno hero"><span class="home-hero__progress-active"></span><small>01 / 01</small></div>
-      <a href="/#o-nas" class="home-hero__scroll">ODKRYJ KALTRUCK <span aria-hidden="true">→</span></a>
-      <span class="home-hero__chapter">01 / KALTRUCK STUDIO</span>
-    </div>
-  </section>
+import { site, services, projects } from '../data/site';
+import '../styles/horizontal.css';
 
-  <div class="ps-home">
-    <CapabilityStrip />
-    <section class="ps-intro" id="o-nas" aria-labelledby="ps-intro-title">
-      <div class="container ps-intro__grid">
-        <div class="ps-intro__title">
-          <p class="eyebrow">KALTRUCK / KALWASIŃSCY</p>
-          <h2 id="ps-intro-title"><span>Transport HDS</span><em>Płock · Polska</em></h2>
+const heroPhoto = 'https://raw.githubusercontent.com/prophloc/kaltruck-premium/main/public/images/home/hero-hds-original.png';
+const storyPhotos = {
+  services: 'https://hdsplock.pl/zdj/realizacje/transport-kontenerow-07.jpg',
+  equipment: 'https://hdsplock.pl/zdj/realizacje/transport-przemys-owy-03.jpg',
+  projects: 'https://hdsplock.pl/zdj/realizacje/stacje-transformatorowe-07.jpg',
+  contact: 'https://hdsplock.pl/zdj/realizacje/transport-kontenerow-03.jpg',
+};
+const featuredProjects = [projects[0], projects[1], projects[2], projects[4]];
+const stages = [
+  ['01', 'Opis zlecenia', 'Ładunek, wymiary, ciężar i adresy.'],
+  ['02', 'Ocena warunków', 'Dojazd, miejsce postoju i zasięg HDS.'],
+  ['03', 'Plan i wycena', 'Zakres prac, termin i sposób rozładunku.'],
+  ['04', 'Realizacja', 'Przewóz, podniesienie i ustawienie.'],
+];
+const questions = [
+  ['Gdzie działacie?', 'Baza firmy znajduje się w Płocku. Obsługujemy również zlecenia na terenie całej Polski.'],
+  ['Czy ustawicie ładunek w miejscu docelowym?', 'Tak, jeżeli masa, promień pracy, podłoże i warunki dojazdu pozwolą na bezpieczną pracę HDS.'],
+  ['Co podać do wyceny?', 'Rodzaj, wymiary i masę ładunku, miejsce odbioru i rozładunku oraz informacje o dojeździe.'],
+];
+---
+<BaseLayout title="Transport HDS Płock i cała Polska | KALTRUCK Kalwasińscy" image={heroPhoto} description="Transport HDS w Płocku i całej Polsce: kontenery, maszyny, prefabrykaty, wynajem HDS i rozładunek. Poznaj wszystkie usługi KALTRUCK.">
+  <div class="horizontal-track" id="horizontal-track" aria-label="KALTRUCK — przewijana poziomo prezentacja oferty">
+    <section class="hz-slide hz-hero home-hero" id="start" aria-labelledby="hz-hero-title">
+      <img class="hz-photo hz-photo--hero" src={heroPhoto} width="1672" height="941" alt="Czerwony samochód ciężarowy KALTRUCK HDS przewożący kontener" fetchpriority="high" decoding="async" />
+      <HeroTools />
+      <div class="hz-container hz-hero__body">
+        <div class="hz-kicker"><span class="hz-line"></span> KALTRUCK / TRANSPORT HDS / PŁOCK · POLSKA</div>
+        <h1 id="hz-hero-title">CIĘŻKIE ZADANIA.<br /><span>PEWNE <em>ROZWIĄZANIA.</em></span></h1>
+        <p>Transport i załadunek HDS w jednym. Kontenery, maszyny, prefabrykaty i nietypowe ładunki — od odbioru po ustawienie na miejscu.</p>
+        <div class="hz-actions">
+          <a class="button button-green" href="#uslugi">Zobacz wszystkie usługi ↗</a>
+          <a class="hz-outline" href="/kontakt/">Zapytaj o transport ↗</a>
         </div>
-        <div class="ps-intro__copy">
-          <p>Łączymy transport i pracę żurawia HDS w jednej realizacji. Przyjeżdżamy, podnosimy, przewozimy i ustawiamy ładunek tam, gdzie ma finalnie stanąć.</p>
-          <div class="ps-intro__flow" aria-label="Zakres realizacji"><span>Transport</span><i></i><span>Podnoszenie</span><i></i><span>Ustawienie</span></div>
+      </div>
+      <div class="hz-hero__bottom hz-container" aria-label="Możliwości KALTRUCK">
+        <div><strong>10+</strong><span>lat doświadczenia</span></div>
+        <div><strong>12 t</strong><span>udźwig HDS do</span></div>
+        <div><strong>14 m</strong><span>zasięg ramienia do</span></div>
+        <div><strong>Polska</strong><span>obszar realizacji</span></div>
+        <a href="#uslugi" class="hz-hero__discover">ODKRYJ OFERTĘ <span>→</span></a>
+      </div>
+    </section>
+
+    <section class="hz-slide hz-services" id="uslugi" aria-labelledby="hz-services-title">
+      <img class="hz-photo" src={storyPhotos.services} alt="" loading="lazy" decoding="async" />
+      <div class="hz-container hz-services__grid">
+        <div class="hz-services__intro">
+          <p class="hz-kicker"><span class="hz-line"></span> 01 / OFERTA KALTRUCK</p>
+          <h2 id="hz-services-title">Wszystkie usługi.<br /><em>W jednym miejscu.</em></h2>
+          <p>Nie musisz przeskakiwać przez sześć osobnych ekranów. Wybierz rodzaj zlecenia — pod każdym znajdziesz opis i szczegóły.</p>
+          <a class="hz-inline-link" href="/kontakt/">Nie wiesz, który HDS wybrać? Zapytaj ↗</a>
+        </div>
+        <div class="hz-services__board">
+          <div class="hz-services__board-top"><span>ZAKRES USŁUG</span><span>06 SPECJALIZACJI</span></div>
+          <div class="hz-services__list">
+            {services.map((service) => (
+              <a href={`/uslugi/${service.slug}/`} class="hz-service">
+                <span class="hz-service__num">{service.number}</span>
+                <span class="hz-service__body"><strong>{service.title}</strong><small>{service.tagline}</small><span>{service.description}</span></span>
+                <span class="hz-service__arrow" aria-hidden="true">↗</span>
+              </a>
+            ))}
+          </div>
+          <div class="hz-services__board-bottom">TRANSPORT <span>•</span> ZAŁADUNEK <span>•</span> ROZŁADUNEK <span>•</span> USTAWIENIE</div>
         </div>
       </div>
     </section>
-    <div id="uslugi" class="ps-service-stories" aria-label="Usługi KALTRUCK">
-      <ServiceStory
-        eyebrow="01 / KONTENERY"
-        title="Kontenery. Od odbioru po precyzyjne ustawienie."
-        highlight="Kontenery"
-        text="Transport kontenerów mieszkalnych, biurowych i magazynowych z wykorzystaniem HDS — bez organizowania osobnego dźwigu na miejscu."
-        href="/uslugi/transport-kontenerow/"
-        image="https://hdsplock.pl/zdj/realizacje/transport-kontenerow-07.jpg"
-        alt="Transport kontenera samochodem KALTRUCK z żurawiem HDS"
-      />
-      <ServiceStory
-        reverse
-        eyebrow="02 / PREFABRYKATY"
-        title="Prefabrykaty i konstrukcje bez zbędnych przeładunków."
-        highlight="Prefabrykaty"
-        text="Elementy betonowe i stalowe przewozimy oraz rozładowujemy jednym zestawem, ograniczając liczbę operacji na placu."
-        href="/uslugi/transport-prefabrykatow/"
-        image="https://hdsplock.pl/zdj/realizacje/prefabrykaty-betonowe-05.jpg"
-        alt="Prefabrykat betonowy podnoszony przez żuraw HDS"
-        width={486}
-        height={1080}
-      />
-      <ServiceStory
-        eyebrow="03 / MASZYNY"
-        title="Maszyny i urządzenia — transport z kontrolą każdego ruchu."
-        highlight="Maszyny"
-        text="Obsługujemy maszyny, urządzenia techniczne i nietypowe ładunki wymagające podniesienia oraz ustawienia."
-        href="/uslugi/transport-maszyn/"
-        image="https://hdsplock.pl/zdj/realizacje/suwnice-przemys-owe-04.jpg"
-        alt="Realizacja HDS przy ciężkim urządzeniu przemysłowym"
-        width={810}
-        height={1080}
-      />
-      <ServiceStory
-        reverse
-        eyebrow="04 / PRECYZYJNE USTAWIENIE"
-        title="Nie tylko dowozimy. Ustawiamy tam, gdzie trzeba."
-        highlight="Ustawiamy"
-        text="Rozładunek HDS sprawdza się tam, gdzie liczy się zasięg, precyzja i możliwość pracy bez dodatkowego sprzętu dźwigowego."
-        href="/uslugi/rozladunek-hds/"
-        image="https://hdsplock.pl/zdj/realizacje/stacje-transformatorowe-07.jpg"
-        alt="Precyzyjne ustawianie ciężkiego elementu za pomocą HDS"
-        width={1435}
-        height={1080}
-      />
-      <ServiceStory
-        eyebrow="05 / TRANSPORT SPECJALISTYCZNY"
-        title="Nietypowy ładunek nie oznacza przypadkowego planu."
-        highlight="Nietypowy"
-        text="Realizujemy transport przemysłowy i specjalistyczny w Płocku, na Mazowszu i na terenie całej Polski."
-        href="/uslugi/transport-hds/"
-        image="https://hdsplock.pl/zdj/realizacje/transport-przemys-owy-03.jpg"
-        alt="Specjalistyczny transport przemysłowy KALTRUCK"
-        width={1435}
-        height={1080}
-      />
-    </div>
-    <EquipmentSection />
-    <ProcessSteps />
-    <FAQSection />
-    <CTASection />
+
+    <section class="hz-slide hz-equipment" id="o-nas" aria-labelledby="hz-equipment-title">
+      <img class="hz-photo" src={storyPhotos.equipment} alt="" loading="lazy" decoding="async" />
+      <div class="hz-container hz-equipment__layout">
+        <div class="hz-equipment__main">
+          <p class="hz-kicker"><span class="hz-line"></span> 02 / SPRZĘT I DOŚWIADCZENIE</p>
+          <h2 id="hz-equipment-title">Wiemy, jak<br /><em>ruszyć ciężar.</em></h2>
+          <p>Łączymy samochód transportowy i żuraw HDS w jednej realizacji. Dobór sprzętu zależy od masy ładunku, dojazdu i miejsca ustawienia.</p>
+          <div class="hz-equipment__stats">
+            <div><strong>12 t</strong><span>maksymalny udźwig</span></div>
+            <div><strong>14 m</strong><span>zasięg ramienia</span></div>
+            <div><strong>10+</strong><span>lat doświadczenia</span></div>
+          </div>
+          <a class="hz-inline-link" href="/sprzet/">Zobacz sprzęt i możliwości ↗</a>
+        </div>
+        <div class="hz-process">
+          <span class="hz-process__header">JAK PRACUJEMY <span>4 PROSTE KROKI</span></span>
+          {stages.map(([num, name, detail]) => (
+            <div class="hz-process__step"><span>{num}</span><div><strong>{name}</strong><small>{detail}</small></div></div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="hz-slide hz-projects" id="realizacje-home" aria-labelledby="hz-projects-title">
+      <img class="hz-photo" src={storyPhotos.projects} alt="" loading="lazy" decoding="async" />
+      <div class="hz-container hz-projects__layout">
+        <div class="hz-projects__intro">
+          <p class="hz-kicker"><span class="hz-line"></span> 03 / REALIZACJE</p>
+          <h2 id="hz-projects-title">Nie tylko mówimy.<br /><em>Pokazujemy.</em></h2>
+          <p>Transport kontenerów, elementów konstrukcyjnych, infrastruktury i urządzeń przemysłowych. Zobacz zdjęcia wykonanych prac.</p>
+          <a class="hz-inline-link" href="/realizacje/">Otwórz pełną galerię realizacji ↗</a>
+        </div>
+        <div class="hz-projects__cards">
+          {featuredProjects.map((project) => (
+            <a class="hz-project" href="/realizacje/" aria-label={project.title + ' — zobacz galerię'}>
+              <img src={project.image} alt={project.alt} loading="lazy" decoding="async" />
+              <span><small>{project.category}</small><strong>{project.title}</strong></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="hz-slide hz-contact" id="wycena" aria-labelledby="hz-contact-title">
+      <img class="hz-photo" src={storyPhotos.contact} alt="" loading="lazy" decoding="async" />
+      <div class="hz-container hz-contact__layout">
+        <div class="hz-contact__intro">
+          <p class="hz-kicker"><span class="hz-line"></span> 04 / KONTAKT I WYCENA</p>
+          <h2 id="hz-contact-title">Masz ładunek?<br /><em>Zajmiemy się resztą.</em></h2>
+          <p>Podaj rodzaj ładunku, skąd i dokąd ma trafić. Sprawdzimy możliwości transportu i pracy żurawia.</p>
+          <div class="hz-actions">
+            <a class="button button-green" href="/kontakt/">Poproś o wycenę ↗</a>
+            <a class="hz-outline" href={`tel:${site.phoneHref}`}>{site.phone} ↗</a>
+          </div>
+          <a class="hz-contact__email" href={`mailto:${site.email}`}>{site.email}</a>
+        </div>
+        <div class="hz-faq">
+          <div class="hz-faq__heading"><span>KRÓTKO I KONKRETNIE</span><span>FAQ</span></div>
+          {questions.map(([q, a]) => (
+            <details><summary>{q}<span aria-hidden="true">+</span></summary><p>{a}</p></details>
+          ))}
+          <a href="/kontakt/" class="hz-faq__foot">Płock · realizacje w całej Polsce <span>→</span></a>
+        </div>
+      </div>
+    </section>
   </div>
-  </div>
-  <nav class="horizontal-progress" aria-label="Nawigacja pozioma">
+  <nav class="horizontal-progress" aria-label="Nawigacja pomiędzy sekcjami">
     <button type="button" data-prev aria-label="Poprzednia sekcja">←</button>
-    <span data-count>01 / 12</span>
+    <span data-count aria-live="polite">01 / 05</span>
     <span class="horizontal-progress__bar"><span class="horizontal-progress__fill" data-fill></span></span>
     <button type="button" data-next aria-label="Następna sekcja">→</button>
   </nav>
